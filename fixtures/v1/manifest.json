@@ -1,0 +1,9 @@
+{
+  "fixtureVersion": "1.0.0",
+  "methodologyProfile": "VIET_BAZI_STANDARD_V1",
+  "datasets": ["jie-2026.json", "sexagenary-days.json"],
+  "sources": [
+    "https://eco.mtk.nao.ac.jp/koyomi/yoko/2026/rekiyou262.html.en",
+    "https://eco.mtk.nao.ac.jp/cgi-bin/koyomi/caldb_en.cgi"
+  ]
+}

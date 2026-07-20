@@ -1,0 +1,21 @@
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { dirname,resolve } from 'node:path';
+
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),cli=resolve(root,'dist/cli.js');
+const valid={localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'};
+const run=(args,input)=>spawnSync(process.execPath,[cli,...args],{input,encoding:'utf8'});
+const single=run(['--stdin','--compact'],JSON.stringify(valid));
+if(single.status!==0||JSON.parse(single.stdout).pillars.day.stem.code!=='JIA')throw new Error(`stdin single failed: ${single.stderr}`);
+const batch=run(['--stdin','--batch','--compact'],JSON.stringify([valid,{...valid,localDateTime:'bad'}]));
+const batchResult=JSON.parse(batch.stdout);
+if(batch.status!==0||batchResult.summary.succeeded!==1||batchResult.summary.failed!==1)throw new Error(`stdin batch failed: ${batch.stderr}`);
+const conflict=run(['--stdin',JSON.stringify(valid)],JSON.stringify(valid));
+if(conflict.status!==1||!conflict.stderr.includes('không nhận thêm'))throw new Error('stdin conflict was not rejected');
+const sensitivity=run(['--stdin','--sensitivity','15:5','--compact'],JSON.stringify({...valid,localDateTime:'2026-02-04T03:00:00'}));
+const sensitivityResult=JSON.parse(sensitivity.stdout);
+if(sensitivity.status!==0||sensitivityResult.stable!==false||sensitivityResult.sampleCount!==7)throw new Error(`stdin sensitivity failed: ${sensitivity.stderr}`);
+const capabilities=run(['--capabilities','--compact']);
+const capabilitiesResult=JSON.parse(capabilities.stdout);
+if(capabilities.status!==0||capabilitiesResult.offline!==true||!capabilitiesResult.features.includes('BATCH'))throw new Error(`capabilities failed: ${capabilities.stderr}`);
+console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,capabilities:true,conflictRejected:true}));
