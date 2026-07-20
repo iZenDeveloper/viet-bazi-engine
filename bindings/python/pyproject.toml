@@ -4,11 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "viet-bazi-engine"
-version = "0.19.0"
-description = "Typed Python bridge for the viet-bazi-engine JSON CLI"
+version = "0.20.0"
+description = "Self-contained typed Python bridge for viet-bazi-engine"
 requires-python = ">=3.10"
 dependencies = []
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["viet_bazi*"]
+
+[tool.setuptools.package-data]
+viet_bazi = ["_engine/*.js", "_engine/wasm/*.wasm", "_engine/manifest.json"]

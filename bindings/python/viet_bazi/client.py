@@ -34,14 +34,17 @@ class BirthInput:
 
 
 def _command() -> list[str]:
+    node = shutil.which("node")
+    bundled_cli = Path(__file__).resolve().with_name("_engine") / "cli.js"
+    if node and bundled_cli.is_file():
+        return [node, str(bundled_cli)]
     installed = shutil.which("viet-bazi")
     if installed:
         return [installed]
-    node = shutil.which("node")
     local_cli = Path(__file__).resolve().parents[3] / "dist" / "cli.js"
     if node and local_cli.is_file():
         return [node, str(local_cli)]
-    raise VietBaziError("Không tìm thấy CLI viet-bazi. Hãy cài npm package hoặc build workspace trước.")
+    raise VietBaziError("Không tìm thấy Node.js hoặc CLI viet-bazi. Python binding yêu cầu Node.js 20+ để chạy engine đi kèm.")
 
 
 def get_capabilities() -> dict[str, Any]:

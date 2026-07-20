@@ -7,7 +7,7 @@ class ClientTest(unittest.TestCase):
     def test_calculates_through_local_engine(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
         self.assertEqual(result["schemaVersion"], "1.7")
-        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.19.0")
+        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.20.0")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 
     def test_surfaces_engine_errors(self) -> None:

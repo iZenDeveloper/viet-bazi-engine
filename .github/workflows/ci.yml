@@ -20,3 +20,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: PYTHONPATH=bindings/python python -m unittest discover -s bindings/python/tests -v
+      - run: npm run test:python-wheel

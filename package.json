@@ -1,6 +1,6 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
   "repository": { "type": "git", "url": "git+https://github.com/iZenDeveloper/viet-bazi-engine.git" },
   "homepage": "https://github.com/iZenDeveloper/viet-bazi-engine#readme",
@@ -22,6 +22,8 @@
     "test:unit": "vitest run",
     "test:wasm": "npm run build && node scripts/test-wasm.mjs",
     "test:conformance": "node scripts/verify-conformance.mjs",
+    "sync:python": "npm run build && node scripts/sync-python-engine.mjs",
+    "test:python-wheel": "npm run sync:python && sh scripts/test-python-wheel.sh",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "keywords": ["bazi", "four-pillars", "tứ-trụ", "typescript", "offline"],

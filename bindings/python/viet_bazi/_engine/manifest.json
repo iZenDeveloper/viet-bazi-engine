@@ -1,0 +1,82 @@
+{
+  "formatVersion": 1,
+  "engineVersion": "0.20.0",
+  "files": {
+    "calendar.js": {
+      "bytes": 5227,
+      "sha256": "b78e92f4810ece758c2a6ed1b7694c7c8e948ebeea17e2c04e3c8885d91dfed7"
+    },
+    "capabilities.js": {
+      "bytes": 1236,
+      "sha256": "2416630f766bdb2c76a413bd413a77b793a16a1a4658c7007beadc0b83ae15d3"
+    },
+    "cities.js": {
+      "bytes": 3006,
+      "sha256": "2925259f002692599af582738e327f7b2c919e99b3e6411e72cc23575dcfff21"
+    },
+    "cli.js": {
+      "bytes": 3703,
+      "sha256": "93245f70b285fadb426e48326e90d2cb5017a3f36d0663c8612c47ba49263f62"
+    },
+    "compatibility.js": {
+      "bytes": 3740,
+      "sha256": "4a996d0f94a199ad1738d414e2180ac921d943908bcef0c62b0b1421058e5a7f"
+    },
+    "conformance.js": {
+      "bytes": 1645,
+      "sha256": "a98d10e76838e3150ebb8a3ba7884ea2c93a36d4b4c5e4ce882c2ebc7735c470"
+    },
+    "constants.js": {
+      "bytes": 2916,
+      "sha256": "fe6220cefb186bc1abbc65fede1cb93b06034c80fe93c4638d0a64d0d99f73e0"
+    },
+    "engine.js": {
+      "bytes": 13261,
+      "sha256": "548d80bae9390737f1c21816bb664c5280addf2c6eca56f13f13c23e0285c8f6"
+    },
+    "index.js": {
+      "bytes": 1189,
+      "sha256": "d072ebc1b4d06d2c560b6c5f5c2890117d8fe1a06bdedecfc6ad28a2ffee0fbb"
+    },
+    "json.js": {
+      "bytes": 5434,
+      "sha256": "99aafec2c9591b68b4a5f7ed51ceda06259534d76d8e8321b512a8d60b359a70"
+    },
+    "localization.js": {
+      "bytes": 3257,
+      "sha256": "49a9dad6f60b117a8a0ae79c18ea5249bc35b9d9cedc493b91bddebdb7b27d68"
+    },
+    "pattern.js": {
+      "bytes": 1605,
+      "sha256": "22e2bb2a9bd0a44c73a635842f74195c1efd4b19fd5832c5701a934f173d15ac"
+    },
+    "schema.js": {
+      "bytes": 12301,
+      "sha256": "239ee71d4d5b850d1e500707651cbc881871112bee8fcac70177c2d260c624ea"
+    },
+    "sensitivity.js": {
+      "bytes": 2510,
+      "sha256": "5aa52061e1dd82f596b7bbf407140a7aaf3da9cc5a7f51b1d828d8b6bc1d284c"
+    },
+    "shen-sha.js": {
+      "bytes": 6576,
+      "sha256": "38b28082d8be845d83beef4e7adaf4664e4ec53c8b833818588c0ac80fbc5e82"
+    },
+    "svg.js": {
+      "bytes": 3135,
+      "sha256": "e3f3ba93937b1fed82bdcb917c806bfed99f67a84302c74ec3ef2c2861bb3152"
+    },
+    "types.js": {
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    "wasm.js": {
+      "bytes": 1990,
+      "sha256": "e4e1d4ffd3682e1f11d0aecfdd951d9aed4146532d3bdb8f2c974a969cbe4ef9"
+    },
+    "wasm/calendar.wasm": {
+      "bytes": 3370,
+      "sha256": "3b72376d631f65fa77e435f876988f043026929b5c927bbfd428fd815d5d8e05"
+    }
+  }
+}

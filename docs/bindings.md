@@ -2,7 +2,7 @@
 
 ## Python
 
-Python package ở `bindings/python` không có Python dependency. Nó gọi cùng JSON CLI để giữ TypeScript là nguồn chân lý duy nhất.
+Python package ở `bindings/python` không có Python dependency. Wheel bundle snapshot engine JavaScript đã build để chạy mà không cần cài npm package riêng; máy chạy vẫn cần Node.js 20+. TypeScript tiếp tục là nguồn chân lý duy nhất và bundle được tạo bằng `npm run sync:python`.
 
 ```bash
 npm run build
@@ -33,7 +33,13 @@ sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
 capabilities = get_capabilities()
 ```
 
-Wrapper tìm binary `viet-bazi` trong PATH trước, rồi fallback về `dist/cli.js` trong workspace. Lỗi CLI được chuyển thành `VietBaziError`.
+Wrapper ưu tiên engine đi kèm wheel để version luôn khớp Python package, sau đó mới fallback về binary `viet-bazi` trong PATH hoặc `dist/cli.js` của workspace. Lỗi CLI được chuyển thành `VietBaziError`.
+
+Kiểm tra wheel trong virtualenv tách biệt:
+
+```bash
+npm run test:python-wheel
+```
 
 ## WASM calendar kernel
 

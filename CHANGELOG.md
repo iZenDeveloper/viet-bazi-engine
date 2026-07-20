@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.20.0
+
+- Python wheel bundle engine JavaScript cùng SHA-256 manifest.
+- Python binding ưu tiên bundled engine để tránh lệch version với npm CLI toàn cục.
+- Thêm isolated-wheel test chạy ngoài workspace.
+
 ## 0.19.0
 
 - Hoàn thiện core Tứ Trụ, Ngũ Hành, Thập Thần, Đại Vận, Lưu Niên, Thần Sát và cách cục heuristic.

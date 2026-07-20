@@ -32,7 +32,7 @@ BirthInput
 - Không network/filesystem trong core engine.
 - Không runtime dependency.
 - Pure functions và stable codes ưu tiên hơn chuỗi diễn giải.
-- TypeScript orchestration là nguồn chân lý; bindings gọi cùng implementation.
+- TypeScript orchestration là nguồn chân lý; Python wheel bundle artifact đã build kèm SHA-256 manifest thay vì reimplement rule.
 - Mỗi thay đổi contract có schema/version và regression test.
 
 ## Build artifacts

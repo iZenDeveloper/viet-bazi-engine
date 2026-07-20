@@ -2,7 +2,7 @@
 
 Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline, deterministic và không có runtime dependency. Kết quả là JSON có type, stable machine codes, metadata giải thích và JSON Schema để dùng trực tiếp trong ứng dụng hoặc LLM tools.
 
-> Trạng thái: `0.19.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
+> Trạng thái: `0.20.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
 ## Tính năng
 
@@ -12,7 +12,7 @@ Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline
 - 23 Thần Sát phổ biến và cách cục heuristic có evidence.
 - True solar time, catalog thành phố Việt Nam và phân tích độ nhạy giờ sinh.
 - Compatibility, SVG accessible, localization Việt/Anh.
-- Batch API, JSON CLI, Python wrapper và WASM calendar kernel.
+- Batch API, JSON CLI, self-contained Python wheel (cần Node.js 20+) và WASM calendar kernel.
 - JSON Schema Draft 2020-12, capability discovery và fixtures đối chiếu NAOJ.
 
 ## Bắt đầu nhanh
