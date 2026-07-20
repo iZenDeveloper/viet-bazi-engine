@@ -33,7 +33,12 @@ sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
 capabilities = get_capabilities()
 ```
 
-Wrapper ưu tiên engine đi kèm wheel để version luôn khớp Python package, sau đó mới fallback về binary `viet-bazi` trong PATH hoặc `dist/cli.js` của workspace. Lỗi CLI được chuyển thành `VietBaziError`.
+Wrapper ưu tiên engine đi kèm wheel để version luôn khớp Python package, xác minh size và SHA-256 của toàn bộ bundle trước lần chạy đầu tiên, sau đó mới fallback về binary `viet-bazi` trong PATH hoặc `dist/cli.js` của workspace. Lỗi integrity/CLI được chuyển thành `VietBaziError`.
+
+```python
+from viet_bazi import verify_bundled_engine
+print(verify_bundled_engine())
+```
 
 Kiểm tra wheel trong virtualenv tách biệt:
 

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from functools import cache
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -10,6 +12,37 @@ from typing import Any, Literal
 
 class VietBaziError(RuntimeError):
     """Raised when the TypeScript calculation engine rejects the request."""
+
+
+def _verify_engine_dir(root: Path) -> dict[str, Any]:
+    manifest_path = root / "manifest.json"
+    try:
+        manifest: dict[str, Any] = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise VietBaziError("Bundled engine manifest không hợp lệ") from error
+    if manifest.get("formatVersion") != 1 or not isinstance(manifest.get("engineVersion"), str) or not isinstance(manifest.get("files"), dict):
+        raise VietBaziError("Bundled engine manifest không đúng format v1")
+    expected_files = set(manifest["files"])
+    actual_files = {path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file() and path.name != "manifest.json"}
+    if expected_files != actual_files:
+        raise VietBaziError("Bundled engine có danh sách file không khớp manifest")
+    for relative, expected in manifest["files"].items():
+        relative_path = Path(relative)
+        if relative_path.is_absolute() or ".." in relative_path.parts or not isinstance(expected, dict):
+            raise VietBaziError("Bundled engine manifest chứa path không an toàn")
+        try:
+            content = (root / relative_path).read_bytes()
+        except OSError as error:
+            raise VietBaziError(f"Không đọc được bundled engine file: {relative}") from error
+        digest = hashlib.sha256(content).hexdigest()
+        if expected.get("bytes") != len(content) or expected.get("sha256") != digest:
+            raise VietBaziError(f"Bundled engine integrity check thất bại: {relative}")
+    return {"engineVersion": manifest["engineVersion"], "files": len(expected_files), "verified": True}
+
+
+@cache
+def verify_bundled_engine() -> dict[str, Any]:
+    return _verify_engine_dir(Path(__file__).resolve().with_name("_engine"))
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,6 +70,7 @@ def _command() -> list[str]:
     node = shutil.which("node")
     bundled_cli = Path(__file__).resolve().with_name("_engine") / "cli.js"
     if node and bundled_cli.is_file():
+        verify_bundled_engine()
         return [node, str(bundled_cli)]
     installed = shutil.which("viet-bazi")
     if installed:

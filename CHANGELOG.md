@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.21.0
+
+- Python wrapper xác minh file set, byte length và SHA-256 của bundled engine.
+- Integrity verification fail closed và được cache theo process.
+- Thêm public `verify_bundled_engine()` cùng tamper regression test.
+
 ## 0.20.0
 
 - Python wheel bundle engine JavaScript cùng SHA-256 manifest.
