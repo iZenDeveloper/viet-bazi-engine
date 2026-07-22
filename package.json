@@ -1,6 +1,6 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
   "repository": { "type": "git", "url": "git+https://github.com/iZenDeveloper/viet-bazi-engine.git" },
   "homepage": "https://github.com/iZenDeveloper/viet-bazi-engine#readme",

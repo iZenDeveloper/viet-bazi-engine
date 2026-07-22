@@ -1,4 +1,5 @@
 import { CONTROLS, GENERATES } from './constants.js';
+import { calculateBazi } from './engine.js';
 const COMBINE = { Tý: 'Sửu', Sửu: 'Tý', Dần: 'Hợi', Hợi: 'Dần', Mão: 'Tuất', Tuất: 'Mão', Thìn: 'Dậu', Dậu: 'Thìn', Tỵ: 'Thân', Thân: 'Tỵ', Ngọ: 'Mùi', Mùi: 'Ngọ' };
 const CLASH = { Tý: 'Ngọ', Ngọ: 'Tý', Sửu: 'Mùi', Mùi: 'Sửu', Dần: 'Thân', Thân: 'Dần', Mão: 'Dậu', Dậu: 'Mão', Thìn: 'Tuất', Tuất: 'Thìn', Tỵ: 'Hợi', Hợi: 'Tỵ' };
 const HARM = { Tý: 'Mùi', Mùi: 'Tý', Sửu: 'Ngọ', Ngọ: 'Sửu', Dần: 'Tỵ', Tỵ: 'Dần', Mão: 'Thìn', Thìn: 'Mão', Thân: 'Hợi', Hợi: 'Thân', Dậu: 'Tuất', Tuất: 'Dậu' };
@@ -32,5 +33,6 @@ export function compareBaziCharts(a, b) {
     const score = Math.max(0, Math.min(100, factors.reduce((n, f) => n + f.score, 0)));
     const grade = score >= 80 ? 'cao' : score >= 65 ? 'khá' : score >= 45 ? 'trung bình' : 'thấp';
     const shared = a.elements.filter(e => e.percent >= 18 && bp[e.element] >= 18).map(e => e.element);
-    return { score, grade, factors, sharedElements: shared, complementaryElements: complement, metadata: { methodology: 'heuristic-v1', warning: 'Điểm tương hợp là heuristic minh bạch để tham khảo văn hóa, không dự đoán chất lượng hay tương lai của một mối quan hệ.' } };
+    return { schemaVersion: '1.0', score, grade, factors, sharedElements: shared, complementaryElements: complement, metadata: { methodology: 'heuristic-v1', warning: 'Điểm tương hợp là heuristic minh bạch để tham khảo văn hóa, không dự đoán chất lượng hay tương lai của một mối quan hệ.' } };
 }
+export function compareBirthInputs(a, b) { return compareBaziCharts(calculateBazi(a), calculateBazi(b)); }

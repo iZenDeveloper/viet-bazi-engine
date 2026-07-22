@@ -1,7 +1,8 @@
 import { calculateBazi } from './engine.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
-import type { BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity } from './types.js';
+import { compareBirthInputs } from './compatibility.js';
+import type { BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult } from './types.js';
 
 const assertKnownKeys=(value:Record<string,unknown>,allowed:readonly string[],path:string)=>{const unknown=Object.keys(value).filter(key=>!allowed.includes(key));if(unknown.length)throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`);};
 
@@ -44,4 +45,10 @@ export function calculateBaziBatchFromJson(json:string):BaziBatchResult {
 export function analyzeBirthTimeSensitivityFromJson(json:string,windowMinutes=120,stepMinutes=5,asOfYear?:number):BirthTimeSensitivity {
   let parsed:unknown;try{parsed=JSON.parse(json);}catch{throw new SyntaxError('JSON sensitivity input không hợp lệ');}
   return analyzeBirthTimeSensitivity(validateBirthInput(parsed,asOfYear),windowMinutes,stepMinutes);
+}
+
+export function compareBirthInputsFromJson(json:string):CompatibilityResult {
+  let parsed:unknown;try{parsed=JSON.parse(json);}catch{throw new SyntaxError('JSON compatibility input không hợp lệ');}
+  if(!Array.isArray(parsed)||parsed.length!==2)throw new TypeError('Compatibility input phải là array đúng 2 birth inputs');
+  return compareBirthInputs(validateBirthInput(parsed[0]),validateBirthInput(parsed[1]));
 }

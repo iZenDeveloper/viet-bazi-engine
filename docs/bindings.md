@@ -16,6 +16,7 @@ from viet_bazi import (
     calculate_annual_timeline,
     calculate_bazi,
     calculate_bazi_batch,
+    compare_birth_inputs,
     get_capabilities,
 )
 
@@ -29,6 +30,7 @@ birth = BirthInput(
 chart = calculate_bazi(birth)
 timeline = calculate_annual_timeline(birth, 2025, 2035)
 batch = calculate_bazi_batch([birth])
+compatibility = compare_birth_inputs(birth, another_birth)
 sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
 capabilities = get_capabilities()
 ```

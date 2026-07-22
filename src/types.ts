@@ -60,7 +60,7 @@ export interface BaziResult {
 }
 export interface CompatibilityFactor { code:string; score:number; maxScore:number; vi:string; evidence:string[] }
 export interface CompatibilityResult {
-  score:number; grade:'thấp'|'trung bình'|'khá'|'cao'; factors:CompatibilityFactor[];
+  schemaVersion:'1.0'; score:number; grade:'thấp'|'trung bình'|'khá'|'cao'; factors:CompatibilityFactor[];
   sharedElements:Element[]; complementaryElements:Element[];
   metadata:{ methodology:'heuristic-v1'; warning:string };
 }
@@ -73,4 +73,4 @@ export interface PillarSnapshot { year:string;month:string;day:string;hour:strin
 export interface BirthTimeVariant { firstOffsetMinutes:number;lastOffsetMinutes:number;localDateTime:string;pillars:PillarSnapshot;changedPillars:Pillar['labelCode'][] }
 export interface BirthTimeSensitivity { schemaVersion:'1.0';windowMinutes:number;stepMinutes:number;sampleCount:number;stable:boolean;baseline:{localDateTime:string;pillars:PillarSnapshot};variants:BirthTimeVariant[] }
 export type EngineFeatureCode='FOUR_PILLARS'|'TRUE_SOLAR_TIME'|'TEN_GODS'|'HIDDEN_STEMS'|'ELEMENT_BALANCE'|'BRANCH_RELATIONS'|'LUCK_CYCLES'|'ANNUAL_ANALYSIS'|'SHEN_SHA'|'PATTERN_ANALYSIS'|'COMPATIBILITY'|'SVG_EXPORT'|'BATCH'|'BIRTH_TIME_SENSITIVITY'|'WASM_CALENDAR';
-export interface EngineCapabilities { schemaVersion:'1.0';engineVersion:string;offline:true;runtimeDependencyCount:0;methodologyProfiles:string[];features:EngineFeatureCode[];bindings:('TYPESCRIPT'|'JSON_CLI'|'PYTHON'|'WASM')[];limits:{batchRecords:number;stdinBytes:number;sensitivityWindowMinutes:number;sensitivitySamples:number;annualTimelineYears:number};schemas:{birthInput:string;baziResult:string;batchInput:string;batchResult:string;birthTimeSensitivity:string};conformanceVersion:string }
+export interface EngineCapabilities { schemaVersion:'1.0';engineVersion:string;offline:true;runtimeDependencyCount:0;methodologyProfiles:string[];features:EngineFeatureCode[];bindings:('TYPESCRIPT'|'JSON_CLI'|'PYTHON'|'WASM')[];limits:{batchRecords:number;stdinBytes:number;sensitivityWindowMinutes:number;sensitivitySamples:number;annualTimelineYears:number};schemas:{birthInput:string;baziResult:string;batchInput:string;batchResult:string;birthTimeSensitivity:string;compatibilityInput:string;compatibilityResult:string};conformanceVersion:string }

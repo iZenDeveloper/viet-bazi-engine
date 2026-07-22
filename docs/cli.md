@@ -50,6 +50,14 @@ printf '%s' '{...}' | viet-bazi --stdin --sensitivity 120:5 --compact
 
 Định dạng là `WINDOW_MINUTES[:STEP_MINUTES]`; step mặc định 5. Không dùng cùng batch hoặc timeline.
 
+## Compatibility
+
+```bash
+printf '%s' '[{...},{...}]' | viet-bazi --stdin --compatibility --compact
+```
+
+Input phải là array đúng hai `BirthInput`. Mode này không dùng cùng batch, sensitivity, timeline hoặc legacy year.
+
 ## Capability discovery
 
 ```bash

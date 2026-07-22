@@ -18,4 +18,7 @@ if(sensitivity.status!==0||sensitivityResult.stable!==false||sensitivityResult.s
 const capabilities=run(['--capabilities','--compact']);
 const capabilitiesResult=JSON.parse(capabilities.stdout);
 if(capabilities.status!==0||capabilitiesResult.offline!==true||!capabilitiesResult.features.includes('BATCH'))throw new Error(`capabilities failed: ${capabilities.stderr}`);
-console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,capabilities:true,conflictRejected:true}));
+const compatibility=run(['--stdin','--compatibility','--compact'],JSON.stringify([valid,{...valid,localDateTime:'1988-11-02T08:10:00',gender:'female'}]));
+const compatibilityResult=JSON.parse(compatibility.stdout);
+if(compatibility.status!==0||compatibilityResult.schemaVersion!=='1.0'||compatibilityResult.factors.length!==4)throw new Error(`compatibility failed: ${compatibility.stderr}`);
+console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,capabilities:true,conflictRejected:true}));

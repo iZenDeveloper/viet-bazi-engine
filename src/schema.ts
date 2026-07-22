@@ -59,3 +59,12 @@ export const BIRTH_TIME_SENSITIVITY_JSON_SCHEMA:JsonSchemaDocument={
   allOf:[{if:{properties:{stable:{const:true}}},then:{properties:{variants:{maxItems:1}}},else:{properties:{variants:{minItems:2}}}}],
   $defs:{localDateTime:{type:'string',pattern:'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$'},pillarCode:{type:'string',pattern:`^(${stemCodes.join('|')})-(${branchCodes.join('|')})$`}}
 };
+
+export const COMPATIBILITY_INPUT_JSON_SCHEMA:JsonSchemaDocument={
+  $schema:'https://json-schema.org/draft/2020-12/schema',$id:'https://viet-bazi.dev/schema/compatibility-input-1.0.json',title:'Viet Bazi Compatibility Input 1.0',type:'array',minItems:2,maxItems:2,items:{$ref:BIRTH_INPUT_JSON_SCHEMA.$id}
+};
+
+export const COMPATIBILITY_RESULT_JSON_SCHEMA:JsonSchemaDocument={
+  $schema:'https://json-schema.org/draft/2020-12/schema',$id:'https://viet-bazi.dev/schema/compatibility-result-1.0.json',title:'Viet Bazi Compatibility Result 1.0',type:'object',additionalProperties:false,
+  required:['schemaVersion','score','grade','factors','sharedElements','complementaryElements','metadata'],properties:{schemaVersion:{const:'1.0'},score:{type:'integer',minimum:0,maximum:100},grade:{enum:['thấp','trung bình','khá','cao']},factors:{type:'array',minItems:4,maxItems:4,items:{type:'object',additionalProperties:false,required:['code','score','maxScore','vi','evidence'],properties:{code:{enum:['DAY_MASTER','ELEMENT_COMPLEMENT','BRANCH_INTERACTION','YIN_YANG']},score:{type:'integer',minimum:0,maximum:35},maxScore:{type:'integer',minimum:1,maximum:35},vi:{type:'string',minLength:1},evidence:{type:'array',minItems:1,items:{type:'string'}}}}},sharedElements:{type:'array',uniqueItems:true,items:{enum:['Mộc','Hỏa','Thổ','Kim','Thủy']}},complementaryElements:{type:'array',uniqueItems:true,items:{enum:['Mộc','Hỏa','Thổ','Kim','Thủy']}},metadata:{type:'object',additionalProperties:false,required:['methodology','warning'],properties:{methodology:{const:'heuristic-v1'},warning:{type:'string',minLength:1}}}}
+};

@@ -1,6 +1,7 @@
 import { calculateBazi } from './engine.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
+import { compareBirthInputs } from './compatibility.js';
 const assertKnownKeys = (value, allowed, path) => { const unknown = Object.keys(value).filter(key => !allowed.includes(key)); if (unknown.length)
     throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`); };
 export function validateBirthInput(value, legacyAsOfYear) {
@@ -89,4 +90,16 @@ export function analyzeBirthTimeSensitivityFromJson(json, windowMinutes = 120, s
         throw new SyntaxError('JSON sensitivity input không hợp lệ');
     }
     return analyzeBirthTimeSensitivity(validateBirthInput(parsed, asOfYear), windowMinutes, stepMinutes);
+}
+export function compareBirthInputsFromJson(json) {
+    let parsed;
+    try {
+        parsed = JSON.parse(json);
+    }
+    catch {
+        throw new SyntaxError('JSON compatibility input không hợp lệ');
+    }
+    if (!Array.isArray(parsed) || parsed.length !== 2)
+        throw new TypeError('Compatibility input phải là array đúng 2 birth inputs');
+    return compareBirthInputs(validateBirthInput(parsed[0]), validateBirthInput(parsed[1]));
 }

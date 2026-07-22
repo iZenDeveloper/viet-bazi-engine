@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.22.0
+
+- Compatibility nhận trực tiếp hai birth inputs qua TypeScript và JSON bridge.
+- CLI `--compatibility` và Python `compare_birth_inputs()` dùng cùng heuristic engine.
+- JSON Schema version 1.0 cho compatibility input/result.
+
 ## 0.21.0
 
 - Python wrapper xác minh file set, byte length và SHA-256 của bundled engine.

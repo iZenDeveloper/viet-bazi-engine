@@ -1,5 +1,6 @@
 import { CONTROLS, GENERATES } from './constants.js';
-import type { BaziResult, BranchName, CompatibilityFactor, CompatibilityResult, Element } from './types.js';
+import { calculateBazi } from './engine.js';
+import type { BaziResult, BirthInput, BranchName, CompatibilityFactor, CompatibilityResult, Element } from './types.js';
 
 const COMBINE:Record<BranchName,BranchName>={Tý:'Sửu',Sửu:'Tý',Dần:'Hợi',Hợi:'Dần',Mão:'Tuất',Tuất:'Mão',Thìn:'Dậu',Dậu:'Thìn',Tỵ:'Thân',Thân:'Tỵ',Ngọ:'Mùi',Mùi:'Ngọ'};
 const CLASH:Record<BranchName,BranchName>={Tý:'Ngọ',Ngọ:'Tý',Sửu:'Mùi',Mùi:'Sửu',Dần:'Thân',Thân:'Dần',Mão:'Dậu',Dậu:'Mão',Thìn:'Tuất',Tuất:'Thìn',Tỵ:'Hợi',Hợi:'Tỵ'};
@@ -23,5 +24,7 @@ export function compareBaziCharts(a:BaziResult,b:BaziResult):CompatibilityResult
   factors.push({code:'YIN_YANG',score:polarity,maxScore:15,vi:polarity===15?'Âm Dương Nhật Chủ bổ sung nhau.':'Nhật Chủ cùng tính Âm/Dương.',evidence:['a.dayMaster.polarity','b.dayMaster.polarity']});
   const score=Math.max(0,Math.min(100,factors.reduce((n,f)=>n+f.score,0))); const grade=score>=80?'cao':score>=65?'khá':score>=45?'trung bình':'thấp';
   const shared=a.elements.filter(e=>e.percent>=18&&bp[e.element]>=18).map(e=>e.element);
-  return {score,grade,factors,sharedElements:shared,complementaryElements:complement,metadata:{methodology:'heuristic-v1',warning:'Điểm tương hợp là heuristic minh bạch để tham khảo văn hóa, không dự đoán chất lượng hay tương lai của một mối quan hệ.'}};
+  return {schemaVersion:'1.0',score,grade,factors,sharedElements:shared,complementaryElements:complement,metadata:{methodology:'heuristic-v1',warning:'Điểm tương hợp là heuristic minh bạch để tham khảo văn hóa, không dự đoán chất lượng hay tương lai của một mối quan hệ.'}};
 }
+
+export function compareBirthInputs(a:BirthInput,b:BirthInput):CompatibilityResult {return compareBaziCharts(calculateBazi(a),calculateBazi(b));}

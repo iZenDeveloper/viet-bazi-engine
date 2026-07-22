@@ -24,6 +24,10 @@ Lấy mẫu quanh giờ sinh, deduplicate theo bốn trụ và trả `changedPil
 
 Trả score heuristic `0..100`, grade, từng factor và evidence. Đây là chỉ báo tham khảo văn hóa, không dự đoán chất lượng quan hệ.
 
+### `compareBirthInputs(a, b)` / `compareBirthInputsFromJson(json)`
+
+Tính hai lá số từ birth inputs rồi chạy cùng compatibility heuristic. JSON form nhận array đúng hai phần tử và phù hợp với CLI/Python bridge.
+
 ## Rendering và localization
 
 ### `renderBaziSvg(chart, options?)`
