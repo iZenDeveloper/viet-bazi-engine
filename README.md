@@ -2,7 +2,7 @@
 
 Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline, deterministic và không có runtime dependency. Kết quả là JSON có type, stable machine codes, metadata giải thích và JSON Schema để dùng trực tiếp trong ứng dụng hoặc LLM tools.
 
-> Trạng thái: `0.27.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
+> Trạng thái: `0.28.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
 ## Tính năng
 
@@ -72,7 +72,7 @@ npm run demo
 
 ## Kiểm thử và giới hạn đã công bố
 
-Suite hiện có 71 test TypeScript, 12 test Python, kiểm thử CLI end-to-end, parity WASM full-output và conformance runner. Bộ fixtures gồm 12 ranh Tiết năm 2026 và 6 ngày Can–Chi 1900–2099 từ NAOJ; sai số ranh Tiết quan sát lớn nhất là 11 phút với ngưỡng regression 15 phút.
+Suite hiện có 72 test TypeScript, 12 test Python, kiểm thử CLI end-to-end, parity WASM full-output và conformance runner. Bộ fixtures gồm 12 ranh Tiết năm 2026 và 6 ngày Can–Chi 1900–2099 từ NAOJ; sai số ranh Tiết quan sát lớn nhất là 11 phút với ngưỡng regression 15 phút.
 
 Các trường phái Bát Tự có thể khác nhau về đổi ngày, khởi vận, cách cục và Thần Sát. Engine ghi rõ mọi convention trong `metadata.methodology`. Công thức hoàng kinh Mặt Trời và equation of time là xấp xỉ; ca sát ranh cần dùng `analyzeBirthTimeSensitivity()` và đối chiếu ephemeris chuyên dụng.
 

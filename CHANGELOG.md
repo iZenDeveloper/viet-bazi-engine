@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.28.0
+
+- Thêm JSON Schema `annual-timeline-1.0` và capability discovery tương ứng.
+- Demo/PWA offline có Node.js static server zero-dependency.
+
 ## 0.27.0
 
 - Thêm localized facts/warnings qua TypeScript, JSON bridge, CLI và Python.

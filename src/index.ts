@@ -12,7 +12,7 @@ export type { WasmBaziEngine, WasmCalendarKernel } from './wasm.js';
 export { getCoreLabels } from './localization.js';
 export { localizeFacts } from './localization-report.js';
 export type { CoreLabels, CoreLocale } from './localization.js';
-export { BAZI_AUDIT_REPORT_JSON_SCHEMA, BAZI_BATCH_INPUT_JSON_SCHEMA, BAZI_BATCH_RESULT_JSON_SCHEMA, BAZI_RESULT_JSON_SCHEMA, BIRTH_INPUT_JSON_SCHEMA, BIRTH_TIME_SENSITIVITY_JSON_SCHEMA, COMPATIBILITY_INPUT_JSON_SCHEMA, COMPATIBILITY_RESULT_JSON_SCHEMA, LOCALIZED_FACTS_REPORT_JSON_SCHEMA } from './schema.js';
+export { ANNUAL_TIMELINE_JSON_SCHEMA, BAZI_AUDIT_REPORT_JSON_SCHEMA, BAZI_BATCH_INPUT_JSON_SCHEMA, BAZI_BATCH_RESULT_JSON_SCHEMA, BAZI_RESULT_JSON_SCHEMA, BIRTH_INPUT_JSON_SCHEMA, BIRTH_TIME_SENSITIVITY_JSON_SCHEMA, COMPATIBILITY_INPUT_JSON_SCHEMA, COMPATIBILITY_RESULT_JSON_SCHEMA, LOCALIZED_FACTS_REPORT_JSON_SCHEMA } from './schema.js';
 export { CONFORMANCE_VERSION, JIE_2026_FIXTURES, SEXAGENARY_DAY_FIXTURES } from './conformance.js';
 export { analyzeBirthTimeSensitivity } from './sensitivity.js';
 export { getEngineCapabilities } from './capabilities.js';
