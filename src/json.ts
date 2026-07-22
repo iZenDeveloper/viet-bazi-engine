@@ -2,7 +2,8 @@ import { calculateBazi } from './engine.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs } from './compatibility.js';
-import type { BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult } from './types.js';
+import { renderBaziSvg } from './svg.js';
+import type { BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult, SvgOptions } from './types.js';
 
 const assertKnownKeys=(value:Record<string,unknown>,allowed:readonly string[],path:string)=>{const unknown=Object.keys(value).filter(key=>!allowed.includes(key));if(unknown.length)throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`);};
 
@@ -52,3 +53,5 @@ export function compareBirthInputsFromJson(json:string):CompatibilityResult {
   if(!Array.isArray(parsed)||parsed.length!==2)throw new TypeError('Compatibility input phải là array đúng 2 birth inputs');
   return compareBirthInputs(validateBirthInput(parsed[0]),validateBirthInput(parsed[1]));
 }
+
+export function renderBaziSvgFromJson(json:string,options:SvgOptions={}):string {return renderBaziSvg(calculateBaziFromJson(json),options);}

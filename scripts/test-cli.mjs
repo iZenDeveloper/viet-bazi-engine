@@ -21,4 +21,6 @@ if(capabilities.status!==0||capabilitiesResult.offline!==true||!capabilitiesResu
 const compatibility=run(['--stdin','--compatibility','--compact'],JSON.stringify([valid,{...valid,localDateTime:'1988-11-02T08:10:00',gender:'female'}]));
 const compatibilityResult=JSON.parse(compatibility.stdout);
 if(compatibility.status!==0||compatibilityResult.schemaVersion!=='1.0'||compatibilityResult.factors.length!==4)throw new Error(`compatibility failed: ${compatibility.stderr}`);
-console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,capabilities:true,conflictRejected:true}));
+const svg=run(['--stdin','--svg','--locale','en','--title','A < B','--no-hidden-stems','--width','640'],JSON.stringify(valid));
+if(svg.status!==0||!svg.stdout.startsWith('<svg')||!svg.stdout.includes('A &lt; B')||svg.stdout.includes('class="hidden"'))throw new Error(`svg failed: ${svg.stderr}`);
+console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,svg:true,capabilities:true,conflictRejected:true}));

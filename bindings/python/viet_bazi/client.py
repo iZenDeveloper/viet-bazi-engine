@@ -131,6 +131,22 @@ def compare_birth_inputs(first: BirthInput, second: BirthInput) -> dict[str, Any
     return result
 
 
+def render_bazi_svg(value: BirthInput, *, locale: Literal["vi", "en"] = "vi", title: str | None = None, width: int | None = None, show_hidden_stems: bool = True) -> str:
+    command = [*_command(), "--stdin", "--svg", "--locale", locale]
+    if title is not None:
+        command.extend(["--title", title])
+    if width is not None:
+        command.extend(["--width", str(width)])
+    if not show_hidden_stems:
+        command.append("--no-hidden-stems")
+    completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
+    if not completed.stdout.startswith("<svg"):
+        raise VietBaziError("Engine không trả SVG hợp lệ")
+    return completed.stdout.rstrip("\n")
+
+
 def analyze_birth_time_sensitivity(value: BirthInput, window_minutes: int = 120, step_minutes: int = 5) -> dict[str, Any]:
     command = [*_command(), "--compact", "--stdin", "--sensitivity", f"{window_minutes}:{step_minutes}"]
     completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)

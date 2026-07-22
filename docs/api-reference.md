@@ -43,6 +43,8 @@ renderBaziSvg(chart, {
 
 Trả chuỗi SVG standalone, có `role`, accessible description và màu Ngũ Hành.
 
+`renderBaziSvgFromJson(json, options?)` thực hiện strict JSON validation rồi render cùng output.
+
 ### `getCoreLabels(locale)`
 
 Trả từ điển `vi` hoặc `en` cho Can, Chi, Ngũ Hành, Thập Thần, quan hệ và Thần Sát theo stable codes.

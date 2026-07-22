@@ -18,6 +18,7 @@ from viet_bazi import (
     calculate_bazi_batch,
     compare_birth_inputs,
     get_capabilities,
+    render_bazi_svg,
 )
 
 birth = BirthInput(
@@ -33,6 +34,7 @@ batch = calculate_bazi_batch([birth])
 compatibility = compare_birth_inputs(birth, another_birth)
 sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
 capabilities = get_capabilities()
+svg = render_bazi_svg(birth, locale="en", title="My chart", width=900, show_hidden_stems=True)
 ```
 
 Wrapper ưu tiên engine đi kèm wheel để version luôn khớp Python package, xác minh size và SHA-256 của toàn bộ bundle trước lần chạy đầu tiên, sau đó mới fallback về binary `viet-bazi` trong PATH hoặc `dist/cli.js` của workspace. Lỗi integrity/CLI được chuyển thành `VietBaziError`.

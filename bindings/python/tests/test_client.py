@@ -3,7 +3,7 @@ from pathlib import Path
 import shutil
 import tempfile
 
-from viet_bazi import BirthInput, VietBaziError, analyze_birth_time_sensitivity, calculate_annual_timeline, calculate_bazi, calculate_bazi_batch, compare_birth_inputs, get_capabilities, verify_bundled_engine
+from viet_bazi import BirthInput, VietBaziError, analyze_birth_time_sensitivity, calculate_annual_timeline, calculate_bazi, calculate_bazi_batch, compare_birth_inputs, get_capabilities, render_bazi_svg, verify_bundled_engine
 from viet_bazi.client import _verify_engine_dir
 
 
@@ -11,7 +11,7 @@ class ClientTest(unittest.TestCase):
     def test_calculates_through_local_engine(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
         self.assertEqual(result["schemaVersion"], "1.7")
-        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.22.0")
+        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.23.0")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 
     def test_surfaces_engine_errors(self) -> None:
@@ -42,6 +42,13 @@ class ClientTest(unittest.TestCase):
         self.assertEqual(len(result["factors"]), 4)
         self.assertEqual(sum(item["score"] for item in result["factors"]), result["score"])
 
+    def test_renders_accessible_svg(self) -> None:
+        result = render_bazi_svg(BirthInput("2000-01-07T12:00:00", 420, "male", 2026), locale="en", title="A < B", width=640, show_hidden_stems=False)
+        self.assertTrue(result.startswith("<svg"))
+        self.assertIn("A &lt; B", result)
+        self.assertIn("aria-labelledby", result)
+        self.assertNotIn('class="hidden"', result)
+
     def test_analyzes_birth_time_sensitivity(self) -> None:
         result = analyze_birth_time_sensitivity(BirthInput("2026-02-04T03:00:00", 420, "male", 2026), 15, 5)
         self.assertFalse(result["stable"])
@@ -56,7 +63,7 @@ class ClientTest(unittest.TestCase):
 
     def test_verifies_bundled_engine_integrity(self) -> None:
         result = verify_bundled_engine()
-        self.assertEqual(result, {"engineVersion": "0.22.0", "files": 19, "verified": True})
+        self.assertEqual(result, {"engineVersion": "0.23.0", "files": 19, "verified": True})
 
     def test_rejects_a_tampered_bundled_engine(self) -> None:
         source = Path(__file__).resolve().parents[1] / "viet_bazi" / "_engine"

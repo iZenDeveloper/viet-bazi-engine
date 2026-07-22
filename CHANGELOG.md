@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.23.0
+
+- SVG export qua JSON bridge và CLI raw-output mode.
+- CLI hỗ trợ locale, title, width và ẩn Tàng Can.
+- Python `render_bazi_svg()` dùng verified bundled engine.
+
 ## 0.22.0
 
 - Compatibility nhận trực tiếp hai birth inputs qua TypeScript và JSON bridge.

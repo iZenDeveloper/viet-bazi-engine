@@ -2,6 +2,7 @@ import { calculateBazi } from './engine.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs } from './compatibility.js';
+import { renderBaziSvg } from './svg.js';
 const assertKnownKeys = (value, allowed, path) => { const unknown = Object.keys(value).filter(key => !allowed.includes(key)); if (unknown.length)
     throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`); };
 export function validateBirthInput(value, legacyAsOfYear) {
@@ -103,3 +104,4 @@ export function compareBirthInputsFromJson(json) {
         throw new TypeError('Compatibility input phải là array đúng 2 birth inputs');
     return compareBirthInputs(validateBirthInput(parsed[0]), validateBirthInput(parsed[1]));
 }
+export function renderBaziSvgFromJson(json, options = {}) { return renderBaziSvg(calculateBaziFromJson(json), options); }
