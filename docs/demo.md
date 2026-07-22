@@ -20,4 +20,8 @@ Service worker dùng chiến lược cache-first cho các file cùng origin. Sau
 
 CI chạy HTTP smoke test trên loopback để xác minh HTML, ESM, manifest, MIME types và phản hồi `404`; server con luôn được dừng sau test.
 
+## GitHub Pages
+
+`npm run pages:build` tạo artifact `dist-pages/` gồm demo, ESM build, WASM và service worker với relative paths đã kiểm thử. Workflow `Pages` chỉ chạy thủ công (`workflow_dispatch`) và deploy qua GitHub Pages OIDC; repository cần chọn GitHub Actions làm Pages source trước lần chạy đầu tiên.
+
 Không mở `index.html` trực tiếp bằng `file://` vì browser thường chặn ESM import giữa thư mục. Static server chỉ phục vụ file local và không gửi dữ liệu tới bên thứ ba.
