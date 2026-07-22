@@ -15,7 +15,7 @@
 | Compatibility input | 1.0 | `https://viet-bazi.dev/schema/compatibility-input-1.0.json` |
 | Compatibility result | 1.0 | `https://viet-bazi.dev/schema/compatibility-result-1.0.json` |
 
-Schema là object export trong package, không yêu cầu tải từ URL:
+Schema vừa là object export trong package, vừa có file JSON vật lý trong thư mục `schemas/` của npm tarball. `$id` là định danh contract; consumer offline không cần tải URL:
 
 ```ts
 import Ajv2020 from 'ajv/dist/2020.js';
@@ -24,7 +24,11 @@ import { BIRTH_INPUT_JSON_SCHEMA } from 'viet-bazi-engine';
 const validate = new Ajv2020().compile(BIRTH_INPUT_JSON_SCHEMA);
 ```
 
+Artifact cũng có thể được resolve qua package export, ví dụ `viet-bazi-engine/schemas/birth-input-1.0.json`.
+
 Batch schemas dùng `$ref` tới input/result schema. Hãy đăng ký dependencies với Ajv trước khi compile batch output.
+
+`npm run build` tái tạo `schemas/manifest.json` và mọi artifact theo thứ tự deterministic. Test suite so sánh semantic JSON với exports để phát hiện drift.
 
 Audit report là contract riêng: mỗi rule có mã/version ổn định, category, mô tả và các JSON path input/output. Cách tách này bổ sung traceability mà không làm thay đổi schema lá số `1.7`.
 

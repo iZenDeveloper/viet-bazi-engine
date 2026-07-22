@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/compatibility-input-1.0.json",
+  "title": "Viet Bazi Compatibility Input 1.0",
+  "type": "array",
+  "minItems": 2,
+  "maxItems": 2,
+  "items": {
+    "$ref": "https://viet-bazi.dev/schema/birth-input-1.0.json"
+  }
+}

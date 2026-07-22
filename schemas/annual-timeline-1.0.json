@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/annual-timeline-1.0.json",
+  "title": "Viet Bazi Annual Timeline 1.0",
+  "type": "array",
+  "minItems": 1,
+  "maxItems": 201,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "year",
+      "activeLuck",
+      "analysis"
+    ],
+    "properties": {
+      "year": {
+        "type": "integer",
+        "minimum": 1600,
+        "maximum": 2400
+      },
+      "activeLuck": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asOfYear",
+          "order",
+          "pillar"
+        ],
+        "properties": {
+          "asOfYear": {
+            "type": "integer",
+            "minimum": 1600,
+            "maximum": 2400
+          },
+          "order": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 8
+          },
+          "pillar": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        }
+      },
+      "analysis": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "year",
+          "pillar",
+          "stemTenGodCode",
+          "stemTenGod",
+          "interactions",
+          "activeLuckInteraction"
+        ],
+        "properties": {
+          "year": {
+            "type": "integer",
+            "minimum": 1600,
+            "maximum": 2400
+          },
+          "pillar": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "labelCode",
+              "label",
+              "stem",
+              "branch",
+              "tenGodCode",
+              "tenGod"
+            ],
+            "properties": {
+              "labelCode": {
+                "enum": [
+                  "YEAR",
+                  "MONTH",
+                  "DAY",
+                  "HOUR"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "stem": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "index",
+                  "code",
+                  "name",
+                  "elementCode",
+                  "element",
+                  "polarityCode",
+                  "polarity"
+                ],
+                "properties": {
+                  "index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9
+                  },
+                  "code": {
+                    "enum": [
+                      "JIA",
+                      "YI",
+                      "BING",
+                      "DING",
+                      "WU",
+                      "JI",
+                      "GENG",
+                      "XIN",
+                      "REN",
+                      "GUI"
+                    ]
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "elementCode": {
+                    "enum": [
+                      "WOOD",
+                      "FIRE",
+                      "EARTH",
+                      "METAL",
+                      "WATER"
+                    ]
+                  },
+                  "element": {
+                    "type": "string"
+                  },
+                  "polarityCode": {
+                    "enum": [
+                      "YANG",
+                      "YIN"
+                    ]
+                  },
+                  "polarity": {
+                    "type": "string"
+                  }
+                }
+              },
+              "branch": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "index",
+                  "code",
+                  "name",
+                  "elementCode",
+                  "element",
+                  "polarityCode",
+                  "polarity",
+                  "hiddenStems"
+                ],
+                "properties": {
+                  "index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 11
+                  },
+                  "code": {
+                    "enum": [
+                      "ZI",
+                      "CHOU",
+                      "YIN",
+                      "MAO",
+                      "CHEN",
+                      "SI",
+                      "WU",
+                      "WEI",
+                      "SHEN",
+                      "YOU",
+                      "XU",
+                      "HAI"
+                    ]
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "elementCode": {
+                    "enum": [
+                      "WOOD",
+                      "FIRE",
+                      "EARTH",
+                      "METAL",
+                      "WATER"
+                    ]
+                  },
+                  "element": {
+                    "type": "string"
+                  },
+                  "polarityCode": {
+                    "enum": [
+                      "YANG",
+                      "YIN"
+                    ]
+                  },
+                  "polarity": {
+                    "type": "string"
+                  },
+                  "hiddenStems": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "index",
+                        "code",
+                        "name",
+                        "elementCode",
+                        "element",
+                        "polarityCode",
+                        "polarity",
+                        "weight",
+                        "tenGodCode",
+                        "tenGod"
+                      ],
+                      "properties": {
+                        "index": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9
+                        },
+                        "code": {
+                          "enum": [
+                            "JIA",
+                            "YI",
+                            "BING",
+                            "DING",
+                            "WU",
+                            "JI",
+                            "GENG",
+                            "XIN",
+                            "REN",
+                            "GUI"
+                          ]
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "elementCode": {
+                          "enum": [
+                            "WOOD",
+                            "FIRE",
+                            "EARTH",
+                            "METAL",
+                            "WATER"
+                          ]
+                        },
+                        "element": {
+                          "type": "string"
+                        },
+                        "polarityCode": {
+                          "enum": [
+                            "YANG",
+                            "YIN"
+                          ]
+                        },
+                        "polarity": {
+                          "type": "string"
+                        },
+                        "weight": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        },
+                        "tenGodCode": {
+                          "enum": [
+                            "BI_JIAN",
+                            "JIE_CAI",
+                            "SHI_SHEN",
+                            "SHANG_GUAN",
+                            "PIAN_CAI",
+                            "ZHENG_CAI",
+                            "QI_SHA",
+                            "ZHENG_GUAN",
+                            "PIAN_YIN",
+                            "ZHENG_YIN"
+                          ]
+                        },
+                        "tenGod": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "tenGodCode": {
+                "enum": [
+                  "BI_JIAN",
+                  "JIE_CAI",
+                  "SHI_SHEN",
+                  "SHANG_GUAN",
+                  "PIAN_CAI",
+                  "ZHENG_CAI",
+                  "QI_SHA",
+                  "ZHENG_GUAN",
+                  "PIAN_YIN",
+                  "ZHENG_YIN",
+                  "DAY_MASTER"
+                ]
+              },
+              "tenGod": {
+                "type": "string"
+              }
+            }
+          },
+          "stemTenGodCode": {
+            "enum": [
+              "BI_JIAN",
+              "JIE_CAI",
+              "SHI_SHEN",
+              "SHANG_GUAN",
+              "PIAN_CAI",
+              "ZHENG_CAI",
+              "QI_SHA",
+              "ZHENG_GUAN",
+              "PIAN_YIN",
+              "ZHENG_YIN"
+            ]
+          },
+          "stemTenGod": {
+            "type": "string"
+          },
+          "interactions": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+              "type": "object"
+            }
+          },
+          "activeLuckInteraction": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

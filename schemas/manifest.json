@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "count": 10,
+  "schemas": {
+    "ANNUAL_TIMELINE_JSON_SCHEMA": "https://viet-bazi.dev/schema/annual-timeline-1.0.json",
+    "BAZI_AUDIT_REPORT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-audit-report-1.0.json",
+    "BAZI_BATCH_INPUT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-batch-input-1.0.json",
+    "BAZI_BATCH_RESULT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-batch-result-1.0.json",
+    "BAZI_RESULT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-result-1.7.json",
+    "BIRTH_INPUT_JSON_SCHEMA": "https://viet-bazi.dev/schema/birth-input-1.0.json",
+    "BIRTH_TIME_SENSITIVITY_JSON_SCHEMA": "https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json",
+    "COMPATIBILITY_INPUT_JSON_SCHEMA": "https://viet-bazi.dev/schema/compatibility-input-1.0.json",
+    "COMPATIBILITY_RESULT_JSON_SCHEMA": "https://viet-bazi.dev/schema/compatibility-result-1.0.json",
+    "LOCALIZED_FACTS_REPORT_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-facts-report-1.0.json"
+  }
+}

@@ -11,16 +11,17 @@
   "bin": { "viet-bazi": "./dist/cli.js" },
   "exports": {
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./schemas/*": "./schemas/*",
     "./fixtures/v1/manifest.json": "./fixtures/v1/manifest.json",
     "./fixtures/v1/jie-2026.json": "./fixtures/v1/jie-2026.json",
     "./fixtures/v1/sexagenary-days.json": "./fixtures/v1/sexagenary-days.json"
   },
-  "files": ["dist", "fixtures", "docs", "README.md", "CHANGELOG.md", "LICENSE"],
+  "files": ["dist", "schemas", "fixtures", "docs", "README.md", "CHANGELOG.md", "LICENSE"],
   "scripts": {
-    "build": "tsc -p tsconfig.json && sh scripts/build-wasm.sh",
+    "build": "tsc -p tsconfig.json && sh scripts/build-wasm.sh && node scripts/export-schemas.mjs",
     "demo": "npm run build && node scripts/serve-demo.mjs",
     "demo:check": "npm run build && node scripts/serve-demo.mjs --check",
-    "test": "vitest run && npm run build && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && npm run test:conformance",
+    "test": "vitest run && npm run build && node scripts/test-schema-artifacts.mjs && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && npm run test:conformance",
     "test:unit": "vitest run",
     "test:wasm": "npm run build && node scripts/test-wasm.mjs",
     "test:conformance": "node scripts/verify-conformance.mjs",

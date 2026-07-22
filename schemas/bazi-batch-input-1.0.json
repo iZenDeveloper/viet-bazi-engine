@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/bazi-batch-input-1.0.json",
+  "title": "Viet Bazi Batch Input 1.0",
+  "type": "array",
+  "minItems": 0,
+  "maxItems": 1000,
+  "items": {
+    "$ref": "https://viet-bazi.dev/schema/birth-input-1.0.json"
+  }
+}

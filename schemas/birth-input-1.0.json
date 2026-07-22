@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/birth-input-1.0.json",
+  "title": "Viet Bazi Birth Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "localDateTime",
+    "timezoneOffsetMinutes",
+    "asOfYear",
+    "gender"
+  ],
+  "properties": {
+    "localDateTime": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$"
+    },
+    "timezoneOffsetMinutes": {
+      "type": "integer",
+      "minimum": -840,
+      "maximum": 840
+    },
+    "asOfYear": {
+      "type": "integer",
+      "minimum": 1600,
+      "maximum": 2400
+    },
+    "gender": {
+      "enum": [
+        "male",
+        "female"
+      ]
+    },
+    "trueSolarTime": {
+      "type": "boolean"
+    },
+    "dayBoundary": {
+      "enum": [
+        "early-zi",
+        "midnight"
+      ]
+    },
+    "location": {
+      "$ref": "#/$defs/location"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "trueSolarTime": {
+            "const": true
+          }
+        },
+        "required": [
+          "trueSolarTime"
+        ]
+      },
+      "then": {
+        "required": [
+          "location"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "city": {
+          "type": "string",
+          "minLength": 1
+        },
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      },
+      "dependentRequired": {
+        "latitude": [
+          "longitude"
+        ],
+        "longitude": [
+          "latitude"
+        ]
+      },
+      "anyOf": [
+        {
+          "required": [
+            "city"
+          ]
+        },
+        {
+          "required": [
+            "latitude",
+            "longitude"
+          ]
+        }
+      ]
+    }
+  }
+}
