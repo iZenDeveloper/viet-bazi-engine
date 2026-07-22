@@ -49,6 +49,13 @@ node dist/cli.js --capabilities --compact
 node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffsetMinutes":420,"asOfYear":2026,"gender":"female"}'
 ```
 
+Demo web offline sau khi build:
+
+```bash
+python3 -m http.server 8080
+# Mở http://localhost:8080/demo/
+```
+
 ## Tài liệu
 
 - [Hướng dẫn bắt đầu](docs/getting-started.md)
@@ -59,6 +66,7 @@ node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffs
 - [JSON Schema và conformance fixtures](docs/schemas-and-conformance.md)
 - [Kiến trúc](docs/architecture.md)
 - [Lộ trình phát triển](docs/roadmap.md)
+- [Demo web offline](docs/demo.md)
 - [Đóng góp](CONTRIBUTING.md)
 - [Lịch sử thay đổi](CHANGELOG.md)
 

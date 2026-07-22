@@ -32,8 +32,8 @@
 
 ### P3.4 Demo offline
 
-- Mục tiêu: một trang web tĩnh nhập ngày giờ sinh, chọn thành phố và tải SVG/JSON ngay trên máy.
-- Tiêu chí nghiệm thu: không analytics/network runtime, build reproducible, có cảnh báo near-boundary và disclaimer.
+- [x] Trang web tĩnh nhập ngày giờ sinh, chọn thành phố và tải SVG/JSON ngay trên máy.
+- [x] Không analytics/network runtime, có cảnh báo near-boundary và disclaimer.
 
 ## Nguyên tắc phát hành
 
