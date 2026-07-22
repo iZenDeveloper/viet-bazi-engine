@@ -12,4 +12,6 @@ Mở `http://localhost:8080/demo/`. Trình duyệt thực hiện toàn bộ calc
 
 Service worker dùng chiến lược cache-first cho các file cùng origin. Sau lần tải thành công đầu tiên, demo có thể reload khi offline. Khi sửa asset cache, tăng version `CACHE` trong `service-worker.js` để activation xóa cache cũ.
 
+`manifest.webmanifest` và icon SVG nội bộ cho phép cài demo dạng standalone trên trình duyệt hỗ trợ. Việc cài đặt cần secure context; `localhost` được trình duyệt xem là secure cho mục đích phát triển.
+
 Không mở `index.html` trực tiếp bằng `file://` vì browser thường chặn ESM import giữa thư mục. Static server chỉ phục vụ file local và không gửi dữ liệu tới bên thứ ba.

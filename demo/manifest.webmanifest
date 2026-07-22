@@ -1,0 +1,12 @@
+{
+  "name": "Viet Bazi Engine",
+  "short_name": "Viet Bazi",
+  "description": "Offline Bát Tự/Tứ Trụ calculator",
+  "lang": "vi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f1f4ed",
+  "theme_color": "#182b20",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
