@@ -12,6 +12,7 @@ Quy trình phát hành:
 ```bash
 npm test
 npm run test:python-wheel
+npm run release:check
 git status --short
 git tag -a v0.28.0 -m "Viet Bazi Engine v0.28.0"
 git push origin v0.28.0
