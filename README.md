@@ -49,7 +49,7 @@ node dist/cli.js --capabilities --compact
 node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffsetMinutes":420,"asOfYear":2026,"gender":"female"}'
 ```
 
-Demo web offline sau khi build:
+Demo web/PWA offline sau khi build:
 
 ```bash
 python3 -m http.server 8080

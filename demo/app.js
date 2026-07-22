@@ -8,3 +8,4 @@ form.addEventListener('submit',event=>{event.preventDefault();try{const trueSola
 svgButton.addEventListener('click',()=>download('viet-bazi-chart.svg',latestSvg,'image/svg+xml'));
 jsonButton.addEventListener('click',()=>download('viet-bazi-result.json',latestJson,'application/json'));
 form.requestSubmit();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('../service-worker.js',{scope:'../'}).catch(error=>{console.warn('Không thể bật offline cache:',error);});

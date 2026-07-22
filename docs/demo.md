@@ -10,4 +10,6 @@ python3 -m http.server 8080
 
 Mở `http://localhost:8080/demo/`. Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG rendering tại chỗ. Demo dùng catalog thành phố của engine, hỗ trợ hai quy ước đổi ngày và SVG Việt/Anh. Có thể tải kết quả dạng SVG/JSON; input gần ranh Tiết khí sẽ hiện cảnh báo.
 
+Service worker dùng chiến lược cache-first cho các file cùng origin. Sau lần tải thành công đầu tiên, demo có thể reload khi offline. Khi sửa asset cache, tăng version `CACHE` trong `service-worker.js` để activation xóa cache cũ.
+
 Không mở `index.html` trực tiếp bằng `file://` vì browser thường chặn ESM import giữa thư mục. Static server chỉ phục vụ file local và không gửi dữ liệu tới bên thứ ba.
