@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.29.0
+
+- Thêm localized methodology report `vi`/`en` với 13 stable code/value.
+- Public API, JSON bridge, CLI `--methodology`, Python parity và JSON Schema `1.0`.
+
 ## 0.28.0
 
 - Thêm JSON Schema `annual-timeline-1.0` và capability discovery tương ứng.

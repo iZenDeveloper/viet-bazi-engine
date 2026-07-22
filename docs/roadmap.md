@@ -17,7 +17,7 @@
 
 - [x] Cho phép chọn `vi`/`en` cho facts và warnings mà không đổi stable codes.
 - [x] API TypeScript, JSON bridge, CLI `--facts` và Python parity.
-- Tiếp theo: bản địa hóa mô tả methodology và schema riêng cho localized report.
+- [x] Bản địa hóa mô tả methodology và schema riêng cho localized report.
 
 ### P3.2 SVG chart nâng cao
 

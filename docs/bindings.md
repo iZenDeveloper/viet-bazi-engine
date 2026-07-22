@@ -19,6 +19,7 @@ from viet_bazi import (
     compare_birth_inputs,
     create_bazi_audit_report,
     localize_facts,
+    localize_methodology,
     get_capabilities,
     render_bazi_svg,
 )
@@ -36,6 +37,7 @@ batch = calculate_bazi_batch([birth])
 compatibility = compare_birth_inputs(birth, another_birth)
 audit = create_bazi_audit_report(birth)
 facts_en = localize_facts(birth, locale="en")
+methodology_en = localize_methodology(birth, locale="en")
 sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
 capabilities = get_capabilities()
 svg = render_bazi_svg(birth, locale="en", title="My chart", width=900, show_hidden_stems=True, show_element_balance=True, high_contrast=True)

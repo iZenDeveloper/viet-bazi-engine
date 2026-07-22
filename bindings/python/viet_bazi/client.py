@@ -124,6 +124,18 @@ def localize_facts(value: BirthInput, *, locale: Literal["vi", "en"] = "vi") -> 
     return json.loads(completed.stdout)
 
 
+def localize_methodology(value: BirthInput, *, locale: Literal["vi", "en"] = "vi") -> dict[str, Any]:
+    command = [*_command(), "--compact", "--methodology", "--locale", locale, "--stdin"]
+    completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
+    try:
+        result: dict[str, Any] = json.loads(completed.stdout)
+    except json.JSONDecodeError as error:
+        raise VietBaziError("Engine không trả JSON methodology hợp lệ") from error
+    return result
+
+
 def calculate_bazi_batch(values: list[BirthInput]) -> dict[str, Any]:
     command = [*_command(), "--compact", "--batch", "--stdin"]
     payload = [value.to_payload() for value in values]

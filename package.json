@@ -1,22 +1,40 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.28.0",
+  "version": "0.29.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
-  "repository": { "type": "git", "url": "git+https://github.com/iZenDeveloper/viet-bazi-engine.git" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iZenDeveloper/viet-bazi-engine.git"
+  },
   "homepage": "https://github.com/iZenDeveloper/viet-bazi-engine#readme",
-  "bugs": { "url": "https://github.com/iZenDeveloper/viet-bazi-engine/issues" },
+  "bugs": {
+    "url": "https://github.com/iZenDeveloper/viet-bazi-engine/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": { "viet-bazi": "./dist/cli.js" },
+  "bin": {
+    "viet-bazi": "./dist/cli.js"
+  },
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./schemas/*": "./schemas/*",
     "./fixtures/v1/manifest.json": "./fixtures/v1/manifest.json",
     "./fixtures/v1/jie-2026.json": "./fixtures/v1/jie-2026.json",
     "./fixtures/v1/sexagenary-days.json": "./fixtures/v1/sexagenary-days.json"
   },
-  "files": ["dist", "schemas", "fixtures", "docs", "README.md", "CHANGELOG.md", "LICENSE"],
+  "files": [
+    "dist",
+    "schemas",
+    "fixtures",
+    "docs",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json && sh scripts/build-wasm.sh && node scripts/export-schemas.mjs",
     "demo": "npm run build && node scripts/serve-demo.mjs",
@@ -31,8 +49,22 @@
     "test:python-wheel": "npm run sync:python && sh scripts/test-python-wheel.sh",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
-  "keywords": ["bazi", "four-pillars", "tứ-trụ", "typescript", "offline"],
+  "keywords": [
+    "bazi",
+    "four-pillars",
+    "tứ-trụ",
+    "typescript",
+    "offline"
+  ],
   "license": "MIT",
-  "devDependencies": { "ajv": "^8.17.1", "ajv-formats": "^3.0.1", "assemblyscript": "^0.28.8", "typescript": "^5.9.2", "vitest": "^3.2.4" },
-  "engines": { "node": ">=20" }
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "assemblyscript": "^0.28.8",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
 }

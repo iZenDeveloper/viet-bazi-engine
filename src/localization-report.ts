@@ -1,7 +1,18 @@
-import type { BaziResult, LocalizedFactsReport } from './types.js';
+import type { BaziResult, LocalizedFactsReport, LocalizedMethodologyReport, MethodologyManifest } from './types.js';
 
 export function localizeFacts(chart:BaziResult,locale:'vi'|'en'='vi'):LocalizedFactsReport {
   const english:Record<string,string>={DAY_MASTER:`Day Master is ${chart.dayMaster.name} ${chart.dayMaster.element}.`,SEASON:`Birth month is ${chart.pillars.month.branch.name}; seasonal qi favors ${chart.pillars.month.branch.element}.`,ELEMENT_BALANCE:`${[...chart.elements].sort((a,b)=>b.percent-a.percent)[0]!.element} is the strongest element; Day Master ${chart.dayMaster.element} is ${chart.elements.find(x=>x.element===chart.dayMaster.element)!.strength}.`,NEAR_SOLAR_TERM:`Birth time is close to a solar-term boundary; verify the input.`};
   const facts=chart.metadata.facts.map(f=>({code:f.code,text:locale==='vi'?f.vi:(english[f.code]??f.vi),confidence:f.confidence,evidence:f.evidence}));
   return {schemaVersion:'1.0',locale,facts,warnings:locale==='vi'?chart.metadata.warnings:chart.metadata.warnings.map(()=> 'Review the calculation warnings before interpretation.')};
+}
+
+const methodologyLabels={
+  vi:{YEAR_BOUNDARY:'Ranh giới năm dùng Lập Xuân.',MONTH_BOUNDARY:'Ranh giới tháng dùng 12 Tiết (Jie).',DAY_BOUNDARY:'Ranh giới ngày đã chọn.',HOUR_BOUNDARY:'Giờ Tý là khoảng hai giờ lấy nửa đêm làm tâm.',SOLAR_TERM_MODEL:'Tiết khí dùng mô hình hoàng kinh Mặt Trời xấp xỉ.',TRUE_SOLAR_TIME:'Hiệu chỉnh giờ Mặt Trời thật.',TRUE_SOLAR_TIME_MODEL:'Mô hình hiệu chỉnh giờ Mặt Trời.',LUCK_DIRECTION:'Chiều Đại Vận dựa trên giới tính và âm dương Can năm.',LUCK_START:'Mốc khởi vận dùng Tiết kế tiếp theo chiều vận.',LUCK_AGE:'Quy đổi khởi vận theo ba ngày bằng một năm.',ELEMENT_BALANCE:'Cân bằng Ngũ Hành dùng heuristic trọng số.',PATTERN:'Cách cục dùng heuristic khí tháng.',SHEN_SHA:'Thần Sát dùng catalog có phiên bản.'},
+  en:{YEAR_BOUNDARY:'The year boundary uses Li Chun.',MONTH_BOUNDARY:'Month boundaries use the twelve Jie solar terms.',DAY_BOUNDARY:'Selected day-boundary convention.',HOUR_BOUNDARY:'The Zi hour is a two-hour period centered on midnight.',SOLAR_TERM_MODEL:'Solar terms use an approximate solar-longitude model.',TRUE_SOLAR_TIME:'True solar time correction.',TRUE_SOLAR_TIME_MODEL:'True solar time correction model.',LUCK_DIRECTION:'Luck-cycle direction uses gender and year-stem polarity.',LUCK_START:'Luck starts at the directional Jie boundary.',LUCK_AGE:'Luck-start age uses three days per year.',ELEMENT_BALANCE:'Five Element balance uses a weighted heuristic.',PATTERN:'Pattern analysis uses a month-qi heuristic.',SHEN_SHA:'Shen Sha uses a versioned catalog.'}
+} as const;
+
+export function localizeMethodology(methodology:MethodologyManifest,locale:'vi'|'en'='vi'):LocalizedMethodologyReport {
+  const label=methodologyLabels[locale];
+  const values:Record<keyof typeof label,string|boolean>={YEAR_BOUNDARY:methodology.calendar.yearBoundary,MONTH_BOUNDARY:methodology.calendar.monthBoundary,DAY_BOUNDARY:methodology.calendar.dayBoundary,HOUR_BOUNDARY:methodology.calendar.hourBoundary,SOLAR_TERM_MODEL:methodology.calendar.solarTermModel,TRUE_SOLAR_TIME:methodology.trueSolarTime.enabled,TRUE_SOLAR_TIME_MODEL:methodology.trueSolarTime.model,LUCK_DIRECTION:methodology.luckCycle.directionRule,LUCK_START:methodology.luckCycle.startBoundary,LUCK_AGE:methodology.luckCycle.ageConversion,ELEMENT_BALANCE:methodology.analysis.elementBalance,PATTERN:methodology.analysis.pattern,SHEN_SHA:methodology.analysis.shenSha};
+  return {schemaVersion:'1.0',locale,profileCode:methodology.profileCode,engineVersion:methodology.engineVersion,items:Object.entries(label).map(([code,text])=>({code,text,value:values[code as keyof typeof label]}))};
 }
