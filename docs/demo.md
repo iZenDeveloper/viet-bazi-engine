@@ -24,4 +24,6 @@ CI chạy HTTP smoke test trên loopback để xác minh HTML, ESM, manifest, MI
 
 `npm run pages:build` tạo artifact `dist-pages/` gồm demo, ESM build, WASM và service worker với relative paths đã kiểm thử. Workflow `Pages` chỉ chạy thủ công (`workflow_dispatch`) và deploy qua GitHub Pages OIDC; repository cần chọn GitHub Actions làm Pages source trước lần chạy đầu tiên.
 
+Sau deploy, workflow chạy live smoke test trên HTTPS URL thực tế cho root, demo, manifest, ESM và service worker. Có thể chạy thủ công cùng kiểm tra bằng `node scripts/test-pages-live.mjs https://izendeveloper.github.io/viet-bazi-engine/`.
+
 Không mở `index.html` trực tiếp bằng `file://` vì browser thường chặn ESM import giữa thư mục. Static server chỉ phục vụ file local và không gửi dữ liệu tới bên thứ ba.
