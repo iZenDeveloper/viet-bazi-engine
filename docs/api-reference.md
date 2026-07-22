@@ -16,6 +16,8 @@ Pure, deterministic entry point. Trả Tứ Trụ, Nhật Chủ, Ngũ Hành, qua
 
 Sinh tối đa 201 Lưu Niên từ một lá số có sẵn. Năm phải là số nguyên trong `1600..2400`, tăng dần.
 
+`calculateAnnualTimelineFromJson(json, fromYear, toYear, asOfYear?)` là JSON bridge strict tương ứng.
+
 ### `analyzeBirthTimeSensitivity(input, windowMinutes?, stepMinutes?)`
 
 Lấy mẫu quanh giờ sinh, deduplicate theo bốn trụ và trả `changedPillars`. Mặc định ±120 phút, bước 5 phút; tối đa ±720 phút và 289 mẫu.

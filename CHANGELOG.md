@@ -2,6 +2,10 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.25.0
+
+- Thêm `calculateAnnualTimelineFromJson()` cho JSON bridge.
+
 ## 0.24.0
 
 - Thêm audit report deterministic ánh xạ rule/version với đường dẫn input và output.

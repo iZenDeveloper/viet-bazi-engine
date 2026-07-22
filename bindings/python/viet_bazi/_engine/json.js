@@ -1,4 +1,4 @@
-import { calculateBazi } from './engine.js';
+import { calculateAnnualTimeline, calculateBazi } from './engine.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs } from './compatibility.js';
@@ -107,3 +107,4 @@ export function compareBirthInputsFromJson(json) {
 }
 export function renderBaziSvgFromJson(json, options = {}) { return renderBaziSvg(calculateBaziFromJson(json), options); }
 export function createBaziAuditReportFromJson(json, asOfYear) { return createBaziAuditReport(calculateBaziFromJson(json, asOfYear)); }
+export function calculateAnnualTimelineFromJson(json, fromYear, toYear, asOfYear) { return calculateAnnualTimeline(calculateBaziFromJson(json, asOfYear), fromYear, toYear); }

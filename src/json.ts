@@ -1,10 +1,10 @@
-import { calculateBazi } from './engine.js';
+import { calculateAnnualTimeline, calculateBazi } from './engine.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs } from './compatibility.js';
 import { renderBaziSvg } from './svg.js';
 import { createBaziAuditReport } from './traceability.js';
-import type { BaziAuditReport, BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult, SvgOptions } from './types.js';
+import type { AnnualTimelineEntry, BaziAuditReport, BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult, SvgOptions } from './types.js';
 
 const assertKnownKeys=(value:Record<string,unknown>,allowed:readonly string[],path:string)=>{const unknown=Object.keys(value).filter(key=>!allowed.includes(key));if(unknown.length)throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`);};
 
@@ -57,3 +57,4 @@ export function compareBirthInputsFromJson(json:string):CompatibilityResult {
 
 export function renderBaziSvgFromJson(json:string,options:SvgOptions={}):string {return renderBaziSvg(calculateBaziFromJson(json),options);}
 export function createBaziAuditReportFromJson(json:string,asOfYear?:number):BaziAuditReport {return createBaziAuditReport(calculateBaziFromJson(json,asOfYear));}
+export function calculateAnnualTimelineFromJson(json:string,fromYear:number,toYear:number,asOfYear?:number):AnnualTimelineEntry[] {return calculateAnnualTimeline(calculateBaziFromJson(json,asOfYear),fromYear,toYear);}

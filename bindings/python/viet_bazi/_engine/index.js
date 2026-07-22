@@ -5,7 +5,7 @@ export { SHEN_SHA_CATALOG, SHEN_SHA_CODES } from './shen-sha.js';
 export { compareBaziCharts, compareBirthInputs } from './compatibility.js';
 export { renderBaziSvg } from './svg.js';
 export { createBaziAuditReport } from './traceability.js';
-export { analyzeBirthTimeSensitivityFromJson, calculateBaziBatch, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, renderBaziSvgFromJson, validateBirthInput } from './json.js';
+export { analyzeBirthTimeSensitivityFromJson, calculateAnnualTimelineFromJson, calculateBaziBatch, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, renderBaziSvgFromJson, validateBirthInput } from './json.js';
 export { findCity, resolveLocation, VIETNAM_CITIES } from './cities.js';
 export { createWasmBaziEngine, loadWasmCalendar } from './wasm.js';
 export { getCoreLabels } from './localization.js';
