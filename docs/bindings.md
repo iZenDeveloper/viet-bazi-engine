@@ -69,6 +69,6 @@ const engine = await createWasmBaziEngine(bytes);
 const chart = engine.calculateBazi(input);
 ```
 
-Kernel cung cấp `solarLongitude`, `equationOfTime` và `sexagenaryDayIndex`. Full engine dùng WASM cho calendar primitives và dùng chung orchestration/rule tables TypeScript, tránh hai implementation nghiệp vụ khác nhau.
+Kernel cung cấp `solarLongitude`, `equationOfTime` và `sexagenaryDayIndex`. `createWasmBaziEngine()` dùng các primitives đó cho full calculation và dùng chung orchestration/rule tables TypeScript, tránh hai implementation nghiệp vụ khác nhau. CI kiểm tra full-output parity trên các fixture chuẩn.
 
 WASM loader không đọc filesystem hay network; caller tự cung cấp `BufferSource` hoặc `WebAssembly.Module`.

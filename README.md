@@ -12,7 +12,7 @@ Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline
 - 23 Thần Sát phổ biến và cách cục heuristic có evidence.
 - True solar time, catalog thành phố Việt Nam và phân tích độ nhạy giờ sinh.
 - Compatibility, SVG accessible với biểu đồ Ngũ Hành/tương phản cao, localization Việt/Anh.
-- Batch API, JSON CLI, self-contained Python wheel (cần Node.js 20+) và WASM calendar kernel.
+- Batch API, JSON CLI, self-contained Python wheel (cần Node.js 20+) và WASM calendar/full-engine adapter.
 - JSON Schema Draft 2020-12, capability discovery và fixtures đối chiếu NAOJ.
 - Audit report machine-readable ánh xạ rule/version với các trường input và output.
 
@@ -64,7 +64,7 @@ node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffs
 
 ## Kiểm thử và giới hạn đã công bố
 
-Suite hiện có 69 test TypeScript, 12 test Python, kiểm thử CLI end-to-end, parity WASM và conformance runner. Bộ fixtures gồm 12 ranh Tiết năm 2026 và 6 ngày Can–Chi 1900–2099 từ NAOJ; sai số ranh Tiết quan sát lớn nhất là 11 phút với ngưỡng regression 15 phút.
+Suite hiện có 71 test TypeScript, 12 test Python, kiểm thử CLI end-to-end, parity WASM full-output và conformance runner. Bộ fixtures gồm 12 ranh Tiết năm 2026 và 6 ngày Can–Chi 1900–2099 từ NAOJ; sai số ranh Tiết quan sát lớn nhất là 11 phút với ngưỡng regression 15 phút.
 
 Các trường phái Bát Tự có thể khác nhau về đổi ngày, khởi vận, cách cục và Thần Sát. Engine ghi rõ mọi convention trong `metadata.methodology`. Công thức hoàng kinh Mặt Trời và equation of time là xấp xỉ; ca sát ranh cần dùng `analyzeBirthTimeSensitivity()` và đối chiếu ephemeris chuyên dụng.
 

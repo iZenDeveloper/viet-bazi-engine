@@ -26,8 +26,9 @@
 
 ### P3.3 WASM full-engine adapter
 
-- Mục tiêu: cung cấp cùng orchestration qua adapter WASM khi host muốn giảm phụ thuộc JavaScript.
-- Tiêu chí nghiệm thu: kết quả fixtures TypeScript/WASM giống nhau theo stable codes; ABI có version và giới hạn rõ ràng.
+- [x] Cung cấp orchestration dùng WASM calendar primitives khi host muốn giảm phụ thuộc JavaScript.
+- [x] Parity full output với TypeScript fixtures, ABI version `1` và kiểm tra giới hạn loader.
+- Tiếp theo: tối ưu bundle/loader cho các host không có ESM runtime.
 
 ### P3.4 Demo offline
 
