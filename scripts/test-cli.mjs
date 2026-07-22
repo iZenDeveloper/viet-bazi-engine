@@ -21,8 +21,8 @@ if(capabilities.status!==0||capabilitiesResult.offline!==true||!capabilitiesResu
 const compatibility=run(['--stdin','--compatibility','--compact'],JSON.stringify([valid,{...valid,localDateTime:'1988-11-02T08:10:00',gender:'female'}]));
 const compatibilityResult=JSON.parse(compatibility.stdout);
 if(compatibility.status!==0||compatibilityResult.schemaVersion!=='1.0'||compatibilityResult.factors.length!==4)throw new Error(`compatibility failed: ${compatibility.stderr}`);
-const svg=run(['--stdin','--svg','--locale','en','--title','A < B','--no-hidden-stems','--width','640'],JSON.stringify(valid));
-if(svg.status!==0||!svg.stdout.startsWith('<svg')||!svg.stdout.includes('A &lt; B')||svg.stdout.includes('class="hidden"'))throw new Error(`svg failed: ${svg.stderr}`);
+const svg=run(['--stdin','--svg','--locale','en','--title','A < B','--no-hidden-stems','--high-contrast','--width','640'],JSON.stringify(valid));
+if(svg.status!==0||!svg.stdout.startsWith('<svg')||!svg.stdout.includes('A &lt; B')||svg.stdout.includes('class="hidden"')||!svg.stdout.includes('class="element-balance"')||!svg.stdout.includes('data-contrast="high"'))throw new Error(`svg failed: ${svg.stderr}`);
 const audit=run(['--stdin','--audit','--compact'],JSON.stringify(valid));
 const auditResult=JSON.parse(audit.stdout);
 if(audit.status!==0||auditResult.schemaVersion!=='1.0'||auditResult.rules.length<10||!auditResult.rules.some(x=>x.ruleCode==='CALENDAR_YEAR_LI_CHUN'))throw new Error(`audit failed: ${audit.stderr}`);

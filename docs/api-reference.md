@@ -43,11 +43,13 @@ renderBaziSvg(chart, {
   width: 900,
   title: 'Lá số',
   showHiddenStems: true,
+  showElementBalance: true,
+  highContrast: false,
   locale: 'vi'
 });
 ```
 
-Trả chuỗi SVG standalone, có `role`, accessible description và màu Ngũ Hành.
+Trả chuỗi SVG standalone, có `role`, accessible description, legend và thanh tỷ lệ Ngũ Hành. `highContrast` dùng palette đậm cùng viền rõ hơn; `showElementBalance: false` giữ layout gọn tương tự phiên bản cũ.
 
 `renderBaziSvgFromJson(json, options?)` thực hiện strict JSON validation rồi render cùng output.
 

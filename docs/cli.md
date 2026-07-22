@@ -61,10 +61,10 @@ Input phải là array đúng hai `BirthInput`. Mode này không dùng cùng bat
 ## SVG export
 
 ```bash
-printf '%s' '{...}' | viet-bazi --stdin --svg --locale en --title 'My chart' --width 900 --no-hidden-stems > chart.svg
+printf '%s' '{...}' | viet-bazi --stdin --svg --locale en --title 'My chart' --width 900 --no-hidden-stems --high-contrast > chart.svg
 ```
 
-SVG mode ghi raw SVG thay vì JSON. Locale là `vi` hoặc `en`; width được core renderer clamp trong `480..1600`. Mode này nhận một birth input và không dùng cùng các calculation mode khác.
+SVG mode ghi raw SVG thay vì JSON. Locale là `vi` hoặc `en`; width được core renderer clamp trong `480..1600`. Dùng `--no-element-balance` để ẩn thanh tỷ lệ hoặc `--high-contrast` cho palette tương phản cao. Mode này nhận một birth input và không dùng cùng các calculation mode khác.
 
 ## Audit trace
 

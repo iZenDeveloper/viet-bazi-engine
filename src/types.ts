@@ -64,7 +64,7 @@ export interface CompatibilityResult {
   sharedElements:Element[]; complementaryElements:Element[];
   metadata:{ methodology:'heuristic-v1'; warning:string };
 }
-export interface SvgOptions { width?:number; title?:string; showHiddenStems?:boolean; locale?:'vi'|'en' }
+export interface SvgOptions { width?:number; title?:string; showHiddenStems?:boolean; showElementBalance?:boolean; highContrast?:boolean; locale?:'vi'|'en' }
 export interface CalculationRuleTrace { ruleCode:string; ruleVersion:string; category:'calendar'|'normalization'|'analysis'|'luck'; descriptionVi:string; inputPaths:string[]; outputPaths:string[] }
 export interface BaziAuditReport { schemaVersion:'1.0'; engineVersion:string; chartSchemaVersion:BaziResult['schemaVersion']; methodologyProfile:MethodologyManifest['profileCode']; rules:CalculationRuleTrace[]; warnings:string[] }
 export interface CityLocation { id:string; name:string; aliases:readonly string[]; latitude:number; longitude:number; timezoneOffsetMinutes:number }

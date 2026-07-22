@@ -20,8 +20,8 @@
 
 ### P3.2 SVG chart nâng cao
 
-- Mục tiêu: thêm legend Ngũ Hành, thanh điểm mạnh/yếu và tùy chọn màu tương phản cao.
-- Tiêu chí nghiệm thu: SVG standalone vẫn accessible, title được escape, snapshot không phụ thuộc môi trường.
+- [x] Legend Ngũ Hành, thanh tỷ lệ và tùy chọn màu tương phản cao.
+- [x] SVG standalone vẫn accessible, title được escape và output deterministic.
 
 ### P3.3 WASM full-engine adapter
 

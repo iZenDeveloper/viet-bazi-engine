@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "engineVersion": "0.25.0",
+  "engineVersion": "0.26.0",
   "files": {
     "calendar.js": {
       "bytes": 5227,
@@ -15,8 +15,8 @@
       "sha256": "2925259f002692599af582738e327f7b2c919e99b3e6411e72cc23575dcfff21"
     },
     "cli.js": {
-      "bytes": 5929,
-      "sha256": "d4e981d47b48cadb93206c9b04c2394f4793a030e6e7cdae4ed5fe3e8138b3f6"
+      "bytes": 6184,
+      "sha256": "8e0ad77fb749e78b1c8189f6ec1a7109f7d447443329113ee77bcb9c94970f66"
     },
     "compatibility.js": {
       "bytes": 3914,
@@ -32,7 +32,7 @@
     },
     "engine.js": {
       "bytes": 13261,
-      "sha256": "cb733ce051f8c5c39565f4f532faaaa1eded4f010efa5f7d5b09ecfb0db4120e"
+      "sha256": "1806c46164cc3c96128588f4548846334595e0d2224fc5bde29e2b92b2c09250"
     },
     "index.js": {
       "bytes": 1481,
@@ -63,8 +63,8 @@
       "sha256": "38b28082d8be845d83beef4e7adaf4664e4ec53c8b833818588c0ac80fbc5e82"
     },
     "svg.js": {
-      "bytes": 3135,
-      "sha256": "e3f3ba93937b1fed82bdcb917c806bfed99f67a84302c74ec3ef2c2861bb3152"
+      "bytes": 4656,
+      "sha256": "52e97f8df565bbb38c751ec30774f6617bc31a55931284f7f06149f2ca771846"
     },
     "traceability.js": {
       "bytes": 3433,

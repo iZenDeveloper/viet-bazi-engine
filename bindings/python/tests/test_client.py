@@ -11,7 +11,7 @@ class ClientTest(unittest.TestCase):
     def test_calculates_through_local_engine(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
         self.assertEqual(result["schemaVersion"], "1.7")
-        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.25.0")
+        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.26.0")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 
     def test_surfaces_engine_errors(self) -> None:
@@ -43,11 +43,13 @@ class ClientTest(unittest.TestCase):
         self.assertEqual(sum(item["score"] for item in result["factors"]), result["score"])
 
     def test_renders_accessible_svg(self) -> None:
-        result = render_bazi_svg(BirthInput("2000-01-07T12:00:00", 420, "male", 2026), locale="en", title="A < B", width=640, show_hidden_stems=False)
+        result = render_bazi_svg(BirthInput("2000-01-07T12:00:00", 420, "male", 2026), locale="en", title="A < B", width=640, show_hidden_stems=False, high_contrast=True)
         self.assertTrue(result.startswith("<svg"))
         self.assertIn("A &lt; B", result)
         self.assertIn("aria-labelledby", result)
         self.assertNotIn('class="hidden"', result)
+        self.assertIn('class="element-balance"', result)
+        self.assertIn('data-contrast="high"', result)
 
     def test_creates_machine_readable_audit_report(self) -> None:
         result = create_bazi_audit_report(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
@@ -69,7 +71,7 @@ class ClientTest(unittest.TestCase):
 
     def test_verifies_bundled_engine_integrity(self) -> None:
         result = verify_bundled_engine()
-        self.assertEqual(result, {"engineVersion": "0.25.0", "files": 20, "verified": True})
+        self.assertEqual(result, {"engineVersion": "0.26.0", "files": 20, "verified": True})
 
     def test_rejects_a_tampered_bundled_engine(self) -> None:
         source = Path(__file__).resolve().parents[1] / "viet_bazi" / "_engine"

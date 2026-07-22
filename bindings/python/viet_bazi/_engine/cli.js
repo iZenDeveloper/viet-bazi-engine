@@ -16,7 +16,7 @@ for (const at of [yearAt, timelineAt, sensitivityAt, localeAt, titleAt, widthAt]
         excluded.add(at);
         excluded.add(at + 1);
     }
-const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--batch', '--compatibility', '--audit', '--stdin', '--svg', '--no-hidden-stems'].includes(x));
+const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--batch', '--compatibility', '--audit', '--stdin', '--svg', '--no-hidden-stems', '--no-element-balance', '--high-contrast'].includes(x));
 try {
     if (args.includes('--capabilities')) {
         if (args.some(arg => !['--capabilities', '--compact'].includes(arg)))
@@ -39,8 +39,8 @@ try {
             throw new TypeError('--audit không dùng cùng batch, compatibility, svg, sensitivity hoặc timeline');
         if (args.includes('--svg') && (args.includes('--batch') || args.includes('--compatibility') || sensitivityAt >= 0 || timelineAt >= 0 || yearAt >= 0))
             throw new TypeError('--svg không dùng cùng batch, compatibility, sensitivity, timeline hoặc year');
-        if (!args.includes('--svg') && (localeAt >= 0 || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems')))
-            throw new TypeError('--locale, --title, --width và --no-hidden-stems chỉ dùng cùng --svg');
+        if (!args.includes('--svg') && (localeAt >= 0 || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems') || args.includes('--no-element-balance') || args.includes('--high-contrast')))
+            throw new TypeError('Các tùy chọn hiển thị SVG chỉ dùng cùng --svg');
         let sensitivityOptions;
         if (sensitivityAt >= 0) {
             const match = /^(\d+)(?::(\d+))?$/.exec(args[sensitivityAt + 1] ?? '');
@@ -55,7 +55,7 @@ try {
         if (width !== undefined && (!Number.isFinite(width) || width <= 0))
             throw new RangeError('--width phải là số dương');
         if (args.includes('--svg')) {
-            const svg = renderBaziSvgFromJson(json, { ...(locale ? { locale } : {}), ...(titleAt >= 0 ? { title: args[titleAt + 1] ?? '' } : {}), ...(width !== undefined ? { width } : {}), ...(args.includes('--no-hidden-stems') ? { showHiddenStems: false } : {}) });
+            const svg = renderBaziSvgFromJson(json, { ...(locale ? { locale } : {}), ...(titleAt >= 0 ? { title: args[titleAt + 1] ?? '' } : {}), ...(width !== undefined ? { width } : {}), ...(args.includes('--no-hidden-stems') ? { showHiddenStems: false } : {}), ...(args.includes('--no-element-balance') ? { showElementBalance: false } : {}), ...(args.includes('--high-contrast') ? { highContrast: true } : {}) });
             process.stdout.write(svg + '\n');
         }
         else {

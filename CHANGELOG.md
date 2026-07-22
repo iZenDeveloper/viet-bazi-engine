@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.26.0
+
+- SVG hiển thị thanh tỷ lệ Ngũ Hành deterministic và accessible.
+- Thêm `highContrast`, `showElementBalance`, CLI flags và Python parity.
+
 ## 0.25.0
 
 - Thêm `calculateAnnualTimelineFromJson()` cho JSON bridge.

@@ -143,7 +143,7 @@ def compare_birth_inputs(first: BirthInput, second: BirthInput) -> dict[str, Any
     return result
 
 
-def render_bazi_svg(value: BirthInput, *, locale: Literal["vi", "en"] = "vi", title: str | None = None, width: int | None = None, show_hidden_stems: bool = True) -> str:
+def render_bazi_svg(value: BirthInput, *, locale: Literal["vi", "en"] = "vi", title: str | None = None, width: int | None = None, show_hidden_stems: bool = True, show_element_balance: bool = True, high_contrast: bool = False) -> str:
     command = [*_command(), "--stdin", "--svg", "--locale", locale]
     if title is not None:
         command.extend(["--title", title])
@@ -151,6 +151,10 @@ def render_bazi_svg(value: BirthInput, *, locale: Literal["vi", "en"] = "vi", ti
         command.extend(["--width", str(width)])
     if not show_hidden_stems:
         command.append("--no-hidden-stems")
+    if not show_element_balance:
+        command.append("--no-element-balance")
+    if high_contrast:
+        command.append("--high-contrast")
     completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
     if completed.returncode != 0:
         raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
