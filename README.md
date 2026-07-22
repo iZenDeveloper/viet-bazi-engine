@@ -67,6 +67,7 @@ npm run demo
 - [Kiến trúc](docs/architecture.md)
 - [Lộ trình phát triển](docs/roadmap.md)
 - [Demo web offline](docs/demo.md)
+- [Quy trình phát hành](docs/releasing.md)
 - [Đóng góp](CONTRIBUTING.md)
 - [Lịch sử thay đổi](CHANGELOG.md)
 

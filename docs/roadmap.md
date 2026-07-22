@@ -41,3 +41,4 @@
 - Không đọc đồng hồ hệ thống trong calculation; mọi ngữ cảnh Lưu Niên truyền qua `asOfYear`.
 - Stable machine codes và schema version là hợp đồng; nhãn hiển thị có thể bản địa hóa.
 - Chỉ phát hành sau khi `npm test`, Python tests và isolated wheel đều xanh trên CI.
+- Tag `v*` phải khớp package version; release workflow tạo npm tarball, Python wheel và SHA-256 checksums.

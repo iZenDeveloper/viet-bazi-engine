@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: PYTHONPATH=bindings/python python -m unittest discover -s bindings/python/tests -v
+      - run: npm run test:python-wheel
+      - name: Verify tag matches package version
+        run: test "$GITHUB_REF_NAME" = "v$(node -p "require('./package.json').version")"
+      - name: Build release artifacts
+        run: |
+          mkdir -p dist-release
+          npm pack --pack-destination dist-release
+          python -m pip wheel ./bindings/python --no-deps --wheel-dir dist-release
+          cd dist-release
+          sha256sum * > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: viet-bazi-${{ github.ref_name }}
+          path: dist-release/
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist-release/* --verify-tag --generate-notes --title "Viet Bazi Engine $GITHUB_REF_NAME"
