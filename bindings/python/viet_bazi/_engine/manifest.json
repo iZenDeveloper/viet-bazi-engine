@@ -7,8 +7,8 @@
       "sha256": "b78e92f4810ece758c2a6ed1b7694c7c8e948ebeea17e2c04e3c8885d91dfed7"
     },
     "capabilities.js": {
-      "bytes": 1517,
-      "sha256": "ed39577e244f2119d216d4ac00503f3a0c4db468871625d3a2c5ed4e369288b6"
+      "bytes": 1615,
+      "sha256": "22cab8ea2d8b83f94e17197680f4f77ab23281826ee654328b0ee96c8046e058"
     },
     "cities.js": {
       "bytes": 3006,
@@ -35,8 +35,8 @@
       "sha256": "5601a1e4d624a92570992b644401099c69e333039acc6f6cfc6451aaca35eb55"
     },
     "index.js": {
-      "bytes": 1562,
-      "sha256": "b26528ace01f32992e3d92385f957dd58a39b20f2b755dca761b89f3b391b847"
+      "bytes": 1598,
+      "sha256": "20844184935e2205a710ecb3aaf34735249c3437a7478ca78f3f3513611b4c17"
     },
     "json.js": {
       "bytes": 6703,
@@ -55,8 +55,8 @@
       "sha256": "22e2bb2a9bd0a44c73a635842f74195c1efd4b19fd5832c5701a934f173d15ac"
     },
     "schema.js": {
-      "bytes": 15427,
-      "sha256": "ce4bc7407bfab34381311f62fdba1d5cf0d977c2a9cd55f8b535ab57c7d39059"
+      "bytes": 16261,
+      "sha256": "7db0aa25758cbd0f437e9e6a77b5515f76470cd86d458b4cddeba6d6bdd77b33"
     },
     "sensitivity.js": {
       "bytes": 2510,

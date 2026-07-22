@@ -7,6 +7,7 @@
 | Birth input | 1.0 | `https://viet-bazi.dev/schema/birth-input-1.0.json` |
 | Bazi result | 1.7 | `https://viet-bazi.dev/schema/bazi-result-1.7.json` |
 | Bazi audit report | 1.0 | `https://viet-bazi.dev/schema/bazi-audit-report-1.0.json` |
+| Localized facts report | 1.0 | `https://viet-bazi.dev/schema/localized-facts-report-1.0.json` |
 | Batch input | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-input-1.0.json` |
 | Batch result | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-result-1.0.json` |
 | Birth-time sensitivity | 1.0 | `https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json` |
