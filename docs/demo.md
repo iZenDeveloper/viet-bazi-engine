@@ -18,4 +18,6 @@ Service worker dùng chiến lược cache-first cho các file cùng origin. Sau
 
 `manifest.webmanifest` và icon SVG nội bộ cho phép cài demo dạng standalone trên trình duyệt hỗ trợ. Việc cài đặt cần secure context; `localhost` được trình duyệt xem là secure cho mục đích phát triển.
 
+CI chạy HTTP smoke test trên loopback để xác minh HTML, ESM, manifest, MIME types và phản hồi `404`; server con luôn được dừng sau test.
+
 Không mở `index.html` trực tiếp bằng `file://` vì browser thường chặn ESM import giữa thư mục. Static server chỉ phục vụ file local và không gửi dữ liệu tới bên thứ ba.
