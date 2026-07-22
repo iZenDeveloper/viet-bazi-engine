@@ -52,8 +52,8 @@ node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffs
 Demo web/PWA offline sau khi build:
 
 ```bash
-python3 -m http.server 8080
-# Mở http://localhost:8080/demo/
+npm run demo
+# Mở http://127.0.0.1:8080/demo/
 ```
 
 ## Tài liệu

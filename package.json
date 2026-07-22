@@ -18,7 +18,9 @@
   "files": ["dist", "fixtures", "docs", "README.md", "CHANGELOG.md", "LICENSE"],
   "scripts": {
     "build": "tsc -p tsconfig.json && sh scripts/build-wasm.sh",
-    "test": "vitest run && npm run build && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-demo.mjs && npm run test:conformance",
+    "demo": "npm run build && node scripts/serve-demo.mjs",
+    "demo:check": "npm run build && node scripts/serve-demo.mjs --check",
+    "test": "vitest run && npm run build && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && npm run test:conformance",
     "test:unit": "vitest run",
     "test:wasm": "npm run build && node scripts/test-wasm.mjs",
     "test:conformance": "node scripts/verify-conformance.mjs",
