@@ -26,4 +26,6 @@ if(svg.status!==0||!svg.stdout.startsWith('<svg')||!svg.stdout.includes('A &lt; 
 const audit=run(['--stdin','--audit','--compact'],JSON.stringify(valid));
 const auditResult=JSON.parse(audit.stdout);
 if(audit.status!==0||auditResult.schemaVersion!=='1.0'||auditResult.rules.length<10||!auditResult.rules.some(x=>x.ruleCode==='CALENDAR_YEAR_LI_CHUN'))throw new Error(`audit failed: ${audit.stderr}`);
-console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,svg:true,audit:true,capabilities:true,conflictRejected:true}));
+const facts=run(['--stdin','--facts','--locale','en','--compact'],JSON.stringify(valid));
+if(facts.status!==0||JSON.parse(facts.stdout).locale!=='en'||!JSON.parse(facts.stdout).facts.some(x=>x.code==='DAY_MASTER'&&x.text.includes('Day Master')))throw new Error(`facts failed: ${facts.stderr}`);
+console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,svg:true,audit:true,facts:true,capabilities:true,conflictRejected:true}));

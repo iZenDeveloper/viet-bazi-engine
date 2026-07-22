@@ -39,6 +39,8 @@ export interface AnnualAnalysis { year:number; pillar:Pillar; stemTenGodCode:Ten
 export interface AnnualTimelineEntry { year:number; activeLuck:ActiveLuck; analysis:AnnualAnalysis }
 export interface ShenSha { code:ShenShaCode; name:string; at:string[]; basis:string }
 export interface MetadataFact { code:string; vi:string; confidence:'high'|'medium'; evidence:string[] }
+export interface LocalizedFact extends Omit<MetadataFact,'vi'> { text:string }
+export interface LocalizedFactsReport { schemaVersion:'1.0'; locale:'vi'|'en'; facts:LocalizedFact[]; warnings:string[] }
 export interface MethodologyManifest {
   engineVersion:string; profileCode:'VIET_BAZI_STANDARD_V1';
   calendar:{ yearBoundary:'LI_CHUN'; monthBoundary:'TWELVE_JIE'; dayBoundary:'EARLY_ZI'|'MIDNIGHT'; hourBoundary:'ZI_CENTERED_TWO_HOUR'; solarTermModel:'APPROXIMATE_SOLAR_LONGITUDE' };

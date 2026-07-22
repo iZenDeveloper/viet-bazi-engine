@@ -74,6 +74,14 @@ printf '%s' '{...}' | viet-bazi --stdin --audit --compact
 
 Trả JSON audit report chứa rule code/version và đường dẫn input/output đã tham gia tính toán. Có thể dùng `--year` cho input legacy; không dùng cùng batch, compatibility, SVG, sensitivity hoặc timeline.
 
+## Localized facts
+
+```bash
+printf '%s' '{...}' | viet-bazi --stdin --facts --locale en --compact
+```
+
+Trả facts/warnings đã bản địa hóa nhưng giữ nguyên `code` và `evidence` để downstream không phụ thuộc ngôn ngữ.
+
 ## Capability discovery
 
 ```bash

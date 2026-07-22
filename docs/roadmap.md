@@ -15,8 +15,9 @@
 
 ### P3.1 Localization hoàn chỉnh
 
-- Mục tiêu: cho phép chọn `vi`/`en` cho facts, warnings và mô tả methodology mà không đổi stable codes.
-- Tiêu chí nghiệm thu: output machine codes giữ nguyên; snapshot Việt/Anh được kiểm thử; JSON Schema mô tả locale.
+- [x] Cho phép chọn `vi`/`en` cho facts và warnings mà không đổi stable codes.
+- [x] API TypeScript, JSON bridge, CLI `--facts` và Python parity.
+- Tiếp theo: bản địa hóa mô tả methodology và schema riêng cho localized report.
 
 ### P3.2 SVG chart nâng cao
 

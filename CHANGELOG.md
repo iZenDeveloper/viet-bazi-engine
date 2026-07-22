@@ -2,6 +2,10 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.27.0
+
+- Thêm localized facts/warnings qua TypeScript, JSON bridge, CLI và Python.
+
 ## 0.26.0
 
 - SVG hiển thị thanh tỷ lệ Ngũ Hành deterministic và accessible.

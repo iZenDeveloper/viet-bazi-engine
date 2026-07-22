@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { analyzeBirthTimeSensitivityFromJson, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, renderBaziSvgFromJson } from './json.js';
+import { analyzeBirthTimeSensitivityFromJson, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, localizeFactsFromJson, renderBaziSvgFromJson } from './json.js';
 import { calculateAnnualTimeline } from './engine.js';
 import { getEngineCapabilities } from './capabilities.js';
 const MAX_STDIN_BYTES = 10 * 1024 * 1024;
@@ -16,7 +16,7 @@ for (const at of [yearAt, timelineAt, sensitivityAt, localeAt, titleAt, widthAt]
         excluded.add(at);
         excluded.add(at + 1);
     }
-const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--batch', '--compatibility', '--audit', '--stdin', '--svg', '--no-hidden-stems', '--no-element-balance', '--high-contrast'].includes(x));
+const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--batch', '--compatibility', '--audit', '--facts', '--stdin', '--svg', '--no-hidden-stems', '--no-element-balance', '--high-contrast'].includes(x));
 try {
     if (args.includes('--capabilities')) {
         if (args.some(arg => !['--capabilities', '--compact'].includes(arg)))
@@ -39,7 +39,7 @@ try {
             throw new TypeError('--audit không dùng cùng batch, compatibility, svg, sensitivity hoặc timeline');
         if (args.includes('--svg') && (args.includes('--batch') || args.includes('--compatibility') || sensitivityAt >= 0 || timelineAt >= 0 || yearAt >= 0))
             throw new TypeError('--svg không dùng cùng batch, compatibility, sensitivity, timeline hoặc year');
-        if (!args.includes('--svg') && (localeAt >= 0 || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems') || args.includes('--no-element-balance') || args.includes('--high-contrast')))
+        if (!args.includes('--svg') && (localeAt >= 0 && !args.includes('--facts') || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems') || args.includes('--no-element-balance') || args.includes('--high-contrast')))
             throw new TypeError('Các tùy chọn hiển thị SVG chỉ dùng cùng --svg');
         let sensitivityOptions;
         if (sensitivityAt >= 0) {
@@ -59,7 +59,7 @@ try {
             process.stdout.write(svg + '\n');
         }
         else {
-            const chart = args.includes('--batch') ? calculateBaziBatchFromJson(json) : args.includes('--compatibility') ? compareBirthInputsFromJson(json) : args.includes('--audit') ? createBaziAuditReportFromJson(json, year) : sensitivityOptions ? analyzeBirthTimeSensitivityFromJson(json, ...sensitivityOptions, year) : calculateBaziFromJson(json, year);
+            const chart = args.includes('--batch') ? calculateBaziBatchFromJson(json) : args.includes('--compatibility') ? compareBirthInputsFromJson(json) : args.includes('--audit') ? createBaziAuditReportFromJson(json, year) : args.includes('--facts') ? localizeFactsFromJson(json, locale === 'en' ? 'en' : 'vi', year) : sensitivityOptions ? analyzeBirthTimeSensitivityFromJson(json, ...sensitivityOptions, year) : calculateBaziFromJson(json, year);
             let result = chart;
             if (timelineAt >= 0) {
                 const match = /^(\d{4}):(\d{4})$/.exec(args[timelineAt + 1] ?? '');

@@ -18,6 +18,7 @@ from viet_bazi import (
     calculate_bazi_batch,
     compare_birth_inputs,
     create_bazi_audit_report,
+    localize_facts,
     get_capabilities,
     render_bazi_svg,
 )
@@ -34,6 +35,7 @@ timeline = calculate_annual_timeline(birth, 2025, 2035)
 batch = calculate_bazi_batch([birth])
 compatibility = compare_birth_inputs(birth, another_birth)
 audit = create_bazi_audit_report(birth)
+facts_en = localize_facts(birth, locale="en")
 sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
 capabilities = get_capabilities()
 svg = render_bazi_svg(birth, locale="en", title="My chart", width=900, show_hidden_stems=True, show_element_balance=True, high_contrast=True)
