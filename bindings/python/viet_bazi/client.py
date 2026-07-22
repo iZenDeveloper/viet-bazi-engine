@@ -105,6 +105,18 @@ def calculate_bazi(value: BirthInput) -> dict[str, Any]:
     return result
 
 
+def create_bazi_audit_report(value: BirthInput) -> dict[str, Any]:
+    command = [*_command(), "--compact", "--audit", "--stdin"]
+    completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
+    try:
+        result: dict[str, Any] = json.loads(completed.stdout)
+    except json.JSONDecodeError as error:
+        raise VietBaziError("Engine không trả JSON audit hợp lệ") from error
+    return result
+
+
 def calculate_bazi_batch(values: list[BirthInput]) -> dict[str, Any]:
     command = [*_command(), "--compact", "--batch", "--stdin"]
     payload = [value.to_payload() for value in values]

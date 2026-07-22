@@ -66,6 +66,14 @@ printf '%s' '{...}' | viet-bazi --stdin --svg --locale en --title 'My chart' --w
 
 SVG mode ghi raw SVG thay vì JSON. Locale là `vi` hoặc `en`; width được core renderer clamp trong `480..1600`. Mode này nhận một birth input và không dùng cùng các calculation mode khác.
 
+## Audit trace
+
+```bash
+printf '%s' '{...}' | viet-bazi --stdin --audit --compact
+```
+
+Trả JSON audit report chứa rule code/version và đường dẫn input/output đã tham gia tính toán. Có thể dùng `--year` cho input legacy; không dùng cùng batch, compatibility, SVG, sensitivity hoặc timeline.
+
 ## Capability discovery
 
 ```bash

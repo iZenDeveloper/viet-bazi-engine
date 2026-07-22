@@ -1,22 +1,22 @@
 {
   "formatVersion": 1,
-  "engineVersion": "0.23.0",
+  "engineVersion": "0.24.0",
   "files": {
     "calendar.js": {
       "bytes": 5227,
       "sha256": "b78e92f4810ece758c2a6ed1b7694c7c8e948ebeea17e2c04e3c8885d91dfed7"
     },
     "capabilities.js": {
-      "bytes": 1419,
-      "sha256": "ceff4b41aa1eb2053d4aca8027c6d549e99694aab363a985d9c30ae0fe5ac7cf"
+      "bytes": 1517,
+      "sha256": "ed39577e244f2119d216d4ac00503f3a0c4db468871625d3a2c5ed4e369288b6"
     },
     "cities.js": {
       "bytes": 3006,
       "sha256": "2925259f002692599af582738e327f7b2c919e99b3e6411e72cc23575dcfff21"
     },
     "cli.js": {
-      "bytes": 5519,
-      "sha256": "9e5f7506eb60013678a341e751a7799a11fcebea8e2d4aefb7aefeead76c950b"
+      "bytes": 5929,
+      "sha256": "d4e981d47b48cadb93206c9b04c2394f4793a030e6e7cdae4ed5fe3e8138b3f6"
     },
     "compatibility.js": {
       "bytes": 3914,
@@ -32,15 +32,15 @@
     },
     "engine.js": {
       "bytes": 13261,
-      "sha256": "29ea0c42e0efac6ca7dc21122aad15d900a08c056b405241dd74ebb53ec3df0b"
+      "sha256": "2aa897e67d596605c87a107efd97604bcc0f4a0a472416993ad13fc6ea1caf84"
     },
     "index.js": {
-      "bytes": 1327,
-      "sha256": "2b3e2e857dc2b0225102150d34972b27f5e978caeed87b446d476a79a5e7f4b2"
+      "bytes": 1448,
+      "sha256": "8d196a07ff815f21f3e5cee00a3de3e6b9d7f5f81da3a1ff43833a423e0eeabf"
     },
     "json.js": {
-      "bytes": 6109,
-      "sha256": "ad138b7e639eb27ac04e8e3365cfa5bb4397b1ec5b31857db77c3fab8f64b8e2"
+      "bytes": 6303,
+      "sha256": "0ccf4099f9354737cbf944f4aafba151787ba01af80f018d9a3a9b0e21783947"
     },
     "localization.js": {
       "bytes": 3257,
@@ -51,8 +51,8 @@
       "sha256": "22e2bb2a9bd0a44c73a635842f74195c1efd4b19fd5832c5701a934f173d15ac"
     },
     "schema.js": {
-      "bytes": 14085,
-      "sha256": "7594afb4159ab03456b8b9c2b9aca89d033a540d3a18553c06a498ea7181f723"
+      "bytes": 15427,
+      "sha256": "ce4bc7407bfab34381311f62fdba1d5cf0d977c2a9cd55f8b535ab57c7d39059"
     },
     "sensitivity.js": {
       "bytes": 2510,
@@ -65,6 +65,10 @@
     "svg.js": {
       "bytes": 3135,
       "sha256": "e3f3ba93937b1fed82bdcb917c806bfed99f67a84302c74ec3ef2c2861bb3152"
+    },
+    "traceability.js": {
+      "bytes": 3433,
+      "sha256": "716013f36bba3a654421f30e43556118b3eb68d92672cbcdee9e2bbe1c25cd5a"
     },
     "types.js": {
       "bytes": 11,

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { analyzeBirthTimeSensitivityFromJson, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, renderBaziSvgFromJson } from './json.js';
+import { analyzeBirthTimeSensitivityFromJson, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, renderBaziSvgFromJson } from './json.js';
 import { calculateAnnualTimeline } from './engine.js';
 import { getEngineCapabilities } from './capabilities.js';
 const MAX_STDIN_BYTES = 10 * 1024 * 1024;
@@ -16,7 +16,7 @@ for (const at of [yearAt, timelineAt, sensitivityAt, localeAt, titleAt, widthAt]
         excluded.add(at);
         excluded.add(at + 1);
     }
-const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--batch', '--compatibility', '--stdin', '--svg', '--no-hidden-stems'].includes(x));
+const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--batch', '--compatibility', '--audit', '--stdin', '--svg', '--no-hidden-stems'].includes(x));
 try {
     if (args.includes('--capabilities')) {
         if (args.some(arg => !['--capabilities', '--compact'].includes(arg)))
@@ -26,7 +26,7 @@ try {
     else {
         const json = args.includes('--stdin') ? await readStdin() : inlineJson;
         if (!json)
-            throw new TypeError('Usage: viet-bazi [--stdin] [--batch|--compatibility|--sensitivity 120:5|--svg] [--year 2026] [--timeline 2025:2035] [--compact] JSON');
+            throw new TypeError('Usage: viet-bazi [--stdin] [--batch|--compatibility|--audit|--sensitivity 120:5|--svg] [--year 2026] [--timeline 2025:2035] [--compact] JSON');
         if (args.includes('--stdin') && inlineJson)
             throw new TypeError('--stdin không nhận thêm JSON argument');
         if (args.includes('--batch') && (yearAt >= 0 || timelineAt >= 0))
@@ -35,6 +35,8 @@ try {
             throw new TypeError('--sensitivity không dùng cùng --batch hoặc --timeline');
         if (args.includes('--compatibility') && (args.includes('--batch') || sensitivityAt >= 0 || timelineAt >= 0 || yearAt >= 0))
             throw new TypeError('--compatibility không dùng cùng --batch, --sensitivity, --timeline hoặc --year');
+        if (args.includes('--audit') && (args.includes('--batch') || args.includes('--compatibility') || args.includes('--svg') || sensitivityAt >= 0 || timelineAt >= 0))
+            throw new TypeError('--audit không dùng cùng batch, compatibility, svg, sensitivity hoặc timeline');
         if (args.includes('--svg') && (args.includes('--batch') || args.includes('--compatibility') || sensitivityAt >= 0 || timelineAt >= 0 || yearAt >= 0))
             throw new TypeError('--svg không dùng cùng batch, compatibility, sensitivity, timeline hoặc year');
         if (!args.includes('--svg') && (localeAt >= 0 || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems')))
@@ -57,7 +59,7 @@ try {
             process.stdout.write(svg + '\n');
         }
         else {
-            const chart = args.includes('--batch') ? calculateBaziBatchFromJson(json) : args.includes('--compatibility') ? compareBirthInputsFromJson(json) : sensitivityOptions ? analyzeBirthTimeSensitivityFromJson(json, ...sensitivityOptions, year) : calculateBaziFromJson(json, year);
+            const chart = args.includes('--batch') ? calculateBaziBatchFromJson(json) : args.includes('--compatibility') ? compareBirthInputsFromJson(json) : args.includes('--audit') ? createBaziAuditReportFromJson(json, year) : sensitivityOptions ? analyzeBirthTimeSensitivityFromJson(json, ...sensitivityOptions, year) : calculateBaziFromJson(json, year);
             let result = chart;
             if (timelineAt >= 0) {
                 const match = /^(\d{4}):(\d{4})$/.exec(args[timelineAt + 1] ?? '');

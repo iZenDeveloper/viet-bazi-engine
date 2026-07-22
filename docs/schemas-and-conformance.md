@@ -6,6 +6,7 @@
 |---|---:|---|
 | Birth input | 1.0 | `https://viet-bazi.dev/schema/birth-input-1.0.json` |
 | Bazi result | 1.7 | `https://viet-bazi.dev/schema/bazi-result-1.7.json` |
+| Bazi audit report | 1.0 | `https://viet-bazi.dev/schema/bazi-audit-report-1.0.json` |
 | Batch input | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-input-1.0.json` |
 | Batch result | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-result-1.0.json` |
 | Birth-time sensitivity | 1.0 | `https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json` |
@@ -22,6 +23,8 @@ const validate = new Ajv2020().compile(BIRTH_INPUT_JSON_SCHEMA);
 ```
 
 Batch schemas dùng `$ref` tới input/result schema. Hãy đăng ký dependencies với Ajv trước khi compile batch output.
+
+Audit report là contract riêng: mỗi rule có mã/version ổn định, category, mô tả và các JSON path input/output. Cách tách này bổ sung traceability mà không làm thay đổi schema lá số `1.7`.
 
 ## Stable codes
 

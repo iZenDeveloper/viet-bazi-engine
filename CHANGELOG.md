@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.24.0
+
+- Thêm audit report deterministic ánh xạ rule/version với đường dẫn input và output.
+- Public API, JSON bridge, CLI `--audit` và Python `create_bazi_audit_report()`.
+- JSON Schema audit `1.0` và capability `AUDIT_TRACE`.
+
 ## 0.23.0
 
 - SVG export qua JSON bridge và CLI raw-output mode.
