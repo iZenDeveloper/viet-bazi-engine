@@ -12,6 +12,7 @@ Mở `http://127.0.0.1:8080/demo/`. Đổi cổng bằng biến `VIET_BAZI_DEMO_
 Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG rendering tại chỗ. Demo dùng catalog thành phố của engine, hỗ trợ hai quy ước đổi ngày và SVG Việt/Anh. Có thể tải kết quả dạng SVG/JSON; input gần ranh Tiết khí sẽ hiện cảnh báo.
 
 Sau mỗi lần tính, phần tóm tắt hiển thị Nhật Chủ, Lưu Niên, Đại Vận đang hoạt động và Cách cục; structured JSON vẫn là nguồn dữ liệu đầy đủ.
+Ngay dưới biểu đồ là timeline 5 năm quanh `asOfYear`, gồm Can Chi, Thập Thần và Đại Vận tương ứng; năm đang xem được làm nổi bật.
 
 Service worker dùng chiến lược cache-first cho các file cùng origin. Sau lần tải thành công đầu tiên, demo có thể reload khi offline. Khi sửa asset cache, tăng version `CACHE` trong `service-worker.js` để activation xóa cache cũ.
 
