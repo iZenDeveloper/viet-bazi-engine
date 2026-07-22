@@ -58,6 +58,7 @@ node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffs
 - [Phương pháp tính và độ chính xác](docs/methodology.md)
 - [JSON Schema và conformance fixtures](docs/schemas-and-conformance.md)
 - [Kiến trúc](docs/architecture.md)
+- [Lộ trình phát triển](docs/roadmap.md)
 - [Đóng góp](CONTRIBUTING.md)
 - [Lịch sử thay đổi](CHANGELOG.md)
 
