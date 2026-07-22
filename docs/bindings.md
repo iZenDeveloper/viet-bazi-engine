@@ -63,14 +63,14 @@ Build tạo `dist/wasm/calendar.wasm` với ABI v1:
 ```ts
 import { createWasmBaziEngine, loadWasmCalendar } from 'viet-bazi-engine';
 
-const bytes = await (await fetch('/calendar.wasm')).arrayBuffer();
-const kernel = await loadWasmCalendar(bytes);
+const response = await fetch('/calendar.wasm');
+const kernel = await loadWasmCalendar(response);
 console.log(kernel.solarLongitude(Date.now()));
 
-const engine = await createWasmBaziEngine(bytes);
+const engine = await createWasmBaziEngine(await fetch('/calendar.wasm'));
 const chart = engine.calculateBazi(input);
 ```
 
 Kernel cung cấp `solarLongitude`, `equationOfTime` và `sexagenaryDayIndex`. `createWasmBaziEngine()` dùng các primitives đó cho full calculation và dùng chung orchestration/rule tables TypeScript, tránh hai implementation nghiệp vụ khác nhau. CI kiểm tra full-output parity trên các fixture chuẩn.
 
-WASM loader không đọc filesystem hay network; caller tự cung cấp `BufferSource` hoặc `WebAssembly.Module`.
+WASM loader không tự đọc filesystem hay network; caller cung cấp `Response`, `BufferSource` hoặc `WebAssembly.Module`. Với `Response`, loader ưu tiên streaming compilation và tự fallback sang buffer nếu host/CDN chưa trả MIME `application/wasm`.

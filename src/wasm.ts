@@ -15,9 +15,21 @@ interface RawExports {
   sexagenary_day_index(year:number,month:number,day:number,hour:number):number;
 }
 
-export async function loadWasmCalendar(source:BufferSource|WebAssembly.Module):Promise<WasmCalendarKernel> {
+export type WasmCalendarSource=BufferSource|WebAssembly.Module|Response;
+
+async function instantiate(source:WasmCalendarSource,imports:WebAssembly.Imports):Promise<WebAssembly.Instance> {
+  if(source instanceof WebAssembly.Module)return WebAssembly.instantiate(source,imports);
+  if(source instanceof Response){
+    const fallback=source.clone();
+    try{return (await WebAssembly.instantiateStreaming(source,imports)).instance;}
+    catch{return (await WebAssembly.instantiate(await fallback.arrayBuffer(),imports)).instance;}
+  }
+  return (await WebAssembly.instantiate(source,imports)).instance;
+}
+
+export async function loadWasmCalendar(source:WasmCalendarSource):Promise<WasmCalendarKernel> {
   const imports={env:{sin:Math.sin,cos:Math.cos}};
-  const instance=source instanceof WebAssembly.Module?await WebAssembly.instantiate(source,imports):(await WebAssembly.instantiate(source,imports)).instance;
+  const instance=await instantiate(source,imports);
   const raw=instance.exports as unknown as RawExports;
   if(typeof raw.abi_version!=='function'||raw.abi_version()!==1)throw new Error('WASM calendar ABI không tương thích');
   return {abiVersion:1,solarLongitude:(ms)=>raw.solar_longitude(ms),equationOfTime:(day)=>raw.equation_of_time(day),sexagenaryDayIndex:(year,month,day,hour)=>raw.sexagenary_day_index(year,month,day,hour)};
@@ -39,7 +51,7 @@ function operations(kernel:WasmCalendarKernel):CalendarOperations {
   };
 }
 
-export async function createWasmBaziEngine(source:BufferSource|WebAssembly.Module):Promise<WasmBaziEngine> {
+export async function createWasmBaziEngine(source:WasmCalendarSource):Promise<WasmBaziEngine> {
   const kernel=await loadWasmCalendar(source),calendar=operations(kernel);
   return {backend:'wasm-calendar-v1',kernel,calculateBazi:(input)=>calculateBaziWithCalendar(input,calendar)};
 }

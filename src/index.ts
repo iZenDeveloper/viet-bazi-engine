@@ -8,7 +8,7 @@ export { createBaziAuditReport } from './traceability.js';
 export { analyzeBirthTimeSensitivityFromJson, calculateAnnualTimelineFromJson, calculateBaziBatch, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, localizeFactsFromJson, localizeMethodologyFromJson, renderBaziSvgFromJson, validateBirthInput } from './json.js';
 export { findCity, resolveLocation, VIETNAM_CITIES } from './cities.js';
 export { createWasmBaziEngine, loadWasmCalendar } from './wasm.js';
-export type { WasmBaziEngine, WasmCalendarKernel } from './wasm.js';
+export type { WasmBaziEngine, WasmCalendarKernel, WasmCalendarSource } from './wasm.js';
 export { getCoreLabels } from './localization.js';
 export { localizeFacts, localizeMethodology } from './localization-report.js';
 export type { CoreLabels, CoreLocale } from './localization.js';

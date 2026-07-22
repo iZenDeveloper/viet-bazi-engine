@@ -79,8 +79,8 @@
       "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
     },
     "wasm.js": {
-      "bytes": 1990,
-      "sha256": "e4e1d4ffd3682e1f11d0aecfdd951d9aed4146532d3bdb8f2c974a969cbe4ef9"
+      "bytes": 2422,
+      "sha256": "279ce0f2cddff149a137f86868f2539c204a440ba30359ef4406385a3e007bd4"
     },
     "wasm/calendar.wasm": {
       "bytes": 3370,

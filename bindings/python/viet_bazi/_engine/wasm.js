@@ -1,8 +1,22 @@
 import { calculateBaziWithCalendar } from './engine.js';
 import { findJieBoundary, mod } from './calendar.js';
+async function instantiate(source, imports) {
+    if (source instanceof WebAssembly.Module)
+        return WebAssembly.instantiate(source, imports);
+    if (source instanceof Response) {
+        const fallback = source.clone();
+        try {
+            return (await WebAssembly.instantiateStreaming(source, imports)).instance;
+        }
+        catch {
+            return (await WebAssembly.instantiate(await fallback.arrayBuffer(), imports)).instance;
+        }
+    }
+    return (await WebAssembly.instantiate(source, imports)).instance;
+}
 export async function loadWasmCalendar(source) {
     const imports = { env: { sin: Math.sin, cos: Math.cos } };
-    const instance = source instanceof WebAssembly.Module ? await WebAssembly.instantiate(source, imports) : (await WebAssembly.instantiate(source, imports)).instance;
+    const instance = await instantiate(source, imports);
     const raw = instance.exports;
     if (typeof raw.abi_version !== 'function' || raw.abi_version() !== 1)
         throw new Error('WASM calendar ABI không tương thích');

@@ -28,7 +28,7 @@
 
 - [x] Cung cấp orchestration dùng WASM calendar primitives khi host muốn giảm phụ thuộc JavaScript.
 - [x] Parity full output với TypeScript fixtures, ABI version `1` và kiểm tra giới hạn loader.
-- Tiếp theo: tối ưu bundle/loader cho các host không có ESM runtime.
+- [x] Loader nhận trực tiếp Web `Response`, ưu tiên streaming và fallback khi MIME chưa đúng.
 
 ### P3.4 Demo offline
 

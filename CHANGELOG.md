@@ -6,6 +6,7 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
 - Thêm localized methodology report `vi`/`en` với 13 stable code/value.
 - Public API, JSON bridge, CLI `--methodology`, Python parity và JSON Schema `1.0`.
+- WASM loader nhận trực tiếp Web `Response`, hỗ trợ streaming compilation và MIME fallback.
 
 ## 0.28.0
 

@@ -5,6 +5,9 @@ import { equationOfTime,solarLongitude } from '../dist/calendar.js';
 
 const bytes=await readFile(new URL('../dist/wasm/calendar.wasm',import.meta.url));
 const kernel=await loadWasmCalendar(bytes);
+const streamingKernel=await loadWasmCalendar(new Response(bytes,{headers:{'content-type':'application/wasm'}}));
+const mimeFallbackKernel=await loadWasmCalendar(new Response(bytes,{headers:{'content-type':'application/octet-stream'}}));
+if(streamingKernel.abiVersion!==1||mimeFallbackKernel.abiVersion!==1)throw new Error('Response loader failed');
 const longitude=kernel.solarLongitude(Date.parse('2026-02-03T20:02:00Z'));
 if(Math.abs(longitude-315)>0.01)throw new Error(`Unexpected Lichun longitude: ${longitude}`);
 if(kernel.sexagenaryDayIndex(2000,1,7,12)!==0)throw new Error('Sexagenary reference day mismatch');
@@ -22,4 +25,4 @@ const fixtures=[
   {localDateTime:'2026-02-04T02:59:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'}
 ];
 for(const input of fixtures){const js=calculateBazi(input),wasm=engine.calculateBazi(input);if(JSON.stringify(js)!==JSON.stringify(wasm))throw new Error(`Full-output WASM parity mismatch for ${input.localDateTime}`);}
-console.log(JSON.stringify({abiVersion:kernel.abiVersion,lichunLongitude:longitude,referenceDayIndex:0}));
+console.log(JSON.stringify({abiVersion:kernel.abiVersion,lichunLongitude:longitude,referenceDayIndex:0,responseStreaming:true,mimeFallback:true}));
