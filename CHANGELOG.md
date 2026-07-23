@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.35.0
+
+- Demo hiển thị audit trace gồm rule code/version/category và input/output paths.
+- Cho tải audit JSON đúng schema `bazi-audit-report-1.0`.
+
 ## 0.34.0
 
 - Demo nhận latitude/longitude tùy chỉnh cho cả người A và B.

@@ -39,6 +39,7 @@
 - [x] So sánh compatibility hai lá số, hiển thị factor/evidence và export JSON.
 - [x] Compatibility hỗ trợ múi giờ, thành phố và True Solar Time độc lập cho người B.
 - [x] Demo hỗ trợ tọa độ latitude/longitude tùy chỉnh cho cả hai người.
+- [x] Hiển thị audit trace rule/version/path và export audit JSON đúng schema.
 
 ## Nguyên tắc phát hành
 
