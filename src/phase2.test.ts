@@ -1,6 +1,6 @@
 import { describe,expect,it } from 'vitest';
 import { calculateBazi } from './engine.js';
-import { compareBaziCharts,compareBirthInputs } from './compatibility.js';
+import { compareBaziCharts,compareBirthInputs,localizeCompatibility } from './compatibility.js';
 import { compareBirthInputsFromJson,renderBaziSvgFromJson } from './json.js';
 import { renderBaziSvg } from './svg.js';
 import { localizeFacts,localizeMethodology } from './localization-report.js';
@@ -11,6 +11,7 @@ const b=calculateBazi({localDateTime:'1988-11-02T08:10:00',timezoneOffsetMinutes
 describe('phase 2 building blocks',()=>{
   it('returns a bounded, explainable compatibility score',()=>{const r=compareBaziCharts(a,b);expect(r.schemaVersion).toBe('1.0');expect(r.score).toBeGreaterThanOrEqual(0);expect(r.score).toBeLessThanOrEqual(100);expect(r.factors.reduce((n,f)=>n+f.score,0)).toBe(r.score);expect(r.metadata.methodology).toBe('heuristic-v1');});
   it('compares typed and JSON birth-input pairs',()=>{const inputs=[a.input,b.input] as const;expect(compareBirthInputs(...inputs)).toEqual(compareBaziCharts(a,b));expect(compareBirthInputsFromJson(JSON.stringify(inputs))).toEqual(compareBaziCharts(a,b));expect(()=>compareBirthInputsFromJson(JSON.stringify([a.input]))).toThrow('đúng 2');});
+  it('localizes compatibility without changing stable scores or evidence',()=>{const raw=compareBaziCharts(a,b),en=localizeCompatibility(raw,'en'),vi=localizeCompatibility(raw,'vi');expect(en.gradeCode).toBe(vi.gradeCode);expect(en.factors.map(x=>[x.code,x.score,x.evidence])).toEqual(vi.factors.map(x=>[x.code,x.score,x.evidence]));expect(en.factors[0]?.text).not.toBe(vi.factors[0]?.text);expect(en.warning).toContain('heuristic');});
   it('renders standalone accessible SVG and escapes title',()=>{const svg=renderBaziSvg(a,{title:'A < B & C'});expect(svg).toContain('<svg');expect(svg).toContain('A &lt; B &amp; C');expect(svg).toContain('aria-labelledby');expect(svg).not.toContain('A < B');});
   it('renders deterministic element balance bars and high-contrast palette',()=>{const svg=renderBaziSvg(a,{locale:'en',highContrast:true});expect(svg).toContain('class="element-balance"');expect(svg).toContain('Five Element Balance');expect(svg).toContain('data-contrast="high"');expect(svg).toContain(`${a.elements[0]!.percent}%`);expect(renderBaziSvg(a,{showElementBalance:false})).not.toContain('class="element-balance"');});
   it('renders a fully localized English SVG view',()=>{const svg=renderBaziSvg(a,{locale:'en'});expect(svg).toContain('Bazi Chart');expect(svg).toContain('Day Master');expect(svg).toContain('Four Pillars');expect(svg).not.toContain('Nhật Chủ');});

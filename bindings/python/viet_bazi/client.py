@@ -162,6 +162,19 @@ def compare_birth_inputs(first: BirthInput, second: BirthInput) -> dict[str, Any
     return result
 
 
+def localize_compatibility(first: BirthInput, second: BirthInput, *, locale: Literal["vi", "en"] = "vi") -> dict[str, Any]:
+    command = [*_command(), "--compact", "--compatibility", "--locale", locale, "--stdin"]
+    payload = [first.to_payload(), second.to_payload()]
+    completed = subprocess.run(command, input=json.dumps(payload, ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
+    try:
+        result: dict[str, Any] = json.loads(completed.stdout)
+    except json.JSONDecodeError as error:
+        raise VietBaziError("Engine không trả JSON localized compatibility hợp lệ") from error
+    return result
+
+
 def render_bazi_svg(value: BirthInput, *, locale: Literal["vi", "en"] = "vi", title: str | None = None, width: int | None = None, show_hidden_stems: bool = True, show_element_balance: bool = True, high_contrast: bool = False) -> str:
     command = [*_command(), "--stdin", "--svg", "--locale", locale]
     if title is not None:

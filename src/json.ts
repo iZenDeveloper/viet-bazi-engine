@@ -1,7 +1,7 @@
 import { calculateAnnualTimeline, calculateBazi } from './engine.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
-import { compareBirthInputs } from './compatibility.js';
+import { compareBirthInputs, localizeCompatibility } from './compatibility.js';
 import { renderBaziSvg } from './svg.js';
 import { createBaziAuditReport } from './traceability.js';
 import { localizeFacts, localizeMethodology } from './localization-report.js';
@@ -55,6 +55,7 @@ export function compareBirthInputsFromJson(json:string):CompatibilityResult {
   if(!Array.isArray(parsed)||parsed.length!==2)throw new TypeError('Compatibility input phải là array đúng 2 birth inputs');
   return compareBirthInputs(validateBirthInput(parsed[0]),validateBirthInput(parsed[1]));
 }
+export function localizeCompatibilityFromJson(json:string,locale:'vi'|'en'='vi') { return localizeCompatibility(compareBirthInputsFromJson(json),locale); }
 
 export function renderBaziSvgFromJson(json:string,options:SvgOptions={}):string {return renderBaziSvg(calculateBaziFromJson(json),options);}
 export function createBaziAuditReportFromJson(json:string,asOfYear?:number):BaziAuditReport {return createBaziAuditReport(calculateBaziFromJson(json,asOfYear));}

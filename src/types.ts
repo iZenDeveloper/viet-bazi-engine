@@ -62,12 +62,14 @@ export interface BaziResult {
   annual:Pillar; annualAnalysis:AnnualAnalysis; shenSha:ShenSha[]; pattern:PatternAnalysis;
   metadata:{ locale:'vi'; methodology:MethodologyManifest; facts:MetadataFact[]; supportedShenSha:string[]; warnings:string[] };
 }
-export interface CompatibilityFactor { code:string; score:number; maxScore:number; vi:string; evidence:string[] }
+export type CompatibilityFactorCode='DAY_MASTER'|'ELEMENT_COMPLEMENT'|'BRANCH_INTERACTION'|'YIN_YANG';
+export interface CompatibilityFactor { code:CompatibilityFactorCode; score:number; maxScore:number; vi:string; evidence:string[] }
 export interface CompatibilityResult {
   schemaVersion:'1.0'; score:number; grade:'thấp'|'trung bình'|'khá'|'cao'; factors:CompatibilityFactor[];
   sharedElements:Element[]; complementaryElements:Element[];
   metadata:{ methodology:'heuristic-v1'; warning:string };
 }
+export interface LocalizedCompatibilityReport { schemaVersion:'1.0';locale:'vi'|'en';score:number;gradeCode:'LOW'|'MEDIUM'|'GOOD'|'HIGH';grade:string;factors:{code:CompatibilityFactorCode;score:number;maxScore:number;text:string;evidence:string[]}[];sharedElements:string[];complementaryElements:string[];warning:string }
 export interface SvgOptions { width?:number; title?:string; showHiddenStems?:boolean; showElementBalance?:boolean; highContrast?:boolean; locale?:'vi'|'en' }
 export interface CalculationRuleTrace { ruleCode:string; ruleVersion:string; category:'calendar'|'normalization'|'analysis'|'luck'; descriptionVi:string; inputPaths:string[]; outputPaths:string[] }
 export interface BaziAuditReport { schemaVersion:'1.0'; engineVersion:string; chartSchemaVersion:BaziResult['schemaVersion']; methodologyProfile:MethodologyManifest['profileCode']; rules:CalculationRuleTrace[]; warnings:string[] }
@@ -79,4 +81,4 @@ export interface PillarSnapshot { year:string;month:string;day:string;hour:strin
 export interface BirthTimeVariant { firstOffsetMinutes:number;lastOffsetMinutes:number;localDateTime:string;pillars:PillarSnapshot;changedPillars:Pillar['labelCode'][] }
 export interface BirthTimeSensitivity { schemaVersion:'1.0';windowMinutes:number;stepMinutes:number;sampleCount:number;stable:boolean;baseline:{localDateTime:string;pillars:PillarSnapshot};variants:BirthTimeVariant[] }
 export type EngineFeatureCode='FOUR_PILLARS'|'TRUE_SOLAR_TIME'|'TEN_GODS'|'HIDDEN_STEMS'|'ELEMENT_BALANCE'|'BRANCH_RELATIONS'|'LUCK_CYCLES'|'ANNUAL_ANALYSIS'|'SHEN_SHA'|'PATTERN_ANALYSIS'|'COMPATIBILITY'|'SVG_EXPORT'|'AUDIT_TRACE'|'BATCH'|'BIRTH_TIME_SENSITIVITY'|'WASM_CALENDAR';
-export interface EngineCapabilities { schemaVersion:'1.0';engineVersion:string;offline:true;runtimeDependencyCount:0;methodologyProfiles:string[];features:EngineFeatureCode[];bindings:('TYPESCRIPT'|'JSON_CLI'|'PYTHON'|'WASM')[];limits:{batchRecords:number;stdinBytes:number;sensitivityWindowMinutes:number;sensitivitySamples:number;annualTimelineYears:number};schemas:{birthInput:string;baziResult:string;baziAuditReport:string;localizedFactsReport:string;localizedMethodologyReport:string;annualTimeline:string;batchInput:string;batchResult:string;birthTimeSensitivity:string;compatibilityInput:string;compatibilityResult:string};conformanceVersion:string }
+export interface EngineCapabilities { schemaVersion:'1.0';engineVersion:string;offline:true;runtimeDependencyCount:0;methodologyProfiles:string[];features:EngineFeatureCode[];bindings:('TYPESCRIPT'|'JSON_CLI'|'PYTHON'|'WASM')[];limits:{batchRecords:number;stdinBytes:number;sensitivityWindowMinutes:number;sensitivitySamples:number;annualTimelineYears:number};schemas:{birthInput:string;baziResult:string;baziAuditReport:string;localizedFactsReport:string;localizedMethodologyReport:string;localizedCompatibilityReport:string;annualTimeline:string;batchInput:string;batchResult:string;birthTimeSensitivity:string;compatibilityInput:string;compatibilityResult:string};conformanceVersion:string }

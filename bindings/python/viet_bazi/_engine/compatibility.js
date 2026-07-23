@@ -36,3 +36,15 @@ export function compareBaziCharts(a, b) {
     return { schemaVersion: '1.0', score, grade, factors, sharedElements: shared, complementaryElements: complement, metadata: { methodology: 'heuristic-v1', warning: 'Điểm tương hợp là heuristic minh bạch để tham khảo văn hóa, không dự đoán chất lượng hay tương lai của một mối quan hệ.' } };
 }
 export function compareBirthInputs(a, b) { return compareBaziCharts(calculateBazi(a), calculateBazi(b)); }
+const elementEn = { Mộc: 'Wood', Hỏa: 'Fire', Thổ: 'Earth', Kim: 'Metal', Thủy: 'Water' };
+export function localizeCompatibility(result, locale = 'vi') {
+    const gradeCode = result.grade === 'thấp' ? 'LOW' : result.grade === 'trung bình' ? 'MEDIUM' : result.grade === 'khá' ? 'GOOD' : 'HIGH', gradeEn = { LOW: 'low', MEDIUM: 'medium', GOOD: 'good', HIGH: 'high' }[gradeCode];
+    const english = (factor) => { if (factor.code === 'DAY_MASTER')
+        return factor.vi.includes('đồng hành') ? 'The Day Masters are aligned or mutually supportive.' : factor.vi.includes('tương khắc') ? 'The Day Masters form a controlling relationship that benefits from balance.' : 'The Day Master relationship is neutral.'; if (factor.code === 'ELEMENT_COMPLEMENT')
+        return `The charts supply ${/\d+/.exec(factor.vi)?.[0] ?? '0'} needed element(s).`; if (factor.code === 'BRANCH_INTERACTION') {
+        const values = factor.vi.match(/\d+/g) ?? ['0', '0', '0'];
+        return `Cross-chart interactions: ${values[0]} combination(s), ${values[1]} clash(es), ${values[2]} harm(s).`;
+    } return factor.score === 15 ? 'The Day Master polarities complement each other.' : 'The Day Masters have the same Yin/Yang polarity.'; };
+    const elements = (values) => locale === 'vi' ? values : values.map(value => elementEn[value]);
+    return { schemaVersion: '1.0', locale, score: result.score, gradeCode, grade: locale === 'vi' ? result.grade : gradeEn, factors: result.factors.map(factor => ({ code: factor.code, score: factor.score, maxScore: factor.maxScore, text: locale === 'vi' ? factor.vi : english(factor), evidence: factor.evidence })), sharedElements: elements(result.sharedElements), complementaryElements: elements(result.complementaryElements), warning: locale === 'vi' ? result.metadata.warning : 'Compatibility is a transparent cultural-reference heuristic; it does not predict the quality or future of a relationship.' };
+}

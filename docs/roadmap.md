@@ -40,6 +40,7 @@
 - [x] Compatibility hỗ trợ múi giờ, thành phố và True Solar Time độc lập cho người B.
 - [x] Demo hỗ trợ tọa độ latitude/longitude tùy chỉnh cho cả hai người.
 - [x] Hiển thị audit trace rule/version/path và export audit JSON đúng schema.
+- [x] Localized compatibility report `vi`/`en` với stable grade/factor codes và parity bindings.
 
 ## Nguyên tắc phát hành
 

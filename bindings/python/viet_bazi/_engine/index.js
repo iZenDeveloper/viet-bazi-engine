@@ -2,15 +2,15 @@ export { calculateAnnualTimeline, calculateBazi, ENGINE_VERSION, getMethodologyM
 export { equationOfTime, solarCorrectionMinutes, solarLongitude, solarTermBoundary } from './calendar.js';
 export { BRANCHES, ELEMENTS, STEMS } from './constants.js';
 export { SHEN_SHA_CATALOG, SHEN_SHA_CODES } from './shen-sha.js';
-export { compareBaziCharts, compareBirthInputs } from './compatibility.js';
+export { compareBaziCharts, compareBirthInputs, localizeCompatibility } from './compatibility.js';
 export { renderBaziSvg } from './svg.js';
 export { createBaziAuditReport } from './traceability.js';
-export { analyzeBirthTimeSensitivityFromJson, calculateAnnualTimelineFromJson, calculateBaziBatch, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, localizeFactsFromJson, localizeMethodologyFromJson, renderBaziSvgFromJson, validateBirthInput } from './json.js';
+export { analyzeBirthTimeSensitivityFromJson, calculateAnnualTimelineFromJson, calculateBaziBatch, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, localizeCompatibilityFromJson, localizeFactsFromJson, localizeMethodologyFromJson, renderBaziSvgFromJson, validateBirthInput } from './json.js';
 export { findCity, resolveLocation, VIETNAM_CITIES } from './cities.js';
 export { createWasmBaziEngine, loadWasmCalendar } from './wasm.js';
 export { getCoreLabels } from './localization.js';
 export { localizeFacts, localizeMethodology } from './localization-report.js';
-export { ANNUAL_TIMELINE_JSON_SCHEMA, BAZI_AUDIT_REPORT_JSON_SCHEMA, BAZI_BATCH_INPUT_JSON_SCHEMA, BAZI_BATCH_RESULT_JSON_SCHEMA, BAZI_RESULT_JSON_SCHEMA, BIRTH_INPUT_JSON_SCHEMA, BIRTH_TIME_SENSITIVITY_JSON_SCHEMA, COMPATIBILITY_INPUT_JSON_SCHEMA, COMPATIBILITY_RESULT_JSON_SCHEMA, LOCALIZED_FACTS_REPORT_JSON_SCHEMA, LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA } from './schema.js';
+export { ANNUAL_TIMELINE_JSON_SCHEMA, BAZI_AUDIT_REPORT_JSON_SCHEMA, BAZI_BATCH_INPUT_JSON_SCHEMA, BAZI_BATCH_RESULT_JSON_SCHEMA, BAZI_RESULT_JSON_SCHEMA, BIRTH_INPUT_JSON_SCHEMA, BIRTH_TIME_SENSITIVITY_JSON_SCHEMA, COMPATIBILITY_INPUT_JSON_SCHEMA, COMPATIBILITY_RESULT_JSON_SCHEMA, LOCALIZED_COMPATIBILITY_REPORT_JSON_SCHEMA, LOCALIZED_FACTS_REPORT_JSON_SCHEMA, LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA } from './schema.js';
 export { CONFORMANCE_VERSION, JIE_2026_FIXTURES, SEXAGENARY_DAY_FIXTURES } from './conformance.js';
 export { analyzeBirthTimeSensitivity } from './sensitivity.js';
 export { getEngineCapabilities } from './capabilities.js';

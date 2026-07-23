@@ -21,6 +21,9 @@ if(capabilities.status!==0||capabilitiesResult.offline!==true||!capabilitiesResu
 const compatibility=run(['--stdin','--compatibility','--compact'],JSON.stringify([valid,{...valid,localDateTime:'1988-11-02T08:10:00',gender:'female'}]));
 const compatibilityResult=JSON.parse(compatibility.stdout);
 if(compatibility.status!==0||compatibilityResult.schemaVersion!=='1.0'||compatibilityResult.factors.length!==4)throw new Error(`compatibility failed: ${compatibility.stderr}`);
+const localizedCompatibility=run(['--stdin','--compatibility','--locale','en','--compact'],JSON.stringify([valid,{...valid,localDateTime:'1988-11-02T08:10:00',gender:'female'}]));
+const localizedCompatibilityResult=JSON.parse(localizedCompatibility.stdout);
+if(localizedCompatibility.status!==0||localizedCompatibilityResult.locale!=='en'||localizedCompatibilityResult.factors.length!==4||!localizedCompatibilityResult.gradeCode)throw new Error(`localized compatibility failed: ${localizedCompatibility.stderr}`);
 const svg=run(['--stdin','--svg','--locale','en','--title','A < B','--no-hidden-stems','--high-contrast','--width','640'],JSON.stringify(valid));
 if(svg.status!==0||!svg.stdout.startsWith('<svg')||!svg.stdout.includes('A &lt; B')||svg.stdout.includes('class="hidden"')||!svg.stdout.includes('class="element-balance"')||!svg.stdout.includes('data-contrast="high"'))throw new Error(`svg failed: ${svg.stderr}`);
 const audit=run(['--stdin','--audit','--compact'],JSON.stringify(valid));
@@ -31,4 +34,4 @@ if(facts.status!==0||JSON.parse(facts.stdout).locale!=='en'||!JSON.parse(facts.s
 const methodology=run(['--stdin','--methodology','--locale','en','--compact'],JSON.stringify(valid));
 const methodologyResult=JSON.parse(methodology.stdout);
 if(methodology.status!==0||methodologyResult.locale!=='en'||methodologyResult.items.length!==13||methodologyResult.items[0]?.code!=='YEAR_BOUNDARY')throw new Error(`methodology failed: ${methodology.stderr}`);
-console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,svg:true,audit:true,facts:true,methodology:true,capabilities:true,conflictRejected:true}));
+console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,localizedCompatibility:true,svg:true,audit:true,facts:true,methodology:true,capabilities:true,conflictRejected:true}));

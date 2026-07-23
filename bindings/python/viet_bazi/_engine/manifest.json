@@ -1,26 +1,26 @@
 {
   "formatVersion": 1,
-  "engineVersion": "0.35.0",
+  "engineVersion": "0.36.0",
   "files": {
     "calendar.js": {
       "bytes": 5227,
       "sha256": "b78e92f4810ece758c2a6ed1b7694c7c8e948ebeea17e2c04e3c8885d91dfed7"
     },
     "capabilities.js": {
-      "bytes": 1809,
-      "sha256": "d6c8d53c1fd068950afe03f79a28ce7a00f9889ec5a5168e00c90513ddf48179"
+      "bytes": 1931,
+      "sha256": "6b683ab14e5152be7718fe19c7930df4d964ba4e94fedad1877da5dba0725557"
     },
     "cities.js": {
       "bytes": 3006,
       "sha256": "2925259f002692599af582738e327f7b2c919e99b3e6411e72cc23575dcfff21"
     },
     "cli.js": {
-      "bytes": 6558,
-      "sha256": "a51fe3f0b60eca5cf41f072d20c312b5a13e125f7e7ed7fc47dd0be9a583d99f"
+      "bytes": 6675,
+      "sha256": "445c83cc9f196a0dd187ff569fd91af74c6955ff0d91c81dcd3e9ca450d26793"
     },
     "compatibility.js": {
-      "bytes": 3914,
-      "sha256": "741710207fb008bd9832b70e8537182d765403d35957917cbacdc9921eb4d4e8"
+      "bytes": 5859,
+      "sha256": "401efc2030f92953f82791b88da710bf295eb4373b5283ddc8ecf5229d301a1e"
     },
     "conformance.js": {
       "bytes": 1645,
@@ -32,15 +32,15 @@
     },
     "engine.js": {
       "bytes": 13261,
-      "sha256": "cd7505f1aba88e52b1bdd46ace636fa585b0b46222a643759863dbf58a143728"
+      "sha256": "caa52c683b6315fbe85ec49b3b769769b220c8c7f09279187e76e71bdacfce22"
     },
     "index.js": {
-      "bytes": 1719,
-      "sha256": "ede9e554ce1f80f8831c04ba40864de611af2995a56d2b29e51f241f6d68f7c6"
+      "bytes": 1817,
+      "sha256": "ded1c2d788dcf72e32e47fb9017f3aeca5a8f8d6e0d9a47b85420566fe533c51"
     },
     "json.js": {
-      "bytes": 6899,
-      "sha256": "acca66afd33f4764fc6b5f07c59b32fa2ecd516829666362abc165e11f79a121"
+      "bytes": 7065,
+      "sha256": "50b27c307f6a4f7e4e5b449d810a47231f321bd639dc5b6f571080551e3cbca5"
     },
     "localization-report.js": {
       "bytes": 3698,
@@ -55,8 +55,8 @@
       "sha256": "22e2bb2a9bd0a44c73a635842f74195c1efd4b19fd5832c5701a934f173d15ac"
     },
     "schema.js": {
-      "bytes": 18294,
-      "sha256": "366080e50b785391c97f54f82f3d8132e9196baeb9c3e05bff7649e4ce11bbd3"
+      "bytes": 19712,
+      "sha256": "2746ba2c0ecc335f46575db8e4a297ed9a1314de7e967fd11f24469b8dd9512f"
     },
     "sensitivity.js": {
       "bytes": 2510,

@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.36.0
+
+- Thêm localized compatibility report `vi`/`en` với stable grade/factor codes.
+- TypeScript, JSON bridge, CLI, Python, demo và JSON Schema có parity.
+
 ## 0.35.0
 
 - Demo hiển thị audit trace gồm rule code/version/category và input/output paths.

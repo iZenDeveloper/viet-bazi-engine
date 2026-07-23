@@ -80,6 +80,8 @@ Trả JSON audit report chứa rule code/version và đường dẫn input/outpu
 printf '%s' '{...}' | viet-bazi --stdin --facts --locale en --compact
 
 printf '%s' '{...}' | viet-bazi --stdin --methodology --locale en --compact
+
+printf '%s' '[{...},{...}]' | viet-bazi --stdin --compatibility --locale en --compact
 ```
 
 Trả facts/warnings đã bản địa hóa nhưng giữ nguyên `code` và `evidence` để downstream không phụ thuộc ngôn ngữ.

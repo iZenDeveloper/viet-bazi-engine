@@ -1,6 +1,6 @@
 import { CONTROLS, GENERATES } from './constants.js';
 import { calculateBazi } from './engine.js';
-import type { BaziResult, BirthInput, BranchName, CompatibilityFactor, CompatibilityResult, Element } from './types.js';
+import type { BaziResult, BirthInput, BranchName, CompatibilityFactor, CompatibilityResult, Element, LocalizedCompatibilityReport } from './types.js';
 
 const COMBINE:Record<BranchName,BranchName>={Tý:'Sửu',Sửu:'Tý',Dần:'Hợi',Hợi:'Dần',Mão:'Tuất',Tuất:'Mão',Thìn:'Dậu',Dậu:'Thìn',Tỵ:'Thân',Thân:'Tỵ',Ngọ:'Mùi',Mùi:'Ngọ'};
 const CLASH:Record<BranchName,BranchName>={Tý:'Ngọ',Ngọ:'Tý',Sửu:'Mùi',Mùi:'Sửu',Dần:'Thân',Thân:'Dần',Mão:'Dậu',Dậu:'Mão',Thìn:'Tuất',Tuất:'Thìn',Tỵ:'Hợi',Hợi:'Tỵ'};
@@ -28,3 +28,11 @@ export function compareBaziCharts(a:BaziResult,b:BaziResult):CompatibilityResult
 }
 
 export function compareBirthInputs(a:BirthInput,b:BirthInput):CompatibilityResult {return compareBaziCharts(calculateBazi(a),calculateBazi(b));}
+
+const elementEn:Record<Element,string>={Mộc:'Wood',Hỏa:'Fire',Thổ:'Earth',Kim:'Metal',Thủy:'Water'};
+export function localizeCompatibility(result:CompatibilityResult,locale:'vi'|'en'='vi'):LocalizedCompatibilityReport {
+  const gradeCode=result.grade==='thấp'?'LOW':result.grade==='trung bình'?'MEDIUM':result.grade==='khá'?'GOOD':'HIGH',gradeEn={LOW:'low',MEDIUM:'medium',GOOD:'good',HIGH:'high'}[gradeCode];
+  const english=(factor:CompatibilityFactor):string=>{if(factor.code==='DAY_MASTER')return factor.vi.includes('đồng hành')?'The Day Masters are aligned or mutually supportive.':factor.vi.includes('tương khắc')?'The Day Masters form a controlling relationship that benefits from balance.':'The Day Master relationship is neutral.';if(factor.code==='ELEMENT_COMPLEMENT')return `The charts supply ${/\d+/.exec(factor.vi)?.[0]??'0'} needed element(s).`;if(factor.code==='BRANCH_INTERACTION'){const values=factor.vi.match(/\d+/g)??['0','0','0'];return `Cross-chart interactions: ${values[0]} combination(s), ${values[1]} clash(es), ${values[2]} harm(s).`;}return factor.score===15?'The Day Master polarities complement each other.':'The Day Masters have the same Yin/Yang polarity.';};
+  const elements=(values:Element[])=>locale==='vi'?values:values.map(value=>elementEn[value]);
+  return {schemaVersion:'1.0',locale,score:result.score,gradeCode,grade:locale==='vi'?result.grade:gradeEn,factors:result.factors.map(factor=>({code:factor.code,score:factor.score,maxScore:factor.maxScore,text:locale==='vi'?factor.vi:english(factor),evidence:factor.evidence})),sharedElements:elements(result.sharedElements),complementaryElements:elements(result.complementaryElements),warning:locale==='vi'?result.metadata.warning:'Compatibility is a transparent cultural-reference heuristic; it does not predict the quality or future of a relationship.'};
+}
