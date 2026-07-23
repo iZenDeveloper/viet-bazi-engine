@@ -70,9 +70,11 @@ SVG mode ghi raw SVG thay vì JSON. Locale là `vi` hoặc `en`; width được 
 
 ```bash
 printf '%s' '{...}' | viet-bazi --stdin --audit --compact
+
+printf '%s' '{...}' | viet-bazi --stdin --audit --locale en --compact
 ```
 
-Trả JSON audit report chứa rule code/version và đường dẫn input/output đã tham gia tính toán. Có thể dùng `--year` cho input legacy; không dùng cùng batch, compatibility, SVG, sensitivity hoặc timeline.
+Trả JSON audit report chứa rule code/version và đường dẫn input/output đã tham gia tính toán. Thêm `--locale vi|en` để nhận localized report với trường `text`; bỏ locale để giữ contract gốc có `descriptionVi`. Có thể dùng `--year` cho input legacy; không dùng cùng batch, compatibility, SVG, sensitivity hoặc timeline.
 
 ## Localized facts
 

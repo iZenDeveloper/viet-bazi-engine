@@ -18,3 +18,22 @@ export function createBaziAuditReport(chart) {
     const warnings = [...chart.metadata.warnings, ...(chart.normalized.solarTerms.nearBoundary ? ['Thời điểm sinh gần ranh Tiết khí; hãy kiểm tra độ chính xác của giờ sinh và múi giờ.'] : [])];
     return { schemaVersion: '1.0', engineVersion: chart.metadata.methodology.engineVersion, chartSchemaVersion: chart.schemaVersion, methodologyProfile: chart.metadata.methodology.profileCode, rules, warnings: [...new Set(warnings)] };
 }
+const descriptionsEn = {
+    CALENDAR_YEAR_LI_CHUN: 'The Year Pillar changes at the Start of Spring solar term.',
+    CALENDAR_MONTH_TWELVE_JIE: 'The Month Pillar changes at the twelve Jie solar terms.',
+    CALENDAR_DAY_EARLY_ZI: 'The sexagenary day changes at 23:00 corrected local time.',
+    CALENDAR_DAY_MIDNIGHT: 'The sexagenary day changes at 00:00 corrected local time.',
+    CALENDAR_HOUR_ZI_CENTERED: 'Each Earthly Branch hour spans two hours, with the Zi hour centered on midnight.',
+    TRUE_SOLAR_TIME_LONGITUDE_EOT: 'Civil time is corrected using longitude and the equation of time.',
+    TEN_GODS_DAY_MASTER: 'Ten Gods are derived from Five Element generation/control and polarity relative to the Day Master.',
+    ELEMENT_WEIGHTED_BALANCE: 'Five Element scores combine stems, branches, hidden stems, and seasonal qi with fixed weights.',
+    BRANCH_RELATION_CATALOG: 'Branch relations are matched against the combination, clash, punishment, harm, and destruction catalog.',
+    LUCK_GENDER_YEAR_POLARITY: 'Luck-cycle direction uses gender and Year Stem polarity; three days convert to one year of age.',
+    SHEN_SHA_CATALOG: 'Symbolic stars are matched using the version 1 rule catalog.',
+    PATTERN_MONTH_QI_HEURISTIC: 'The basic pattern uses a Month qi and Day Master strength heuristic.'
+};
+const warningEn = (warning) => warning.includes('gần ranh Tiết khí') ? 'Birth time is near a solar-term boundary; verify birth time and timezone accuracy.' : warning.includes('tham khảo văn hóa') ? 'This result is for cultural reference and should not be the sole basis for medical, legal, or financial decisions.' : warning.includes('đổi ngày') ? 'Review the selected sexagenary day-boundary convention.' : warning.includes('ba ngày') ? 'Luck-cycle starting age uses the three-days-per-year conversion.' : warning.includes('heuristic') ? 'Favorable-element and pattern results use a documented heuristic.' : 'Review this calculation warning before interpretation.';
+/** Localize human-readable audit text while preserving stable rule identity and paths. */
+export function localizeBaziAuditReport(report, locale = 'vi') {
+    return { schemaVersion: '1.0', locale, engineVersion: report.engineVersion, chartSchemaVersion: report.chartSchemaVersion, methodologyProfile: report.methodologyProfile, rules: report.rules.map(({ descriptionVi, ...stable }) => ({ ...stable, text: locale === 'vi' ? descriptionVi : descriptionsEn[stable.ruleCode] ?? `Calculation rule ${stable.ruleCode}.` })), warnings: locale === 'vi' ? [...report.warnings] : [...new Set(report.warnings.map(warningEn))] };
+}

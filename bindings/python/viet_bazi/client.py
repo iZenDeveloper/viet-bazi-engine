@@ -116,6 +116,18 @@ def create_bazi_audit_report(value: BirthInput) -> dict[str, Any]:
         raise VietBaziError("Engine không trả JSON audit hợp lệ") from error
     return result
 
+
+def localize_bazi_audit_report(value: BirthInput, *, locale: Literal["vi", "en"] = "vi") -> dict[str, Any]:
+    command = [*_command(), "--compact", "--audit", "--locale", locale, "--stdin"]
+    completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
+    try:
+        result: dict[str, Any] = json.loads(completed.stdout)
+    except json.JSONDecodeError as error:
+        raise VietBaziError("Engine không trả JSON localized audit hợp lệ") from error
+    return result
+
 def localize_facts(value: BirthInput, *, locale: Literal["vi", "en"] = "vi") -> dict[str, Any]:
     command = [*_command(), "--compact", "--facts", "--locale", locale, "--stdin"]
     completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)

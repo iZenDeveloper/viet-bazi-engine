@@ -18,6 +18,7 @@ from viet_bazi import (
     calculate_bazi_batch,
     compare_birth_inputs,
     create_bazi_audit_report,
+    localize_bazi_audit_report,
     localize_facts,
     localize_compatibility,
     localize_methodology,
@@ -38,6 +39,7 @@ batch = calculate_bazi_batch([birth])
 compatibility = compare_birth_inputs(birth, another_birth)
 compatibility_en = localize_compatibility(birth, another_birth, locale="en")
 audit = create_bazi_audit_report(birth)
+audit_en = localize_bazi_audit_report(birth, locale="en")
 facts_en = localize_facts(birth, locale="en")
 methodology_en = localize_methodology(birth, locale="en")
 sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)

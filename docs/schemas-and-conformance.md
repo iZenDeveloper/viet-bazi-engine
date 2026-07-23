@@ -7,6 +7,7 @@
 | Birth input | 1.0 | `https://viet-bazi.dev/schema/birth-input-1.0.json` |
 | Bazi result | 1.7 | `https://viet-bazi.dev/schema/bazi-result-1.7.json` |
 | Bazi audit report | 1.0 | `https://viet-bazi.dev/schema/bazi-audit-report-1.0.json` |
+| Localized audit report | 1.0 | `https://viet-bazi.dev/schema/localized-audit-report-1.0.json` |
 | Localized facts report | 1.0 | `https://viet-bazi.dev/schema/localized-facts-report-1.0.json` |
 | Localized methodology report | 1.0 | `https://viet-bazi.dev/schema/localized-methodology-report-1.0.json` |
 | Annual timeline | 1.0 | `https://viet-bazi.dev/schema/annual-timeline-1.0.json` |
@@ -32,7 +33,7 @@ Batch schemas dùng `$ref` tới input/result schema. Hãy đăng ký dependenci
 
 `npm run build` tái tạo `schemas/manifest.json` và mọi artifact theo thứ tự deterministic. Test suite so sánh semantic JSON với exports để phát hiện drift.
 
-Audit report là contract riêng: mỗi rule có mã/version ổn định, category, mô tả và các JSON path input/output. Cách tách này bổ sung traceability mà không làm thay đổi schema lá số `1.7`.
+Audit report là contract riêng: mỗi rule có mã/version ổn định, category, mô tả và các JSON path input/output. Localized audit thay `descriptionVi` bằng `text` Việt/Anh nhưng giữ toàn bộ trường định danh ổn định. Cách tách này bổ sung traceability mà không làm thay đổi schema lá số `1.7`.
 
 ## Stable codes
 

@@ -3,7 +3,7 @@ import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs, localizeCompatibility } from './compatibility.js';
 import { renderBaziSvg } from './svg.js';
-import { createBaziAuditReport } from './traceability.js';
+import { createBaziAuditReport, localizeBaziAuditReport } from './traceability.js';
 import { localizeFacts, localizeMethodology } from './localization-report.js';
 const assertKnownKeys = (value, allowed, path) => { const unknown = Object.keys(value).filter(key => !allowed.includes(key)); if (unknown.length)
     throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`); };
@@ -109,6 +109,7 @@ export function compareBirthInputsFromJson(json) {
 export function localizeCompatibilityFromJson(json, locale = 'vi') { return localizeCompatibility(compareBirthInputsFromJson(json), locale); }
 export function renderBaziSvgFromJson(json, options = {}) { return renderBaziSvg(calculateBaziFromJson(json), options); }
 export function createBaziAuditReportFromJson(json, asOfYear) { return createBaziAuditReport(calculateBaziFromJson(json, asOfYear)); }
+export function localizeBaziAuditReportFromJson(json, locale = 'vi', asOfYear) { return localizeBaziAuditReport(createBaziAuditReportFromJson(json, asOfYear), locale); }
 export function calculateAnnualTimelineFromJson(json, fromYear, toYear, asOfYear) { return calculateAnnualTimeline(calculateBaziFromJson(json, asOfYear), fromYear, toYear); }
 export function localizeFactsFromJson(json, locale = 'vi', asOfYear) { return localizeFacts(calculateBaziFromJson(json, asOfYear), locale); }
 export function localizeMethodologyFromJson(json, locale = 'vi', asOfYear) { return localizeMethodology(calculateBaziFromJson(json, asOfYear).metadata.methodology, locale); }

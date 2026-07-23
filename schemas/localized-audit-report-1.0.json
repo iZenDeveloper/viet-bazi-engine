@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/localized-audit-report-1.0.json",
+  "title": "Viet Bazi Localized Audit Report 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "locale",
+    "engineVersion",
+    "chartSchemaVersion",
+    "methodologyProfile",
+    "rules",
+    "warnings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "locale": {
+      "enum": [
+        "vi",
+        "en"
+      ]
+    },
+    "engineVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "chartSchemaVersion": {
+      "const": "1.7"
+    },
+    "methodologyProfile": {
+      "const": "VIET_BAZI_STANDARD_V1"
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ruleCode",
+          "ruleVersion",
+          "category",
+          "text",
+          "inputPaths",
+          "outputPaths"
+        ],
+        "properties": {
+          "ruleCode": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "ruleVersion": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+$"
+          },
+          "category": {
+            "enum": [
+              "calendar",
+              "normalization",
+              "analysis",
+              "luck"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inputPaths": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "outputPaths": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -40,6 +40,8 @@ Tính hai lá số từ birth inputs rồi chạy cùng compatibility heuristic.
 
 Trả báo cáo kiểm toán deterministic, độc lập với JSON lá số. Mỗi entry có stable `ruleCode`, `ruleVersion`, nhóm quy tắc, mô tả tiếng Việt và các JSON path input/output liên quan. Report dùng schema `1.0`, ghi engine/chart version và cảnh báo nếu giờ sinh sát ranh Tiết khí.
 
+`localizeBaziAuditReport(report, locale)` / `localizeBaziAuditReportFromJson(json, locale?)` trả trường `text` và warnings bằng `vi` hoặc `en`, đồng thời giữ nguyên rule code/version/category/path. Output tuân theo `localized-audit-report-1.0`.
+
 ## Rendering và localization
 
 ### `renderBaziSvg(chart, options?)`
