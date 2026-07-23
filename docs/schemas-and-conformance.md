@@ -11,6 +11,7 @@
 | Localized facts report | 1.0 | `https://viet-bazi.dev/schema/localized-facts-report-1.0.json` |
 | Localized methodology report | 1.0 | `https://viet-bazi.dev/schema/localized-methodology-report-1.0.json` |
 | Annual timeline | 1.0 | `https://viet-bazi.dev/schema/annual-timeline-1.0.json` |
+| Localized annual timeline | 1.0 | `https://viet-bazi.dev/schema/localized-annual-timeline-1.0.json` |
 | Batch input | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-input-1.0.json` |
 | Batch result | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-result-1.0.json` |
 | Birth-time sensitivity | 1.0 | `https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json` |

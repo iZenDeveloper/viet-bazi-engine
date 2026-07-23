@@ -41,6 +41,7 @@
 - [x] Demo hỗ trợ tọa độ latitude/longitude tùy chỉnh cho cả hai người.
 - [x] Hiển thị audit trace rule/version/path và export audit JSON đúng schema.
 - [x] Localized compatibility report `vi`/`en` với stable grade/factor codes và parity bindings.
+- [x] Localized audit và annual timeline `vi`/`en` với stable rule/pillar/ten-god codes.
 
 ## Nguyên tắc phát hành
 

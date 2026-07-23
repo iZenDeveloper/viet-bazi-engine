@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { analyzeBirthTimeSensitivityFromJson, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, localizeBaziAuditReportFromJson, localizeCompatibilityFromJson, localizeFactsFromJson, localizeMethodologyFromJson, renderBaziSvgFromJson } from './json.js';
 import { calculateAnnualTimeline } from './engine.js';
+import { localizeAnnualTimeline } from './localization-report.js';
 import { getEngineCapabilities } from './capabilities.js';
 const MAX_STDIN_BYTES = 10 * 1024 * 1024;
 function readStdin() { return new Promise((resolve, reject) => { let value = '', bytes = 0; process.stdin.setEncoding('utf8'); process.stdin.on('data', chunk => { bytes += new TextEncoder().encode(chunk).length; if (bytes > MAX_STDIN_BYTES) {
@@ -39,8 +40,8 @@ try {
             throw new TypeError('--audit không dùng cùng batch, compatibility, svg, sensitivity hoặc timeline');
         if (args.includes('--svg') && (args.includes('--batch') || args.includes('--compatibility') || sensitivityAt >= 0 || timelineAt >= 0 || yearAt >= 0))
             throw new TypeError('--svg không dùng cùng batch, compatibility, sensitivity, timeline hoặc year');
-        if (!args.includes('--svg') && (localeAt >= 0 && !args.includes('--facts') && !args.includes('--methodology') && !args.includes('--compatibility') && !args.includes('--audit') || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems') || args.includes('--no-element-balance') || args.includes('--high-contrast')))
-            throw new TypeError('--locale chỉ dùng cùng --svg, --facts, --methodology, --compatibility hoặc --audit');
+        if (!args.includes('--svg') && (localeAt >= 0 && !args.includes('--facts') && !args.includes('--methodology') && !args.includes('--compatibility') && !args.includes('--audit') && timelineAt < 0 || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems') || args.includes('--no-element-balance') || args.includes('--high-contrast')))
+            throw new TypeError('--locale chỉ dùng cùng --svg, --facts, --methodology, --compatibility, --audit hoặc --timeline');
         let sensitivityOptions;
         if (sensitivityAt >= 0) {
             const match = /^(\d+)(?::(\d+))?$/.exec(args[sensitivityAt + 1] ?? '');
@@ -65,7 +66,8 @@ try {
                 const match = /^(\d{4}):(\d{4})$/.exec(args[timelineAt + 1] ?? '');
                 if (!match)
                     throw new RangeError('--timeline phải có dạng YYYY:YYYY');
-                result = calculateAnnualTimeline(chart, Number(match[1]), Number(match[2]));
+                const timeline = calculateAnnualTimeline(chart, Number(match[1]), Number(match[2]));
+                result = locale ? localizeAnnualTimeline(timeline, locale) : timeline;
             }
             process.stdout.write(JSON.stringify(result, null, args.includes('--compact') ? undefined : 2) + '\n');
         }

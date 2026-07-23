@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { calculateAnnualTimeline,calculateBazi } from './engine.js';
 import { SHEN_SHA_CATALOG } from './shen-sha.js';
 import { solarTermBoundary } from './calendar.js';
-import { calculateAnnualTimelineFromJson,calculateBaziBatch,calculateBaziBatchFromJson,calculateBaziFromJson,validateBirthInput } from './json.js';
+import { calculateAnnualTimelineFromJson,calculateBaziBatch,calculateBaziBatchFromJson,calculateBaziFromJson,localizeAnnualTimelineFromJson,validateBirthInput } from './json.js';
 import { findCity } from './cities.js';
 import { getCoreLabels } from './localization.js';
 
@@ -13,7 +13,7 @@ describe('calculateBazi',()=>{
     expect(a).toEqual(b); expect(a.pillars.day.stem.name).toBe('Giáp'); expect(a.pillars.day.branch.name).toBe('Tý');
     expect(Object.keys(a.pillars)).toHaveLength(4); expect(a.elements.reduce((s,x)=>s+x.percent,0)).toBeCloseTo(100,1);
     expect(a.schemaVersion).toBe('1.7');expect(a.metadata.supportedShenSha).toEqual(SHEN_SHA_CATALOG);
-    expect(a.metadata.methodology).toMatchObject({engineVersion:'0.37.0',profileCode:'VIET_BAZI_STANDARD_V1',calendar:{dayBoundary:'EARLY_ZI'}});
+    expect(a.metadata.methodology).toMatchObject({engineVersion:'0.38.0',profileCode:'VIET_BAZI_STANDARD_V1',calendar:{dayBoundary:'EARLY_ZI'}});
     expect(a.pillars.day.stem.code).toBe('JIA');expect(a.pillars.day.branch.code).toBe('ZI');expect(a.pillars.day.tenGodCode).toBe('DAY_MASTER');
     expect(a.pattern.evidence.length).toBeGreaterThan(0);
     expect(a.luck.pillars.every(p=>p.tenGodCode.length>0)).toBe(true);expect(a.annualAnalysis.interactions).toHaveLength(4);
@@ -62,4 +62,5 @@ describe('calculateBazi',()=>{
     expect(()=>calculateAnnualTimeline(chart,2027,2025)).toThrow();
   });
   it('exposes annual timeline through the strict JSON bridge',()=>{const timeline=calculateAnnualTimelineFromJson('{"localDateTime":"2000-01-07T12:00:00","timezoneOffsetMinutes":420,"asOfYear":2026,"gender":"male"}',2025,2027);expect(timeline).toHaveLength(3);expect(timeline[1]!.analysis.pillar.branch.code).toBe('WU');expect(()=>calculateAnnualTimelineFromJson('{bad',2025,2027)).toThrow('JSON input');});
+  it('exposes localized annual timeline through the strict JSON bridge',()=>{const report=localizeAnnualTimelineFromJson('{"localDateTime":"2000-01-07T12:00:00","timezoneOffsetMinutes":420,"asOfYear":2026,"gender":"male"}',2025,2027,'en');expect(report).toMatchObject({locale:'en',fromYear:2025,toYear:2027});expect(report.entries[1]?.annual.branch).toBe('Horse');});
 });

@@ -1,3 +1,12 @@
+import { getCoreLabels } from './localization.js';
+const localizedPillar = (stemCode, branchCode, locale) => { const labels = getCoreLabels(locale), stem = labels.stems[stemCode], branch = labels.branches[branchCode]; return { stemCode, stem, branchCode, branch, text: `${stem} ${branch}` }; };
+/** Create a compact localized view of a calculated annual timeline. */
+export function localizeAnnualTimeline(timeline, locale = 'vi') {
+    if (!timeline.length)
+        throw new RangeError('Timeline cần ít nhất một năm');
+    const labels = getCoreLabels(locale), entries = timeline.map(entry => { const annual = entry.analysis.pillar, active = entry.activeLuck.pillar; return { year: entry.year, annual: localizedPillar(annual.stem.code, annual.branch.code, locale), tenGodCode: entry.analysis.stemTenGodCode, tenGod: labels.tenGods[entry.analysis.stemTenGodCode], activeLuck: active ? { order: active.order, pillar: localizedPillar(active.stem.code, active.branch.code, locale) } : null }; });
+    return { schemaVersion: '1.0', locale, fromYear: entries[0].year, toYear: entries[entries.length - 1].year, entries };
+}
 export function localizeFacts(chart, locale = 'vi') {
     const english = { DAY_MASTER: `Day Master is ${chart.dayMaster.name} ${chart.dayMaster.element}.`, SEASON: `Birth month is ${chart.pillars.month.branch.name}; seasonal qi favors ${chart.pillars.month.branch.element}.`, ELEMENT_BALANCE: `${[...chart.elements].sort((a, b) => b.percent - a.percent)[0].element} is the strongest element; Day Master ${chart.dayMaster.element} is ${chart.elements.find(x => x.element === chart.dayMaster.element).strength}.`, NEAR_SOLAR_TERM: `Birth time is close to a solar-term boundary; verify the input.` };
     const facts = chart.metadata.facts.map(f => ({ code: f.code, text: locale === 'vi' ? f.vi : (english[f.code] ?? f.vi), confidence: f.confidence, evidence: f.evidence }));

@@ -3,11 +3,11 @@ import addFormats from 'ajv-formats';
 import { describe,expect,it } from 'vitest';
 import { calculateAnnualTimeline,calculateBazi } from './engine.js';
 import { calculateBaziBatch } from './json.js';
-import { localizeFacts,localizeMethodology } from './localization-report.js';
+import { localizeAnnualTimeline,localizeFacts,localizeMethodology } from './localization-report.js';
 import { createBaziAuditReport,localizeBaziAuditReport } from './traceability.js';
 import { analyzeBirthTimeSensitivity } from './sensitivity.js';
 import { compareBirthInputs,localizeCompatibility } from './compatibility.js';
-import { ANNUAL_TIMELINE_JSON_SCHEMA,BAZI_BATCH_INPUT_JSON_SCHEMA,BAZI_BATCH_RESULT_JSON_SCHEMA,BAZI_RESULT_JSON_SCHEMA,BIRTH_INPUT_JSON_SCHEMA,BIRTH_TIME_SENSITIVITY_JSON_SCHEMA,COMPATIBILITY_INPUT_JSON_SCHEMA,COMPATIBILITY_RESULT_JSON_SCHEMA,LOCALIZED_AUDIT_REPORT_JSON_SCHEMA,LOCALIZED_COMPATIBILITY_REPORT_JSON_SCHEMA,LOCALIZED_FACTS_REPORT_JSON_SCHEMA,LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA } from './schema.js';
+import { ANNUAL_TIMELINE_JSON_SCHEMA,BAZI_BATCH_INPUT_JSON_SCHEMA,BAZI_BATCH_RESULT_JSON_SCHEMA,BAZI_RESULT_JSON_SCHEMA,BIRTH_INPUT_JSON_SCHEMA,BIRTH_TIME_SENSITIVITY_JSON_SCHEMA,COMPATIBILITY_INPUT_JSON_SCHEMA,COMPATIBILITY_RESULT_JSON_SCHEMA,LOCALIZED_ANNUAL_TIMELINE_JSON_SCHEMA,LOCALIZED_AUDIT_REPORT_JSON_SCHEMA,LOCALIZED_COMPATIBILITY_REPORT_JSON_SCHEMA,LOCALIZED_FACTS_REPORT_JSON_SCHEMA,LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA } from './schema.js';
 
 describe('public JSON schemas',()=>{
   const ajv=new Ajv2020({allErrors:true,strict:false});addFormats(ajv);
@@ -21,4 +21,5 @@ describe('public JSON schemas',()=>{
   it('validates localized audit reports',()=>{const chart=calculateBazi({localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'}),validate=ajv.compile(LOCALIZED_AUDIT_REPORT_JSON_SCHEMA),report=localizeBaziAuditReport(createBaziAuditReport(chart),'en');expect(validate(report),JSON.stringify(validate.errors)).toBe(true);expect(validate({...report,locale:'fr'})).toBe(false);});
   it('validates localized methodology reports',()=>{const chart=calculateBazi({localDateTime:'2000-01-07T23:30:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male',dayBoundary:'midnight'}),validate=ajv.compile(LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA),report=localizeMethodology(chart.metadata.methodology,'en');expect(validate(report),JSON.stringify(validate.errors)).toBe(true);expect(report.items.find(item=>item.code==='DAY_BOUNDARY')).toMatchObject({value:'MIDNIGHT'});expect(validate({...report,items:report.items.slice(1)})).toBe(false);});
   it('validates annual timeline bounds and structure',()=>{const chart=calculateBazi({localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'}),timeline=calculateAnnualTimeline(chart,2025,2027),validate=ajv.compile(ANNUAL_TIMELINE_JSON_SCHEMA);expect(validate(timeline),JSON.stringify(validate.errors)).toBe(true);expect(validate([])).toBe(false);expect(validate([{...timeline[0],year:2500}])).toBe(false);});
+  it('validates localized annual timeline reports',()=>{const chart=calculateBazi({localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'}),report=localizeAnnualTimeline(calculateAnnualTimeline(chart,2025,2027),'en'),validate=ajv.compile(LOCALIZED_ANNUAL_TIMELINE_JSON_SCHEMA);expect(validate(report),JSON.stringify(validate.errors)).toBe(true);expect(validate({...report,locale:'fr'})).toBe(false);expect(validate({...report,entries:[]})).toBe(false);});
 });

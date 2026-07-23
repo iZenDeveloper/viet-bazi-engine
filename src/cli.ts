@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { analyzeBirthTimeSensitivityFromJson,calculateBaziBatchFromJson,calculateBaziFromJson,compareBirthInputsFromJson,createBaziAuditReportFromJson,localizeBaziAuditReportFromJson,localizeCompatibilityFromJson,localizeFactsFromJson,localizeMethodologyFromJson,renderBaziSvgFromJson } from './json.js';
 import { calculateAnnualTimeline } from './engine.js';
+import { localizeAnnualTimeline } from './localization-report.js';
 import { getEngineCapabilities } from './capabilities.js';
 
 declare const process:{argv:string[];stdin:{setEncoding(encoding:string):void;on(event:'data',listener:(chunk:string)=>void):void;on(event:'end',listener:()=>void):void;on(event:'error',listener:(error:Error)=>void):void;destroy(error?:Error):void};stdout:{write(s:string):void};stderr:{write(s:string):void};exitCode:number};
@@ -23,14 +24,14 @@ try {
   if(args.includes('--compatibility')&&(args.includes('--batch')||sensitivityAt>=0||timelineAt>=0||yearAt>=0))throw new TypeError('--compatibility không dùng cùng --batch, --sensitivity, --timeline hoặc --year');
   if(args.includes('--audit')&&(args.includes('--batch')||args.includes('--compatibility')||args.includes('--svg')||sensitivityAt>=0||timelineAt>=0))throw new TypeError('--audit không dùng cùng batch, compatibility, svg, sensitivity hoặc timeline');
   if(args.includes('--svg')&&(args.includes('--batch')||args.includes('--compatibility')||sensitivityAt>=0||timelineAt>=0||yearAt>=0))throw new TypeError('--svg không dùng cùng batch, compatibility, sensitivity, timeline hoặc year');
-  if(!args.includes('--svg')&&(localeAt>=0&&!args.includes('--facts')&&!args.includes('--methodology')&&!args.includes('--compatibility')&&!args.includes('--audit')||titleAt>=0||widthAt>=0||args.includes('--no-hidden-stems')||args.includes('--no-element-balance')||args.includes('--high-contrast')))throw new TypeError('--locale chỉ dùng cùng --svg, --facts, --methodology, --compatibility hoặc --audit');
+  if(!args.includes('--svg')&&(localeAt>=0&&!args.includes('--facts')&&!args.includes('--methodology')&&!args.includes('--compatibility')&&!args.includes('--audit')&&timelineAt<0||titleAt>=0||widthAt>=0||args.includes('--no-hidden-stems')||args.includes('--no-element-balance')||args.includes('--high-contrast')))throw new TypeError('--locale chỉ dùng cùng --svg, --facts, --methodology, --compatibility, --audit hoặc --timeline');
   let sensitivityOptions:[number,number]|undefined;if(sensitivityAt>=0){const match=/^(\d+)(?::(\d+))?$/.exec(args[sensitivityAt+1]??'');if(!match)throw new RangeError('--sensitivity phải có dạng MINUTES hoặc MINUTES:STEP');sensitivityOptions=[Number(match[1]),Number(match[2]??5)];}
   const locale=localeAt>=0?args[localeAt+1]:undefined;if(locale!==undefined&&locale!=='vi'&&locale!=='en')throw new RangeError('--locale phải là vi hoặc en');const width=widthAt>=0?Number(args[widthAt+1]):undefined;if(width!==undefined&&(!Number.isFinite(width)||width<=0))throw new RangeError('--width phải là số dương');
   if(args.includes('--svg')){const svg=renderBaziSvgFromJson(json,{...(locale?{locale}:{}),...(titleAt>=0?{title:args[titleAt+1]??''}:{}),...(width!==undefined?{width}:{}),...(args.includes('--no-hidden-stems')?{showHiddenStems:false}:{}),...(args.includes('--no-element-balance')?{showElementBalance:false}:{}),...(args.includes('--high-contrast')?{highContrast:true}:{})});process.stdout.write(svg+'\n');}
   else {
   const chart=args.includes('--batch')?calculateBaziBatchFromJson(json):args.includes('--compatibility')?(locale?localizeCompatibilityFromJson(json,locale):compareBirthInputsFromJson(json)):args.includes('--audit')?(locale?localizeBaziAuditReportFromJson(json,locale,year):createBaziAuditReportFromJson(json,year)):args.includes('--facts')?localizeFactsFromJson(json,locale==='en'?'en':'vi',year):args.includes('--methodology')?localizeMethodologyFromJson(json,locale==='en'?'en':'vi',year):sensitivityOptions?analyzeBirthTimeSensitivityFromJson(json,...sensitivityOptions,year):calculateBaziFromJson(json,year);
   let result:unknown=chart;
-  if(timelineAt>=0){const match=/^(\d{4}):(\d{4})$/.exec(args[timelineAt+1]??'');if(!match)throw new RangeError('--timeline phải có dạng YYYY:YYYY');result=calculateAnnualTimeline(chart as ReturnType<typeof calculateBaziFromJson>,Number(match[1]),Number(match[2]));}
+  if(timelineAt>=0){const match=/^(\d{4}):(\d{4})$/.exec(args[timelineAt+1]??'');if(!match)throw new RangeError('--timeline phải có dạng YYYY:YYYY');const timeline=calculateAnnualTimeline(chart as ReturnType<typeof calculateBaziFromJson>,Number(match[1]),Number(match[2]));result=locale?localizeAnnualTimeline(timeline,locale):timeline;}
   process.stdout.write(JSON.stringify(result,null,args.includes('--compact')?undefined:2)+'\n');
   }
   }

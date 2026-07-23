@@ -18,6 +18,7 @@ from viet_bazi import (
     calculate_bazi_batch,
     compare_birth_inputs,
     create_bazi_audit_report,
+    localize_annual_timeline,
     localize_bazi_audit_report,
     localize_facts,
     localize_compatibility,
@@ -35,6 +36,7 @@ birth = BirthInput(
 
 chart = calculate_bazi(birth)
 timeline = calculate_annual_timeline(birth, 2025, 2035)
+timeline_en = localize_annual_timeline(birth, 2025, 2035, locale="en")
 batch = calculate_bazi_batch([birth])
 compatibility = compare_birth_inputs(birth, another_birth)
 compatibility_en = localize_compatibility(birth, another_birth, locale="en")

@@ -1,4 +1,14 @@
-import type { BaziResult, LocalizedFactsReport, LocalizedMethodologyReport, MethodologyManifest } from './types.js';
+import { getCoreLabels } from './localization.js';
+import type { AnnualTimelineEntry, BaziResult, LocalizedAnnualTimelineReport, LocalizedFactsReport, LocalizedMethodologyReport, LocalizedTimelinePillar, MethodologyManifest } from './types.js';
+
+const localizedPillar=(stemCode:LocalizedTimelinePillar['stemCode'],branchCode:LocalizedTimelinePillar['branchCode'],locale:'vi'|'en'):LocalizedTimelinePillar=>{const labels=getCoreLabels(locale),stem=labels.stems[stemCode],branch=labels.branches[branchCode];return {stemCode,stem,branchCode,branch,text:`${stem} ${branch}`};};
+
+/** Create a compact localized view of a calculated annual timeline. */
+export function localizeAnnualTimeline(timeline:readonly AnnualTimelineEntry[],locale:'vi'|'en'='vi'):LocalizedAnnualTimelineReport {
+  if(!timeline.length)throw new RangeError('Timeline cần ít nhất một năm');
+  const labels=getCoreLabels(locale),entries=timeline.map(entry=>{const annual=entry.analysis.pillar,active=entry.activeLuck.pillar;return {year:entry.year,annual:localizedPillar(annual.stem.code,annual.branch.code,locale),tenGodCode:entry.analysis.stemTenGodCode,tenGod:labels.tenGods[entry.analysis.stemTenGodCode],activeLuck:active?{order:active.order,pillar:localizedPillar(active.stem.code,active.branch.code,locale)}:null};});
+  return {schemaVersion:'1.0',locale,fromYear:entries[0]!.year,toYear:entries[entries.length-1]!.year,entries};
+}
 
 export function localizeFacts(chart:BaziResult,locale:'vi'|'en'='vi'):LocalizedFactsReport {
   const english:Record<string,string>={DAY_MASTER:`Day Master is ${chart.dayMaster.name} ${chart.dayMaster.element}.`,SEASON:`Birth month is ${chart.pillars.month.branch.name}; seasonal qi favors ${chart.pillars.month.branch.element}.`,ELEMENT_BALANCE:`${[...chart.elements].sort((a,b)=>b.percent-a.percent)[0]!.element} is the strongest element; Day Master ${chart.dayMaster.element} is ${chart.elements.find(x=>x.element===chart.dayMaster.element)!.strength}.`,NEAR_SOLAR_TERM:`Birth time is close to a solar-term boundary; verify the input.`};

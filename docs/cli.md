@@ -22,7 +22,11 @@ viet-bazi --compact '{"localDateTime":"2000-01-07T12:00:00","timezoneOffsetMinut
 
 ```bash
 viet-bazi --timeline 2025:2035 --compact '{...}'
+
+viet-bazi --timeline 2025:2035 --locale en --compact '{...}'
 ```
+
+Bỏ `--locale` để nhận timeline thô; dùng `vi` hoặc `en` để nhận localized report với stable stem/branch/ten-god codes.
 
 ## Batch
 

@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.38.0
+
+- Thêm localized annual timeline `vi`/`en` với stable Can, Chi, Thập Thần và thứ tự Đại Vận.
+- Đồng bộ TypeScript, JSON bridge, CLI `--timeline --locale`, Python, demo và JSON Schema.
+
 ## 0.37.0
 
 - Thêm localized audit report `vi`/`en` nhưng giữ stable rule code/version/category/path.

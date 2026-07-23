@@ -3,7 +3,7 @@ from pathlib import Path
 import shutil
 import tempfile
 
-from viet_bazi import BirthInput, VietBaziError, analyze_birth_time_sensitivity, calculate_annual_timeline, calculate_bazi, calculate_bazi_batch, compare_birth_inputs, create_bazi_audit_report, get_capabilities, localize_bazi_audit_report, localize_compatibility, localize_methodology, render_bazi_svg, verify_bundled_engine
+from viet_bazi import BirthInput, VietBaziError, analyze_birth_time_sensitivity, calculate_annual_timeline, calculate_bazi, calculate_bazi_batch, compare_birth_inputs, create_bazi_audit_report, get_capabilities, localize_annual_timeline, localize_bazi_audit_report, localize_compatibility, localize_methodology, render_bazi_svg, verify_bundled_engine
 from viet_bazi.client import _verify_engine_dir
 
 
@@ -11,7 +11,7 @@ class ClientTest(unittest.TestCase):
     def test_calculates_through_local_engine(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
         self.assertEqual(result["schemaVersion"], "1.7")
-        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.37.0")
+        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.38.0")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 
     def test_surfaces_engine_errors(self) -> None:
@@ -22,6 +22,12 @@ class ClientTest(unittest.TestCase):
         result = calculate_annual_timeline(BirthInput("2000-01-07T12:00:00", 420, "male", 2026), 2025, 2027)
         self.assertEqual([item["year"] for item in result], [2025, 2026, 2027])
         self.assertEqual(result[1]["analysis"]["pillar"]["branch"]["code"], "WU")
+
+    def test_localizes_annual_timeline(self) -> None:
+        result = localize_annual_timeline(BirthInput("2000-01-07T12:00:00", 420, "male", 2026), 2025, 2027, locale="en")
+        self.assertEqual(result["locale"], "en")
+        self.assertEqual(len(result["entries"]), 3)
+        self.assertIn("stemCode", result["entries"][0]["annual"])
 
     def test_selects_midnight_day_boundary(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T23:30:00", 420, "male", 2026, dayBoundary="midnight"))
@@ -90,7 +96,7 @@ class ClientTest(unittest.TestCase):
 
     def test_verifies_bundled_engine_integrity(self) -> None:
         result = verify_bundled_engine()
-        self.assertEqual(result, {"engineVersion": "0.37.0", "files": 21, "verified": True})
+        self.assertEqual(result, {"engineVersion": "0.38.0", "files": 21, "verified": True})
 
     def test_rejects_a_tampered_bundled_engine(self) -> None:
         source = Path(__file__).resolve().parents[1] / "viet_bazi" / "_engine"

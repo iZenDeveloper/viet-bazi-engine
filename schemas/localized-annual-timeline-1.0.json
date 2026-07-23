@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/localized-annual-timeline-1.0.json",
+  "title": "Viet Bazi Localized Annual Timeline 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "locale",
+    "fromYear",
+    "toYear",
+    "entries"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "locale": {
+      "enum": [
+        "vi",
+        "en"
+      ]
+    },
+    "fromYear": {
+      "type": "integer",
+      "minimum": 1600,
+      "maximum": 2400
+    },
+    "toYear": {
+      "type": "integer",
+      "minimum": 1600,
+      "maximum": 2400
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 201,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "year",
+          "annual",
+          "tenGodCode",
+          "tenGod",
+          "activeLuck"
+        ],
+        "properties": {
+          "year": {
+            "type": "integer",
+            "minimum": 1600,
+            "maximum": 2400
+          },
+          "annual": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stemCode",
+              "stem",
+              "branchCode",
+              "branch",
+              "text"
+            ],
+            "properties": {
+              "stemCode": {
+                "enum": [
+                  "JIA",
+                  "YI",
+                  "BING",
+                  "DING",
+                  "WU",
+                  "JI",
+                  "GENG",
+                  "XIN",
+                  "REN",
+                  "GUI"
+                ]
+              },
+              "stem": {
+                "type": "string",
+                "minLength": 1
+              },
+              "branchCode": {
+                "enum": [
+                  "ZI",
+                  "CHOU",
+                  "YIN",
+                  "MAO",
+                  "CHEN",
+                  "SI",
+                  "WU",
+                  "WEI",
+                  "SHEN",
+                  "YOU",
+                  "XU",
+                  "HAI"
+                ]
+              },
+              "branch": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text": {
+                "type": "string",
+                "minLength": 3
+              }
+            }
+          },
+          "tenGodCode": {
+            "enum": [
+              "BI_JIAN",
+              "JIE_CAI",
+              "SHI_SHEN",
+              "SHANG_GUAN",
+              "PIAN_CAI",
+              "ZHENG_CAI",
+              "QI_SHA",
+              "ZHENG_GUAN",
+              "PIAN_YIN",
+              "ZHENG_YIN"
+            ]
+          },
+          "tenGod": {
+            "type": "string",
+            "minLength": 1
+          },
+          "activeLuck": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "order",
+                  "pillar"
+                ],
+                "properties": {
+                  "order": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 8
+                  },
+                  "pillar": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "stemCode",
+                      "stem",
+                      "branchCode",
+                      "branch",
+                      "text"
+                    ],
+                    "properties": {
+                      "stemCode": {
+                        "enum": [
+                          "JIA",
+                          "YI",
+                          "BING",
+                          "DING",
+                          "WU",
+                          "JI",
+                          "GENG",
+                          "XIN",
+                          "REN",
+                          "GUI"
+                        ]
+                      },
+                      "stem": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "branchCode": {
+                        "enum": [
+                          "ZI",
+                          "CHOU",
+                          "YIN",
+                          "MAO",
+                          "CHEN",
+                          "SI",
+                          "WU",
+                          "WEI",
+                          "SHEN",
+                          "YOU",
+                          "XU",
+                          "HAI"
+                        ]
+                      },
+                      "branch": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "text": {
+                        "type": "string",
+                        "minLength": 3
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
