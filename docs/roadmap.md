@@ -36,6 +36,7 @@
 - [x] Không analytics/network runtime, có cảnh báo near-boundary và disclaimer.
 - [x] Hiển thị facts/methodology `vi`/`en` và tải methodology JSON đúng schema.
 - [x] Hiển thị độ nhạy giờ sinh ±30 phút và tải sensitivity JSON đúng schema.
+- [x] So sánh compatibility hai lá số, hiển thị factor/evidence và export JSON.
 
 ## Nguyên tắc phát hành
 

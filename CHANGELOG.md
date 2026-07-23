@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.32.0
+
+- Demo offline so sánh compatibility giữa lá số đang xem và người B.
+- Hiển thị score, grade, bốn factor/evidence và export JSON đúng schema.
+
 ## 0.31.0
 
 - Demo phân tích độ nhạy giờ sinh với 13 mẫu trong cửa sổ ±30 phút.

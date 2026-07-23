@@ -14,6 +14,7 @@ Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG ren
 Sau mỗi lần tính, phần tóm tắt hiển thị Nhật Chủ, Lưu Niên, Đại Vận đang hoạt động và Cách cục; structured JSON vẫn là nguồn dữ liệu đầy đủ.
 Phần giải thích hiển thị localized facts và 13 quy ước methodology. Đổi ngôn ngữ sẽ tính/render lại toàn bộ SVG và hai vùng giải thích mà không gửi dữ liệu ra ngoài.
 Phần độ nhạy lấy 13 mẫu trong cửa sổ ±30 phút, nhóm các mẫu có cùng bốn trụ và chỉ rõ trụ nào thay đổi so với giờ nhập. Báo cáo có thể tải dưới dạng JSON theo schema `birth-time-sensitivity-1.0`.
+Phần compatibility dùng lá số đang hiển thị làm người A và nhận ngày giờ/giới tính người B. Demo hiển thị tổng điểm, grade, bốn factor cùng evidence và disclaimer; kết quả tải xuống tuân theo `compatibility-result-1.0`.
 Ngay dưới biểu đồ là timeline 5 năm quanh `asOfYear`, gồm Can Chi, Thập Thần và Đại Vận tương ứng; năm đang xem được làm nổi bật.
 
 Service worker dùng chiến lược cache-first cho các file cùng origin. Sau lần tải thành công đầu tiên, demo có thể reload khi offline. Khi sửa asset cache, tăng version `CACHE` trong `service-worker.js` để activation xóa cache cũ.
