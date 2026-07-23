@@ -35,6 +35,7 @@
 - [x] Trang web tĩnh nhập ngày giờ sinh, chọn thành phố và tải SVG/JSON ngay trên máy.
 - [x] Không analytics/network runtime, có cảnh báo near-boundary và disclaimer.
 - [x] Hiển thị facts/methodology `vi`/`en` và tải methodology JSON đúng schema.
+- [x] Hiển thị độ nhạy giờ sinh ±30 phút và tải sensitivity JSON đúng schema.
 
 ## Nguyên tắc phát hành
 

@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.31.0
+
+- Demo phân tích độ nhạy giờ sinh với 13 mẫu trong cửa sổ ±30 phút.
+- Hiển thị trạng thái trụ, các trụ thay đổi và export sensitivity JSON đúng schema.
+
 ## 0.30.0
 
 - Demo offline hiển thị localized facts và 13 quy ước methodology bằng Việt/Anh.
