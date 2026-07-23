@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.30.0
+
+- Demo offline hiển thị localized facts và 13 quy ước methodology bằng Việt/Anh.
+- Cho tải methodology JSON đúng schema và làm mới service-worker cache.
+
 ## 0.29.0
 
 - Thêm localized methodology report `vi`/`en` với 13 stable code/value.
