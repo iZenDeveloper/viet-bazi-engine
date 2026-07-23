@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.33.0
+
+- Compatibility demo nhận UTC offset, thành phố và True Solar Time riêng cho người B.
+- Giữ `asOfYear` và quy ước đổi ngày chung để hai kết quả có cùng context phân tích.
+
 ## 0.32.0
 
 - Demo offline so sánh compatibility giữa lá số đang xem và người B.

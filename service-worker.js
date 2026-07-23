@@ -1,4 +1,4 @@
-const CACHE='viet-bazi-demo-v7';
+const CACHE='viet-bazi-demo-v8';
 const SHELL=['./demo/','./demo/index.html','./demo/app.js','./demo/style.css','./demo/manifest.webmanifest','./demo/icon.svg','./dist/index.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE&&key.startsWith('viet-bazi-demo-')).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
