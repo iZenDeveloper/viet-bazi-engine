@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.34.0
+
+- Demo nhận latitude/longitude tùy chỉnh cho cả người A và B.
+- City catalog vẫn là mặc định; tọa độ thủ công dùng cùng validation public của engine.
+
 ## 0.33.0
 
 - Compatibility demo nhận UTC offset, thành phố và True Solar Time riêng cho người B.

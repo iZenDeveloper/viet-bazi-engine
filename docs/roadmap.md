@@ -38,6 +38,7 @@
 - [x] Hiển thị độ nhạy giờ sinh ±30 phút và tải sensitivity JSON đúng schema.
 - [x] So sánh compatibility hai lá số, hiển thị factor/evidence và export JSON.
 - [x] Compatibility hỗ trợ múi giờ, thành phố và True Solar Time độc lập cho người B.
+- [x] Demo hỗ trợ tọa độ latitude/longitude tùy chỉnh cho cả hai người.
 
 ## Nguyên tắc phát hành
 
