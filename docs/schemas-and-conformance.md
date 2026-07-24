@@ -15,6 +15,7 @@
 | Batch input | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-input-1.0.json` |
 | Batch result | 1.0 | `https://viet-bazi.dev/schema/bazi-batch-result-1.0.json` |
 | Birth-time sensitivity | 1.0 | `https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json` |
+| Localized birth-time sensitivity | 1.0 | `https://viet-bazi.dev/schema/localized-birth-time-sensitivity-1.0.json` |
 | Compatibility input | 1.0 | `https://viet-bazi.dev/schema/compatibility-input-1.0.json` |
 | Compatibility result | 1.0 | `https://viet-bazi.dev/schema/compatibility-result-1.0.json` |
 | Localized compatibility report | 1.0 | `https://viet-bazi.dev/schema/localized-compatibility-report-1.0.json` |

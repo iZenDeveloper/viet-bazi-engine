@@ -1,6 +1,6 @@
 import { parseLocalIso } from './calendar.js';
 import { calculateBazi } from './engine.js';
-import type { BirthInput, BirthTimeSensitivity, Pillar, PillarSnapshot } from './types.js';
+import type { BirthInput, BirthTimeSensitivity, LocalizedBirthTimeSensitivityReport, Pillar, PillarSnapshot } from './types.js';
 
 const pillarSnapshot=(pillars:ReturnType<typeof calculateBazi>['pillars']):PillarSnapshot=>({year:`${pillars.year.stem.code}-${pillars.year.branch.code}`,month:`${pillars.month.stem.code}-${pillars.month.branch.code}`,day:`${pillars.day.stem.code}-${pillars.day.branch.code}`,hour:`${pillars.hour.stem.code}-${pillars.hour.branch.code}`});
 const signature=(snapshot:PillarSnapshot)=>`${snapshot.year}|${snapshot.month}|${snapshot.day}|${snapshot.hour}`;
@@ -16,4 +16,12 @@ export function analyzeBirthTimeSensitivity(input:BirthInput,windowMinutes=120,s
   for(const offset of [...offsets].sort((a,b)=>a-b)){const localDateTime=shiftedIso(input.localDateTime,offset),chart=calculateBazi({...input,localDateTime}),pillars=pillarSnapshot(chart.pillars),key=signature(pillars),existing=states.get(key);if(existing)existing.lastOffsetMinutes=offset;else states.set(key,{firstOffsetMinutes:offset,lastOffsetMinutes:offset,localDateTime,pillars});}
   const variants=[...states.values()].map(state=>({...state,changedPillars:changedPillars(baseline,state.pillars)}));
   return {schemaVersion:'1.0',windowMinutes,stepMinutes,sampleCount:offsets.size,stable:variants.length===1,baseline:{localDateTime:input.localDateTime,pillars:baseline},variants};
+}
+
+const pillarLabels={vi:{YEAR:'Năm',MONTH:'Tháng',DAY:'Ngày',HOUR:'Giờ'},en:{YEAR:'Year',MONTH:'Month',DAY:'Day',HOUR:'Hour'}} as const;
+
+/** Localize the explanatory layer while preserving stable pillar codes and snapshots. */
+export function localizeBirthTimeSensitivity(report:BirthTimeSensitivity,locale:'vi'|'en'='vi'):LocalizedBirthTimeSensitivityReport {
+  const labels=pillarLabels[locale],summary=locale==='en'?`${report.sampleCount} samples; ${report.stable?'all four pillars are stable':`${report.variants.length} distinct pillar states`}.`:`${report.sampleCount} mẫu; ${report.stable?'cả bốn trụ ổn định':`${report.variants.length} trạng thái trụ khác nhau`}.`;
+  return {schemaVersion:'1.0',locale,windowMinutes:report.windowMinutes,stepMinutes:report.stepMinutes,sampleCount:report.sampleCount,stable:report.stable,summary,baseline:{localDateTime:report.baseline.localDateTime,pillars:{...report.baseline.pillars}},variants:report.variants.map(({changedPillars,...variant})=>({...variant,pillars:{...variant.pillars},changedPillarCodes:[...changedPillars],changedPillars:changedPillars.map(code=>labels[code])}))};
 }

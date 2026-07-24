@@ -2,6 +2,7 @@
 import { analyzeBirthTimeSensitivityFromJson, calculateBaziBatchFromJson, calculateBaziFromJson, compareBirthInputsFromJson, createBaziAuditReportFromJson, localizeBaziAuditReportFromJson, localizeCompatibilityFromJson, localizeFactsFromJson, localizeMethodologyFromJson, renderBaziSvgFromJson } from './json.js';
 import { calculateAnnualTimeline } from './engine.js';
 import { localizeAnnualTimeline } from './localization-report.js';
+import { localizeBirthTimeSensitivity } from './sensitivity.js';
 import { getEngineCapabilities } from './capabilities.js';
 const MAX_STDIN_BYTES = 10 * 1024 * 1024;
 function readStdin() { return new Promise((resolve, reject) => { let value = '', bytes = 0; process.stdin.setEncoding('utf8'); process.stdin.on('data', chunk => { bytes += new TextEncoder().encode(chunk).length; if (bytes > MAX_STDIN_BYTES) {
@@ -40,8 +41,8 @@ try {
             throw new TypeError('--audit không dùng cùng batch, compatibility, svg, sensitivity hoặc timeline');
         if (args.includes('--svg') && (args.includes('--batch') || args.includes('--compatibility') || sensitivityAt >= 0 || timelineAt >= 0 || yearAt >= 0))
             throw new TypeError('--svg không dùng cùng batch, compatibility, sensitivity, timeline hoặc year');
-        if (!args.includes('--svg') && (localeAt >= 0 && !args.includes('--facts') && !args.includes('--methodology') && !args.includes('--compatibility') && !args.includes('--audit') && timelineAt < 0 || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems') || args.includes('--no-element-balance') || args.includes('--high-contrast')))
-            throw new TypeError('--locale chỉ dùng cùng --svg, --facts, --methodology, --compatibility, --audit hoặc --timeline');
+        if (!args.includes('--svg') && (localeAt >= 0 && !args.includes('--facts') && !args.includes('--methodology') && !args.includes('--compatibility') && !args.includes('--audit') && timelineAt < 0 && sensitivityAt < 0 || titleAt >= 0 || widthAt >= 0 || args.includes('--no-hidden-stems') || args.includes('--no-element-balance') || args.includes('--high-contrast')))
+            throw new TypeError('--locale chỉ dùng cùng --svg, --facts, --methodology, --compatibility, --audit, --timeline hoặc --sensitivity');
         let sensitivityOptions;
         if (sensitivityAt >= 0) {
             const match = /^(\d+)(?::(\d+))?$/.exec(args[sensitivityAt + 1] ?? '');
@@ -60,7 +61,7 @@ try {
             process.stdout.write(svg + '\n');
         }
         else {
-            const chart = args.includes('--batch') ? calculateBaziBatchFromJson(json) : args.includes('--compatibility') ? (locale ? localizeCompatibilityFromJson(json, locale) : compareBirthInputsFromJson(json)) : args.includes('--audit') ? (locale ? localizeBaziAuditReportFromJson(json, locale, year) : createBaziAuditReportFromJson(json, year)) : args.includes('--facts') ? localizeFactsFromJson(json, locale === 'en' ? 'en' : 'vi', year) : args.includes('--methodology') ? localizeMethodologyFromJson(json, locale === 'en' ? 'en' : 'vi', year) : sensitivityOptions ? analyzeBirthTimeSensitivityFromJson(json, ...sensitivityOptions, year) : calculateBaziFromJson(json, year);
+            const chart = args.includes('--batch') ? calculateBaziBatchFromJson(json) : args.includes('--compatibility') ? (locale ? localizeCompatibilityFromJson(json, locale) : compareBirthInputsFromJson(json)) : args.includes('--audit') ? (locale ? localizeBaziAuditReportFromJson(json, locale, year) : createBaziAuditReportFromJson(json, year)) : args.includes('--facts') ? localizeFactsFromJson(json, locale === 'en' ? 'en' : 'vi', year) : args.includes('--methodology') ? localizeMethodologyFromJson(json, locale === 'en' ? 'en' : 'vi', year) : sensitivityOptions ? (locale ? localizeBirthTimeSensitivity(analyzeBirthTimeSensitivityFromJson(json, ...sensitivityOptions, year), locale) : analyzeBirthTimeSensitivityFromJson(json, ...sensitivityOptions, year)) : calculateBaziFromJson(json, year);
             let result = chart;
             if (timelineAt >= 0) {
                 const match = /^(\d{4}):(\d{4})$/.exec(args[timelineAt + 1] ?? '');

@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.39.0
+
+- Thêm localized birth-time sensitivity report `vi`/`en` với stable pillar codes và summary thân thiện LLM.
+- Đồng bộ TypeScript, JSON bridge, CLI `--sensitivity --locale`, Python, demo và JSON Schema.
+
 ## 0.38.0
 
 - Thêm localized annual timeline `vi`/`en` với stable Can, Chi, Thập Thần và thứ tự Đại Vận.

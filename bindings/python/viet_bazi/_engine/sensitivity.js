@@ -25,3 +25,9 @@ export function analyzeBirthTimeSensitivity(input, windowMinutes = 120, stepMinu
     const variants = [...states.values()].map(state => ({ ...state, changedPillars: changedPillars(baseline, state.pillars) }));
     return { schemaVersion: '1.0', windowMinutes, stepMinutes, sampleCount: offsets.size, stable: variants.length === 1, baseline: { localDateTime: input.localDateTime, pillars: baseline }, variants };
 }
+const pillarLabels = { vi: { YEAR: 'Năm', MONTH: 'Tháng', DAY: 'Ngày', HOUR: 'Giờ' }, en: { YEAR: 'Year', MONTH: 'Month', DAY: 'Day', HOUR: 'Hour' } };
+/** Localize the explanatory layer while preserving stable pillar codes and snapshots. */
+export function localizeBirthTimeSensitivity(report, locale = 'vi') {
+    const labels = pillarLabels[locale], summary = locale === 'en' ? `${report.sampleCount} samples; ${report.stable ? 'all four pillars are stable' : `${report.variants.length} distinct pillar states`}.` : `${report.sampleCount} mẫu; ${report.stable ? 'cả bốn trụ ổn định' : `${report.variants.length} trạng thái trụ khác nhau`}.`;
+    return { schemaVersion: '1.0', locale, windowMinutes: report.windowMinutes, stepMinutes: report.stepMinutes, sampleCount: report.sampleCount, stable: report.stable, summary, baseline: { localDateTime: report.baseline.localDateTime, pillars: { ...report.baseline.pillars } }, variants: report.variants.map(({ changedPillars, ...variant }) => ({ ...variant, pillars: { ...variant.pillars }, changedPillarCodes: [...changedPillars], changedPillars: changedPillars.map(code => labels[code]) })) };
+}

@@ -219,6 +219,18 @@ def analyze_birth_time_sensitivity(value: BirthInput, window_minutes: int = 120,
     return result
 
 
+def localize_birth_time_sensitivity(value: BirthInput, window_minutes: int = 120, step_minutes: int = 5, *, locale: Literal["vi", "en"] = "vi") -> dict[str, Any]:
+    command = [*_command(), "--compact", "--stdin", "--sensitivity", f"{window_minutes}:{step_minutes}", "--locale", locale]
+    completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
+    try:
+        result: dict[str, Any] = json.loads(completed.stdout)
+    except json.JSONDecodeError as error:
+        raise VietBaziError("Engine không trả JSON localized sensitivity hợp lệ") from error
+    return result
+
+
 def calculate_annual_timeline(value: BirthInput, from_year: int, to_year: int) -> list[dict[str, Any]]:
     command = [*_command(), "--compact", "--timeline", f"{from_year}:{to_year}", json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":"))]
     completed = subprocess.run(command, text=True, capture_output=True, check=False)

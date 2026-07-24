@@ -91,6 +91,12 @@ export const BIRTH_TIME_SENSITIVITY_JSON_SCHEMA:JsonSchemaDocument={
   $defs:{localDateTime:{type:'string',pattern:'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$'},pillarCode:{type:'string',pattern:`^(${stemCodes.join('|')})-(${branchCodes.join('|')})$`}}
 };
 
+export const LOCALIZED_BIRTH_TIME_SENSITIVITY_JSON_SCHEMA:JsonSchemaDocument={
+  $schema:'https://json-schema.org/draft/2020-12/schema',$id:'https://viet-bazi.dev/schema/localized-birth-time-sensitivity-1.0.json',title:'Viet Bazi Localized Birth Time Sensitivity 1.0',type:'object',additionalProperties:false,
+  required:['schemaVersion','locale','windowMinutes','stepMinutes','sampleCount','stable','summary','baseline','variants'],properties:{schemaVersion:{const:'1.0'},locale:{enum:['vi','en']},windowMinutes:{type:'integer',minimum:1,maximum:720},stepMinutes:{type:'integer',minimum:1,maximum:720},sampleCount:{type:'integer',minimum:3,maximum:289},stable:{type:'boolean'},summary:{type:'string',minLength:1},baseline:{type:'object',additionalProperties:false,required:['localDateTime','pillars'],properties:{localDateTime:{$ref:'#/$defs/localDateTime'},pillars:pillarSnapshotSchema}},variants:{type:'array',minItems:1,maxItems:289,items:{type:'object',additionalProperties:false,required:['firstOffsetMinutes','lastOffsetMinutes','localDateTime','pillars','changedPillarCodes','changedPillars'],properties:{firstOffsetMinutes:{type:'integer',minimum:-720,maximum:720},lastOffsetMinutes:{type:'integer',minimum:-720,maximum:720},localDateTime:{$ref:'#/$defs/localDateTime'},pillars:pillarSnapshotSchema,changedPillarCodes:{type:'array',uniqueItems:true,maxItems:4,items:{enum:['YEAR','MONTH','DAY','HOUR']}},changedPillars:{type:'array',uniqueItems:true,maxItems:4,items:{type:'string',minLength:1}}}}}},
+  allOf:[{if:{properties:{stable:{const:true}}},then:{properties:{variants:{maxItems:1}}},else:{properties:{variants:{minItems:2}}}}],$defs:{localDateTime:{type:'string',pattern:'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$'},pillarCode:{type:'string',pattern:`^(${stemCodes.join('|')})-(${branchCodes.join('|')})$`}}
+};
+
 export const COMPATIBILITY_INPUT_JSON_SCHEMA:JsonSchemaDocument={
   $schema:'https://json-schema.org/draft/2020-12/schema',$id:'https://viet-bazi.dev/schema/compatibility-input-1.0.json',title:'Viet Bazi Compatibility Input 1.0',type:'array',minItems:2,maxItems:2,items:{$ref:BIRTH_INPUT_JSON_SCHEMA.$id}
 };

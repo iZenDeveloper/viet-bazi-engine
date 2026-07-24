@@ -20,6 +20,7 @@ from viet_bazi import (
     create_bazi_audit_report,
     localize_annual_timeline,
     localize_bazi_audit_report,
+    localize_birth_time_sensitivity,
     localize_facts,
     localize_compatibility,
     localize_methodology,
@@ -45,6 +46,7 @@ audit_en = localize_bazi_audit_report(birth, locale="en")
 facts_en = localize_facts(birth, locale="en")
 methodology_en = localize_methodology(birth, locale="en")
 sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
+sensitivity_en = localize_birth_time_sensitivity(birth, 120, 5, locale="en")
 capabilities = get_capabilities()
 svg = render_bazi_svg(birth, locale="en", title="My chart", width=900, show_hidden_stems=True, show_element_balance=True, high_contrast=True)
 ```

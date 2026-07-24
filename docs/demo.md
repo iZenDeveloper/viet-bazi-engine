@@ -14,7 +14,7 @@ Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG ren
 Sau mỗi lần tính, phần tóm tắt hiển thị Nhật Chủ, Lưu Niên, Đại Vận đang hoạt động và Cách cục; structured JSON vẫn là nguồn dữ liệu đầy đủ.
 Phần giải thích hiển thị localized facts và 13 quy ước methodology. Đổi ngôn ngữ sẽ tính/render lại toàn bộ SVG và hai vùng giải thích mà không gửi dữ liệu ra ngoài.
 Audit trace đóng mặc định để giữ giao diện gọn; khi mở, nó hiển thị engine/chart version, rule code/version/category, mô tả theo locale và các đường dẫn input/output. Báo cáo tải xuống tuân theo `localized-audit-report-1.0`.
-Phần độ nhạy lấy 13 mẫu trong cửa sổ ±30 phút, nhóm các mẫu có cùng bốn trụ và chỉ rõ trụ nào thay đổi so với giờ nhập. Báo cáo có thể tải dưới dạng JSON theo schema `birth-time-sensitivity-1.0`.
+Phần độ nhạy lấy 13 mẫu trong cửa sổ ±30 phút, nhóm các mẫu có cùng bốn trụ và chỉ rõ trụ nào thay đổi theo locale đang chọn. Báo cáo tải xuống dùng schema `localized-birth-time-sensitivity-1.0` với stable pillar codes.
 Phần compatibility dùng lá số đang hiển thị làm người A và nhận ngày giờ, giới tính, UTC offset, thành phố và True Solar Time riêng cho người B. Hai người chỉ dùng chung `asOfYear` và quy ước đổi ngày. Demo hiển thị tổng điểm, grade, bốn factor cùng evidence và disclaimer theo locale đang chọn; kết quả tải xuống tuân theo `localized-compatibility-report-1.0`.
 Ngay dưới biểu đồ là timeline 5 năm quanh `asOfYear`, gồm Can Chi, Thập Thần và Đại Vận theo locale đang chọn; năm đang xem được làm nổi bật.
 

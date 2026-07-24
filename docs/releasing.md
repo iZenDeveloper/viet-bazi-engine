@@ -14,8 +14,8 @@ npm test
 npm run test:python-wheel
 npm run release:check
 git status --short
-git tag -a v0.38.0 -m "Viet Bazi Engine v0.38.0"
-git push origin v0.38.0
+git tag -a v0.39.0 -m "Viet Bazi Engine v0.39.0"
+git push origin v0.39.0
 ```
 
 Nếu tag không khớp version package, workflow dừng trước khi tạo release. Workflow không tự publish lên npm/PyPI; hai registry đó cần token và phê duyệt riêng.

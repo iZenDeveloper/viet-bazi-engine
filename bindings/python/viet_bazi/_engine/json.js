@@ -1,5 +1,5 @@
 import { calculateAnnualTimeline, calculateBazi } from './engine.js';
-import { analyzeBirthTimeSensitivity } from './sensitivity.js';
+import { analyzeBirthTimeSensitivity, localizeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs, localizeCompatibility } from './compatibility.js';
 import { renderBaziSvg } from './svg.js';
@@ -94,6 +94,7 @@ export function analyzeBirthTimeSensitivityFromJson(json, windowMinutes = 120, s
     }
     return analyzeBirthTimeSensitivity(validateBirthInput(parsed, asOfYear), windowMinutes, stepMinutes);
 }
+export function localizeBirthTimeSensitivityFromJson(json, windowMinutes = 120, stepMinutes = 5, locale = 'vi', asOfYear) { return localizeBirthTimeSensitivity(analyzeBirthTimeSensitivityFromJson(json, windowMinutes, stepMinutes, asOfYear), locale); }
 export function compareBirthInputsFromJson(json) {
     let parsed;
     try {

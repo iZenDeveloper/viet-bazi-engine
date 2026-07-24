@@ -1,11 +1,11 @@
 import { calculateAnnualTimeline, calculateBazi } from './engine.js';
-import { analyzeBirthTimeSensitivity } from './sensitivity.js';
+import { analyzeBirthTimeSensitivity, localizeBirthTimeSensitivity } from './sensitivity.js';
 import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs, localizeCompatibility } from './compatibility.js';
 import { renderBaziSvg } from './svg.js';
 import { createBaziAuditReport, localizeBaziAuditReport } from './traceability.js';
 import { localizeAnnualTimeline, localizeFacts, localizeMethodology } from './localization-report.js';
-import type { AnnualTimelineEntry, BaziAuditReport, BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult, LocalizedAnnualTimelineReport, LocalizedAuditReport, SvgOptions } from './types.js';
+import type { AnnualTimelineEntry, BaziAuditReport, BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult, LocalizedAnnualTimelineReport, LocalizedAuditReport, LocalizedBirthTimeSensitivityReport, SvgOptions } from './types.js';
 
 const assertKnownKeys=(value:Record<string,unknown>,allowed:readonly string[],path:string)=>{const unknown=Object.keys(value).filter(key=>!allowed.includes(key));if(unknown.length)throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`);};
 
@@ -49,6 +49,7 @@ export function analyzeBirthTimeSensitivityFromJson(json:string,windowMinutes=12
   let parsed:unknown;try{parsed=JSON.parse(json);}catch{throw new SyntaxError('JSON sensitivity input không hợp lệ');}
   return analyzeBirthTimeSensitivity(validateBirthInput(parsed,asOfYear),windowMinutes,stepMinutes);
 }
+export function localizeBirthTimeSensitivityFromJson(json:string,windowMinutes=120,stepMinutes=5,locale:'vi'|'en'='vi',asOfYear?:number):LocalizedBirthTimeSensitivityReport {return localizeBirthTimeSensitivity(analyzeBirthTimeSensitivityFromJson(json,windowMinutes,stepMinutes,asOfYear),locale);}
 
 export function compareBirthInputsFromJson(json:string):CompatibilityResult {
   let parsed:unknown;try{parsed=JSON.parse(json);}catch{throw new SyntaxError('JSON compatibility input không hợp lệ');}

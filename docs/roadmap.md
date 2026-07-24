@@ -42,6 +42,7 @@
 - [x] Hiển thị audit trace rule/version/path và export audit JSON đúng schema.
 - [x] Localized compatibility report `vi`/`en` với stable grade/factor codes và parity bindings.
 - [x] Localized audit và annual timeline `vi`/`en` với stable rule/pillar/ten-god codes.
+- [x] Localized birth-time sensitivity `vi`/`en` với stable changed-pillar codes.
 
 ## Nguyên tắc phát hành
 

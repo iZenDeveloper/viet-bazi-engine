@@ -15,6 +15,9 @@ if(conflict.status!==1||!conflict.stderr.includes('không nhận thêm'))throw n
 const sensitivity=run(['--stdin','--sensitivity','15:5','--compact'],JSON.stringify({...valid,localDateTime:'2026-02-04T03:00:00'}));
 const sensitivityResult=JSON.parse(sensitivity.stdout);
 if(sensitivity.status!==0||sensitivityResult.stable!==false||sensitivityResult.sampleCount!==7)throw new Error(`stdin sensitivity failed: ${sensitivity.stderr}`);
+const localizedSensitivity=run(['--stdin','--sensitivity','15:5','--locale','en','--compact'],JSON.stringify({...valid,localDateTime:'2026-02-04T03:00:00'}));
+const localizedSensitivityResult=JSON.parse(localizedSensitivity.stdout);
+if(localizedSensitivity.status!==0||localizedSensitivityResult.locale!=='en'||!localizedSensitivityResult.summary||!localizedSensitivityResult.variants.some(x=>x.changedPillars.includes('Month')&&x.changedPillarCodes.includes('MONTH')))throw new Error(`localized sensitivity failed: ${localizedSensitivity.stderr}`);
 const capabilities=run(['--capabilities','--compact']);
 const capabilitiesResult=JSON.parse(capabilities.stdout);
 if(capabilities.status!==0||capabilitiesResult.offline!==true||!capabilitiesResult.features.includes('BATCH'))throw new Error(`capabilities failed: ${capabilities.stderr}`);
@@ -40,4 +43,4 @@ if(methodology.status!==0||methodologyResult.locale!=='en'||methodologyResult.it
 const localizedTimeline=run(['--stdin','--timeline','2025:2027','--locale','en','--compact'],JSON.stringify(valid));
 const localizedTimelineResult=JSON.parse(localizedTimeline.stdout);
 if(localizedTimeline.status!==0||localizedTimelineResult.locale!=='en'||localizedTimelineResult.entries.length!==3||localizedTimelineResult.entries[0].annual.stem==='Giáp')throw new Error(`localized timeline failed: ${localizedTimeline.stderr}`);
-console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,compatibility:true,localizedCompatibility:true,svg:true,audit:true,localizedAudit:true,facts:true,methodology:true,localizedTimeline:true,capabilities:true,conflictRejected:true}));
+console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,localizedSensitivity:true,compatibility:true,localizedCompatibility:true,svg:true,audit:true,localizedAudit:true,facts:true,methodology:true,localizedTimeline:true,capabilities:true,conflictRejected:true}));

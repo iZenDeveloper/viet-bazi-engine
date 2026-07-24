@@ -50,9 +50,11 @@ Stdin giới hạn 10 MiB. Không được truyền thêm JSON argument khi dùn
 
 ```bash
 printf '%s' '{...}' | viet-bazi --stdin --sensitivity 120:5 --compact
+
+printf '%s' '{...}' | viet-bazi --stdin --sensitivity 120:5 --locale en --compact
 ```
 
-Định dạng là `WINDOW_MINUTES[:STEP_MINUTES]`; step mặc định 5. Không dùng cùng batch hoặc timeline.
+Định dạng là `WINDOW_MINUTES[:STEP_MINUTES]`; step mặc định 5. Thêm `--locale vi|en` để nhận summary và tên trụ đã dịch nhưng vẫn giữ stable codes. Không dùng cùng batch hoặc timeline.
 
 ## Compatibility
 
