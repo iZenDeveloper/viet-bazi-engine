@@ -1,5 +1,6 @@
 import { calculateBaziWithCalendar } from './engine.js';
 import { findJieBoundary, mod } from './calendar.js';
+import { baziError } from './errors.js';
 async function instantiate(source, imports) {
     if (source instanceof WebAssembly.Module)
         return WebAssembly.instantiate(source, imports);
@@ -16,10 +17,16 @@ async function instantiate(source, imports) {
 }
 export async function loadWasmCalendar(source) {
     const imports = { env: { sin: Math.sin, cos: Math.cos } };
-    const instance = await instantiate(source, imports);
+    let instance;
+    try {
+        instance = await instantiate(source, imports);
+    }
+    catch {
+        throw baziError('WASM_INSTANTIATION', 'Error', 'Không thể khởi tạo WASM calendar', 'Unable to instantiate the WASM calendar');
+    }
     const raw = instance.exports;
     if (typeof raw.abi_version !== 'function' || raw.abi_version() !== 1)
-        throw new Error('WASM calendar ABI không tương thích');
+        throw baziError('WASM_ABI', 'Error', 'WASM calendar ABI không tương thích', 'Incompatible WASM calendar ABI');
     return { abiVersion: 1, solarLongitude: (ms) => raw.solar_longitude(ms), equationOfTime: (day) => raw.equation_of_time(day), sexagenaryDayIndex: (year, month, day, hour) => raw.sexagenary_day_index(year, month, day, hour) };
 }
 function operations(kernel) {

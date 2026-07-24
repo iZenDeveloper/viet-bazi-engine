@@ -94,6 +94,8 @@ Batch envelope:
 
 `BaziError` cung cấp stable `code`, `name` tương thích và message mặc định tiếng Việt. `toBaziErrorPayload(error, locale)` tạo payload `vi`/`en` mà không đổi code. CLI hỗ trợ `--error-json`; Python `VietBaziError` expose cùng code qua thuộc tính `.code`.
 
+Error taxonomy bao phủ birth input, JSON parsing, batch, compatibility, timeline, sensitivity, SVG và WASM. `BAZI_ERROR_CODES` là catalog public để consumer validate hoặc map UI mà không phụ thuộc nội dung message.
+
 ## Calendar primitives
 
 - `solarLongitude(date)` — hoàng kinh biểu kiến xấp xỉ, độ.

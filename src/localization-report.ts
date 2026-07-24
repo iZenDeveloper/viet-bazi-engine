@@ -1,5 +1,6 @@
 import { getCoreLabels } from './localization.js';
 import { ELEMENT_CODES } from './constants.js';
+import { baziError } from './errors.js';
 import type { AnnualTimelineEntry, BaziResult, Element, LocalizedAnnualTimelineReport, LocalizedChartPillar, LocalizedChartSummary, LocalizedFactsReport, LocalizedMethodologyReport, LocalizedTimelinePillar, MethodologyManifest, Pillar } from './types.js';
 
 const localizedPillar=(stemCode:LocalizedTimelinePillar['stemCode'],branchCode:LocalizedTimelinePillar['branchCode'],locale:'vi'|'en'):LocalizedTimelinePillar=>{const labels=getCoreLabels(locale),stem=labels.stems[stemCode],branch=labels.branches[branchCode];return {stemCode,stem,branchCode,branch,text:`${stem} ${branch}`};};
@@ -15,7 +16,7 @@ export function localizeChartSummary(chart:BaziResult,locale:'vi'|'en'='vi'):Loc
 
 /** Create a compact localized view of a calculated annual timeline. */
 export function localizeAnnualTimeline(timeline:readonly AnnualTimelineEntry[],locale:'vi'|'en'='vi'):LocalizedAnnualTimelineReport {
-  if(!timeline.length)throw new RangeError('Timeline cần ít nhất một năm');
+  if(!timeline.length)throw baziError('TIMELINE_EMPTY','RangeError','Timeline cần ít nhất một năm','Timeline requires at least one year');
   const labels=getCoreLabels(locale),entries=timeline.map(entry=>{const annual=entry.analysis.pillar,active=entry.activeLuck.pillar;return {year:entry.year,annual:localizedPillar(annual.stem.code,annual.branch.code,locale),tenGodCode:entry.analysis.stemTenGodCode,tenGod:labels.tenGods[entry.analysis.stemTenGodCode],activeLuck:active?{order:active.order,pillar:localizedPillar(active.stem.code,active.branch.code,locale)}:null};});
   return {schemaVersion:'1.0',locale,fromYear:entries[0]!.year,toYear:entries[entries.length-1]!.year,entries};
 }

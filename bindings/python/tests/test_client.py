@@ -11,13 +11,22 @@ class ClientTest(unittest.TestCase):
     def test_calculates_through_local_engine(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
         self.assertEqual(result["schemaVersion"], "1.7")
-        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.43.0")
+        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "0.44.0")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 
     def test_surfaces_engine_errors(self) -> None:
         with self.assertRaises(VietBaziError) as caught:
             calculate_bazi(BirthInput("not-a-date", 420, "male", 2026))
         self.assertEqual(caught.exception.code, "LOCAL_DATETIME_FORMAT")
+
+    def test_surfaces_specialized_timeline_and_sensitivity_errors(self) -> None:
+        value = BirthInput("2000-01-07T12:00:00", 420, "male", 2026)
+        with self.assertRaises(VietBaziError) as timeline:
+            calculate_annual_timeline(value, 2027, 2025)
+        self.assertEqual(timeline.exception.code, "TIMELINE_RANGE")
+        with self.assertRaises(VietBaziError) as sensitivity:
+            analyze_birth_time_sensitivity(value, 0, 1)
+        self.assertEqual(sensitivity.exception.code, "SENSITIVITY_WINDOW")
 
     def test_localizes_chart_summary(self) -> None:
         result = localize_chart_summary(BirthInput("2000-01-07T12:00:00", 420, "male", 2026), locale="en")
@@ -108,7 +117,7 @@ class ClientTest(unittest.TestCase):
 
     def test_verifies_bundled_engine_integrity(self) -> None:
         result = verify_bundled_engine()
-        self.assertEqual(result, {"engineVersion": "0.43.0", "files": 22, "verified": True})
+        self.assertEqual(result, {"engineVersion": "0.44.0", "files": 22, "verified": True})
 
     def test_rejects_a_tampered_bundled_engine(self) -> None:
         source = Path(__file__).resolve().parents[1] / "viet_bazi" / "_engine"

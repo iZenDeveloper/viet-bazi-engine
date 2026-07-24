@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.44.0
+
+- Mở rộng stable error taxonomy cho timeline, sensitivity, SVG và WASM.
+- SVG từ chối width/locale không hợp lệ thay vì âm thầm chuẩn hóa; WASM phân biệt lỗi instantiate và ABI.
+- Thêm parity tests cho TypeScript, CLI structured errors và Python `VietBaziError.code`.
+
 ## 0.43.0
 
 - Thêm `BaziError` với stable code, message `vi`/`en` và serializer machine-readable.

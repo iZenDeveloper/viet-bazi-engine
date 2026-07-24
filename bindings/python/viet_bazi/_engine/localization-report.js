@@ -1,5 +1,6 @@
 import { getCoreLabels } from './localization.js';
 import { ELEMENT_CODES } from './constants.js';
+import { baziError } from './errors.js';
 const localizedPillar = (stemCode, branchCode, locale) => { const labels = getCoreLabels(locale), stem = labels.stems[stemCode], branch = labels.branches[branchCode]; return { stemCode, stem, branchCode, branch, text: `${stem} ${branch}` }; };
 const chartPillar = (pillar, locale) => { const labels = getCoreLabels(locale), base = localizedPillar(pillar.stem.code, pillar.branch.code, locale), label = { vi: { YEAR: 'Năm', MONTH: 'Tháng', DAY: 'Ngày', HOUR: 'Giờ' }, en: { YEAR: 'Year', MONTH: 'Month', DAY: 'Day', HOUR: 'Hour' } }[locale][pillar.labelCode], tenGod = pillar.tenGodCode === 'DAY_MASTER' ? (locale === 'en' ? 'Day Master' : 'Nhật Chủ') : labels.tenGods[pillar.tenGodCode]; return { ...base, labelCode: pillar.labelCode, label, tenGodCode: pillar.tenGodCode, tenGod }; };
 /** Build an AI-friendly localized summary without mutating the canonical chart. */
@@ -11,7 +12,7 @@ export function localizeChartSummary(chart, locale = 'vi') {
 /** Create a compact localized view of a calculated annual timeline. */
 export function localizeAnnualTimeline(timeline, locale = 'vi') {
     if (!timeline.length)
-        throw new RangeError('Timeline cần ít nhất một năm');
+        throw baziError('TIMELINE_EMPTY', 'RangeError', 'Timeline cần ít nhất một năm', 'Timeline requires at least one year');
     const labels = getCoreLabels(locale), entries = timeline.map(entry => { const annual = entry.analysis.pillar, active = entry.activeLuck.pillar; return { year: entry.year, annual: localizedPillar(annual.stem.code, annual.branch.code, locale), tenGodCode: entry.analysis.stemTenGodCode, tenGod: labels.tenGods[entry.analysis.stemTenGodCode], activeLuck: active ? { order: active.order, pillar: localizedPillar(active.stem.code, active.branch.code, locale) } : null }; });
     return { schemaVersion: '1.0', locale, fromYear: entries[0].year, toYear: entries[entries.length - 1].year, entries };
 }

@@ -119,6 +119,16 @@
                       "BATCH_NOT_ARRAY",
                       "BATCH_LIMIT",
                       "COMPATIBILITY_ARITY",
+                      "TIMELINE_RANGE",
+                      "TIMELINE_LIMIT",
+                      "TIMELINE_EMPTY",
+                      "SENSITIVITY_WINDOW",
+                      "SENSITIVITY_STEP",
+                      "SENSITIVITY_LIMIT",
+                      "SVG_WIDTH",
+                      "SVG_LOCALE",
+                      "WASM_INSTANTIATION",
+                      "WASM_ABI",
                       "CALCULATION_ERROR"
                     ]
                   },

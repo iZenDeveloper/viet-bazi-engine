@@ -3,9 +3,10 @@ import { baziYear, findNextJie, mod, parseLocalIso, sexagenaryDayIndex, solarCor
 import { analyzePattern } from './pattern.js';
 import { calculateShenSha, SHEN_SHA_CATALOG } from './shen-sha.js';
 import { resolveLocation } from './cities.js';
+import { baziError } from './errors.js';
 import type { ActiveLuck, AnnualAnalysis, AnnualTimelineEntry, BaziResult, BirthInput, Branch, BranchName, DayBoundaryConvention, Element, ElementScore, LuckPillar, MetadataFact, MethodologyManifest, Pillar, Relation, RelationTypeCode, Stem, TenGod } from './types.js';
 
-export const ENGINE_VERSION='0.43.0' as const;
+export const ENGINE_VERSION='0.44.0' as const;
 export function getMethodologyManifest(dayBoundary:DayBoundaryConvention,trueSolarTime:boolean):MethodologyManifest {
   return {engineVersion:ENGINE_VERSION,profileCode:'VIET_BAZI_STANDARD_V1',calendar:{yearBoundary:'LI_CHUN',monthBoundary:'TWELVE_JIE',dayBoundary:dayBoundary==='early-zi'?'EARLY_ZI':'MIDNIGHT',hourBoundary:'ZI_CENTERED_TWO_HOUR',solarTermModel:'APPROXIMATE_SOLAR_LONGITUDE'},trueSolarTime:{enabled:trueSolarTime,model:trueSolarTime?'LONGITUDE_PLUS_EQUATION_OF_TIME':'DISABLED'},luckCycle:{directionRule:'GENDER_AND_YEAR_STEM_POLARITY',startBoundary:'DIRECTIONAL_JIE',ageConversion:'THREE_DAYS_PER_YEAR'},analysis:{elementBalance:'WEIGHTED_HEURISTIC_V1',pattern:'MONTH_QI_HEURISTIC_V1',shenSha:'CATALOG_V1'}};
 }
@@ -52,7 +53,7 @@ function luckPillars(month:Pillar,birthYear:number,startAge:number,direction:1|-
 function activeLuck(luckList:LuckPillar[],year:number):ActiveLuck {const current=luckList.find(p=>year>=p.startYear&&year<p.startYear+10)??null;return {asOfYear:year,order:current?.order??null,pillar:current};}
 function analyzeAnnual(day:Stem,natal:Pillar[],luckList:LuckPillar[],year:number):AnnualAnalysis {const annual=annualPillar(year,day),god=annual.tenGod as TenGod,active=activeLuck(luckList,year);return {year,pillar:annual,stemTenGodCode:TEN_GOD_CODES[god],stemTenGod:god,interactions:natal.map(p=>({withPillarCode:p.labelCode,withPillar:p.label,relations:relations([annual.branch.name,p.branch.name])})),activeLuckInteraction:active.pillar?{order:active.pillar.order,relations:relations([annual.branch.name,active.pillar.branch.name])}:null};}
 
-export function calculateAnnualTimeline(chart:BaziResult,fromYear:number,toYear:number):AnnualTimelineEntry[] {if(!Number.isInteger(fromYear)||!Number.isInteger(toYear)||fromYear<1600||toYear>2400||fromYear>toYear)throw new RangeError('Khoảng Lưu Niên phải là năm nguyên, tăng dần, trong 1600..2400');if(toYear-fromYear>200)throw new RangeError('Một timeline hỗ trợ tối đa 201 năm');const natal=Object.values(chart.pillars);return Array.from({length:toYear-fromYear+1},(_,i)=>{const year=fromYear+i;return {year,activeLuck:activeLuck(chart.luck.pillars,year),analysis:analyzeAnnual(chart.dayMaster,natal,chart.luck.pillars,year)};});}
+export function calculateAnnualTimeline(chart:BaziResult,fromYear:number,toYear:number):AnnualTimelineEntry[] {if(!Number.isInteger(fromYear)||!Number.isInteger(toYear)||fromYear<1600||toYear>2400||fromYear>toYear)throw baziError('TIMELINE_RANGE','RangeError','Khoảng Lưu Niên phải là năm nguyên, tăng dần, trong 1600..2400','Annual timeline years must be increasing integers in 1600..2400');if(toYear-fromYear>200)throw baziError('TIMELINE_LIMIT','RangeError','Một timeline hỗ trợ tối đa 201 năm','An annual timeline supports at most 201 years');const natal=Object.values(chart.pillars);return Array.from({length:toYear-fromYear+1},(_,i)=>{const year=fromYear+i;return {year,activeLuck:activeLuck(chart.luck.pillars,year),analysis:analyzeAnnual(chart.dayMaster,natal,chart.luck.pillars,year)};});}
 
 type LegacyBirthInput=Omit<BirthInput,'asOfYear'>;
 export interface CalendarOperations {

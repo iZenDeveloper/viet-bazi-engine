@@ -14,6 +14,10 @@ if(batchResult.items[1]?.error?.code!=='LOCAL_DATETIME_FORMAT')throw new Error('
 const structuredError=spawnSync(process.execPath,[cli,'--error-json','--locale','en','--facts','{bad'],{encoding:'utf8'});
 const structuredErrorResult=JSON.parse(structuredError.stderr);
 if(structuredError.status!==1||structuredErrorResult.code!=='INVALID_JSON'||structuredErrorResult.message!=='Invalid JSON input')throw new Error(`structured error failed: ${structuredError.stderr}`);
+const timelineError=run(['--stdin','--timeline','2027:2025','--error-json','--locale','en'],JSON.stringify(valid));
+if(timelineError.status!==1||JSON.parse(timelineError.stderr).code!=='TIMELINE_RANGE')throw new Error(`timeline error code failed: ${timelineError.stderr}`);
+const sensitivityError=run(['--stdin','--sensitivity','0:1','--error-json','--locale','en'],JSON.stringify(valid));
+if(sensitivityError.status!==1||JSON.parse(sensitivityError.stderr).code!=='SENSITIVITY_WINDOW')throw new Error(`sensitivity error code failed: ${sensitivityError.stderr}`);
 const conflict=run(['--stdin',JSON.stringify(valid)],JSON.stringify(valid));
 if(conflict.status!==1||!conflict.stderr.includes('không nhận thêm'))throw new Error('stdin conflict was not rejected');
 const sensitivity=run(['--stdin','--sensitivity','15:5','--compact'],JSON.stringify({...valid,localDateTime:'2026-02-04T03:00:00'}));

@@ -1,11 +1,14 @@
 import { getCoreLabels } from './localization.js';
 import type { BaziResult, ElementCode, SvgOptions } from './types.js';
+import { baziError } from './errors.js';
 
 const COLORS:Record<ElementCode,string>={WOOD:'#238636',FIRE:'#cf222e',EARTH:'#9a6700',METAL:'#57606a',WATER:'#0969da'};
 const HIGH_CONTRAST_COLORS:Record<ElementCode,string>={WOOD:'#006b2d',FIRE:'#b00020',EARTH:'#6b4f00',METAL:'#30343b',WATER:'#0047ab'};
 const escape=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]!));
 
 export function renderBaziSvg(chart:BaziResult,options:SvgOptions={}):string {
+  if(options.width!==undefined&&(!Number.isFinite(options.width)||options.width<=0))throw baziError('SVG_WIDTH','RangeError','SVG width phải là số dương hữu hạn','SVG width must be a positive finite number');
+  if(options.locale!==undefined&&options.locale!=='vi'&&options.locale!=='en')throw baziError('SVG_LOCALE','RangeError','SVG locale phải là vi hoặc en','SVG locale must be vi or en');
   const locale=options.locale??'vi',labels=getCoreLabels(locale),pillarLabels=locale==='vi'?{YEAR:'Năm',MONTH:'Tháng',DAY:'Ngày',HOUR:'Giờ'}:{YEAR:'Year',MONTH:'Month',DAY:'Day',HOUR:'Hour'},dayMaster=locale==='vi'?'Nhật Chủ':'Day Master',colors=options.highContrast?HIGH_CONTRAST_COLORS:COLORS;
   const showBalance=options.showElementBalance!==false,width=Math.max(480,Math.min(1600,options.width??720)),baseHeight=options.showHiddenStems===false?410:470,height=baseHeight+(showBalance?120:0),title=escape(options.title??(locale==='vi'?'Lá số Bát Tự':'Bazi Chart'));
   const pillars=Object.values(chart.pillars),cell=(width-80)/4;

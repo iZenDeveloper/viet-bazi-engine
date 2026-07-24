@@ -1,19 +1,20 @@
 import { parseLocalIso } from './calendar.js';
 import { calculateBazi } from './engine.js';
+import { baziError } from './errors.js';
 const pillarSnapshot = (pillars) => ({ year: `${pillars.year.stem.code}-${pillars.year.branch.code}`, month: `${pillars.month.stem.code}-${pillars.month.branch.code}`, day: `${pillars.day.stem.code}-${pillars.day.branch.code}`, hour: `${pillars.hour.stem.code}-${pillars.hour.branch.code}` });
 const signature = (snapshot) => `${snapshot.year}|${snapshot.month}|${snapshot.day}|${snapshot.hour}`;
 const shiftedIso = (localDateTime, minutes) => new Date(parseLocalIso(localDateTime).getTime() + minutes * 60000).toISOString().slice(0, 19);
 const changedPillars = (baseline, current) => [['YEAR', 'year'], ['MONTH', 'month'], ['DAY', 'day'], ['HOUR', 'hour']].filter(([, key]) => baseline[key] !== current[key]).map(([code]) => code);
 export function analyzeBirthTimeSensitivity(input, windowMinutes = 120, stepMinutes = 5) {
     if (!Number.isInteger(windowMinutes) || windowMinutes < 1 || windowMinutes > 720)
-        throw new RangeError('windowMinutes phải là số nguyên trong 1..720');
+        throw baziError('SENSITIVITY_WINDOW', 'RangeError', 'windowMinutes phải là số nguyên trong 1..720', 'windowMinutes must be an integer in 1..720');
     if (!Number.isInteger(stepMinutes) || stepMinutes < 1 || stepMinutes > windowMinutes)
-        throw new RangeError('stepMinutes phải là số nguyên trong 1..windowMinutes');
+        throw baziError('SENSITIVITY_STEP', 'RangeError', 'stepMinutes phải là số nguyên trong 1..windowMinutes', 'stepMinutes must be an integer in 1..windowMinutes');
     const offsets = new Set([-windowMinutes, 0, windowMinutes]);
     for (let offset = -windowMinutes; offset <= windowMinutes; offset += stepMinutes)
         offsets.add(offset);
     if (offsets.size > 289)
-        throw new RangeError('Phân tích hỗ trợ tối đa 289 mẫu; hãy tăng stepMinutes');
+        throw baziError('SENSITIVITY_LIMIT', 'RangeError', 'Phân tích hỗ trợ tối đa 289 mẫu; hãy tăng stepMinutes', 'Sensitivity analysis supports at most 289 samples; increase stepMinutes');
     const baselineChart = calculateBazi(input), baseline = pillarSnapshot(baselineChart.pillars), states = new Map();
     for (const offset of [...offsets].sort((a, b) => a - b)) {
         const localDateTime = shiftedIso(input.localDateTime, offset), chart = calculateBazi({ ...input, localDateTime }), pillars = pillarSnapshot(chart.pillars), key = signature(pillars), existing = states.get(key);
