@@ -3,7 +3,7 @@ import { calculateAnnualTimeline,calculateBazi } from './engine.js';
 import { compareBaziCharts,compareBirthInputs,localizeCompatibility } from './compatibility.js';
 import { compareBirthInputsFromJson,renderBaziSvgFromJson } from './json.js';
 import { renderBaziSvg } from './svg.js';
-import { localizeAnnualTimeline,localizeFacts,localizeMethodology } from './localization-report.js';
+import { localizeAnnualTimeline,localizeChartSummary,localizeFacts,localizeMethodology } from './localization-report.js';
 
 const a=calculateBazi({localDateTime:'1990-05-17T14:30:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'female'});
 const b=calculateBazi({localDateTime:'1988-11-02T08:10:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'});
@@ -18,5 +18,6 @@ describe('phase 2 building blocks',()=>{
   it('localizes metadata facts without changing stable codes',()=>{const report=localizeFacts(a,'en');expect(report.locale).toBe('en');expect(report.facts.find(x=>x.code==='DAY_MASTER')?.text).toContain('Day Master');expect(report.facts.find(x=>x.code==='DAY_MASTER')?.evidence).toEqual(['pillars.day.stem']);});
   it('localizes methodology descriptions without changing convention values',()=>{const en=localizeMethodology(a.metadata.methodology,'en'),vi=localizeMethodology(a.metadata.methodology,'vi');expect(en.items.map(x=>x.code)).toEqual(vi.items.map(x=>x.code));expect(en.items.map(x=>x.value)).toEqual(vi.items.map(x=>x.value));expect(en.items[0]?.text).not.toBe(vi.items[0]?.text);});
   it('localizes annual timeline labels without changing stable codes',()=>{const timeline=calculateAnnualTimeline(a,2025,2027),en=localizeAnnualTimeline(timeline,'en'),vi=localizeAnnualTimeline(timeline,'vi');expect(en.entries.map(x=>[x.year,x.annual.stemCode,x.annual.branchCode,x.tenGodCode,x.activeLuck?.order])).toEqual(vi.entries.map(x=>[x.year,x.annual.stemCode,x.annual.branchCode,x.tenGodCode,x.activeLuck?.order]));expect(en.entries[0]?.annual.text).not.toBe(vi.entries[0]?.annual.text);expect(en).toMatchObject({schemaVersion:'1.0',locale:'en',fromYear:2025,toYear:2027});});
+  it('builds localized chart summaries with stable machine codes',()=>{const en=localizeChartSummary(a,'en'),vi=localizeChartSummary(a,'vi');expect(en.pillars.year.stemCode).toBe(vi.pillars.year.stemCode);expect(en.dayMaster.stemCode).toBe(vi.dayMaster.stemCode);expect(en.elements.map(x=>x.elementCode)).toEqual(vi.elements.map(x=>x.elementCode));expect(en.dayMaster.text).not.toBe(vi.dayMaster.text);expect(en.pattern.primaryTenGodCode).toBe(a.pillars.month.branch.hiddenStems[0]?.tenGodCode);});
   it('renders SVG from an untyped JSON boundary',()=>{const svg=renderBaziSvgFromJson(JSON.stringify(a.input),{locale:'en',title:'A < B',showHiddenStems:false});expect(svg).toContain('A &lt; B');expect(svg).not.toContain('class="hidden"');});
 });

@@ -1,0 +1,768 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/localized-chart-summary-1.0.json",
+  "title": "Viet Bazi Localized Chart Summary 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "locale",
+    "engineVersion",
+    "pillars",
+    "dayMaster",
+    "elements",
+    "activeLuck",
+    "annual",
+    "pattern",
+    "warnings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "locale": {
+      "enum": [
+        "vi",
+        "en"
+      ]
+    },
+    "engineVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "pillars": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "month",
+        "day",
+        "hour"
+      ],
+      "properties": {
+        "year": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stemCode",
+            "stem",
+            "branchCode",
+            "branch",
+            "text",
+            "labelCode",
+            "label",
+            "tenGodCode",
+            "tenGod"
+          ],
+          "properties": {
+            "stemCode": {
+              "enum": [
+                "JIA",
+                "YI",
+                "BING",
+                "DING",
+                "WU",
+                "JI",
+                "GENG",
+                "XIN",
+                "REN",
+                "GUI"
+              ]
+            },
+            "stem": {
+              "type": "string",
+              "minLength": 1
+            },
+            "branchCode": {
+              "enum": [
+                "ZI",
+                "CHOU",
+                "YIN",
+                "MAO",
+                "CHEN",
+                "SI",
+                "WU",
+                "WEI",
+                "SHEN",
+                "YOU",
+                "XU",
+                "HAI"
+              ]
+            },
+            "branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 3
+            },
+            "labelCode": {
+              "enum": [
+                "YEAR",
+                "MONTH",
+                "DAY",
+                "HOUR"
+              ]
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tenGodCode": {
+              "enum": [
+                "BI_JIAN",
+                "JIE_CAI",
+                "SHI_SHEN",
+                "SHANG_GUAN",
+                "PIAN_CAI",
+                "ZHENG_CAI",
+                "QI_SHA",
+                "ZHENG_GUAN",
+                "PIAN_YIN",
+                "ZHENG_YIN",
+                "DAY_MASTER"
+              ]
+            },
+            "tenGod": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "month": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stemCode",
+            "stem",
+            "branchCode",
+            "branch",
+            "text",
+            "labelCode",
+            "label",
+            "tenGodCode",
+            "tenGod"
+          ],
+          "properties": {
+            "stemCode": {
+              "enum": [
+                "JIA",
+                "YI",
+                "BING",
+                "DING",
+                "WU",
+                "JI",
+                "GENG",
+                "XIN",
+                "REN",
+                "GUI"
+              ]
+            },
+            "stem": {
+              "type": "string",
+              "minLength": 1
+            },
+            "branchCode": {
+              "enum": [
+                "ZI",
+                "CHOU",
+                "YIN",
+                "MAO",
+                "CHEN",
+                "SI",
+                "WU",
+                "WEI",
+                "SHEN",
+                "YOU",
+                "XU",
+                "HAI"
+              ]
+            },
+            "branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 3
+            },
+            "labelCode": {
+              "enum": [
+                "YEAR",
+                "MONTH",
+                "DAY",
+                "HOUR"
+              ]
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tenGodCode": {
+              "enum": [
+                "BI_JIAN",
+                "JIE_CAI",
+                "SHI_SHEN",
+                "SHANG_GUAN",
+                "PIAN_CAI",
+                "ZHENG_CAI",
+                "QI_SHA",
+                "ZHENG_GUAN",
+                "PIAN_YIN",
+                "ZHENG_YIN",
+                "DAY_MASTER"
+              ]
+            },
+            "tenGod": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "day": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stemCode",
+            "stem",
+            "branchCode",
+            "branch",
+            "text",
+            "labelCode",
+            "label",
+            "tenGodCode",
+            "tenGod"
+          ],
+          "properties": {
+            "stemCode": {
+              "enum": [
+                "JIA",
+                "YI",
+                "BING",
+                "DING",
+                "WU",
+                "JI",
+                "GENG",
+                "XIN",
+                "REN",
+                "GUI"
+              ]
+            },
+            "stem": {
+              "type": "string",
+              "minLength": 1
+            },
+            "branchCode": {
+              "enum": [
+                "ZI",
+                "CHOU",
+                "YIN",
+                "MAO",
+                "CHEN",
+                "SI",
+                "WU",
+                "WEI",
+                "SHEN",
+                "YOU",
+                "XU",
+                "HAI"
+              ]
+            },
+            "branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 3
+            },
+            "labelCode": {
+              "enum": [
+                "YEAR",
+                "MONTH",
+                "DAY",
+                "HOUR"
+              ]
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tenGodCode": {
+              "enum": [
+                "BI_JIAN",
+                "JIE_CAI",
+                "SHI_SHEN",
+                "SHANG_GUAN",
+                "PIAN_CAI",
+                "ZHENG_CAI",
+                "QI_SHA",
+                "ZHENG_GUAN",
+                "PIAN_YIN",
+                "ZHENG_YIN",
+                "DAY_MASTER"
+              ]
+            },
+            "tenGod": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "hour": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stemCode",
+            "stem",
+            "branchCode",
+            "branch",
+            "text",
+            "labelCode",
+            "label",
+            "tenGodCode",
+            "tenGod"
+          ],
+          "properties": {
+            "stemCode": {
+              "enum": [
+                "JIA",
+                "YI",
+                "BING",
+                "DING",
+                "WU",
+                "JI",
+                "GENG",
+                "XIN",
+                "REN",
+                "GUI"
+              ]
+            },
+            "stem": {
+              "type": "string",
+              "minLength": 1
+            },
+            "branchCode": {
+              "enum": [
+                "ZI",
+                "CHOU",
+                "YIN",
+                "MAO",
+                "CHEN",
+                "SI",
+                "WU",
+                "WEI",
+                "SHEN",
+                "YOU",
+                "XU",
+                "HAI"
+              ]
+            },
+            "branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 3
+            },
+            "labelCode": {
+              "enum": [
+                "YEAR",
+                "MONTH",
+                "DAY",
+                "HOUR"
+              ]
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tenGodCode": {
+              "enum": [
+                "BI_JIAN",
+                "JIE_CAI",
+                "SHI_SHEN",
+                "SHANG_GUAN",
+                "PIAN_CAI",
+                "ZHENG_CAI",
+                "QI_SHA",
+                "ZHENG_GUAN",
+                "PIAN_YIN",
+                "ZHENG_YIN",
+                "DAY_MASTER"
+              ]
+            },
+            "tenGod": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "dayMaster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stemCode",
+        "stem",
+        "elementCode",
+        "element",
+        "text"
+      ],
+      "properties": {
+        "stemCode": {
+          "enum": [
+            "JIA",
+            "YI",
+            "BING",
+            "DING",
+            "WU",
+            "JI",
+            "GENG",
+            "XIN",
+            "REN",
+            "GUI"
+          ]
+        },
+        "stem": {
+          "type": "string",
+          "minLength": 1
+        },
+        "elementCode": {
+          "enum": [
+            "WOOD",
+            "FIRE",
+            "EARTH",
+            "METAL",
+            "WATER"
+          ]
+        },
+        "element": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "elements": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "elementCode",
+          "element",
+          "percent",
+          "strengthCode",
+          "strength"
+        ],
+        "properties": {
+          "elementCode": {
+            "enum": [
+              "WOOD",
+              "FIRE",
+              "EARTH",
+              "METAL",
+              "WATER"
+            ]
+          },
+          "element": {
+            "type": "string",
+            "minLength": 1
+          },
+          "percent": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "strengthCode": {
+            "enum": [
+              "MISSING",
+              "WEAK",
+              "BALANCED",
+              "STRONG"
+            ]
+          },
+          "strength": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "activeLuck": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "order",
+            "startYear",
+            "pillar"
+          ],
+          "properties": {
+            "order": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8
+            },
+            "startYear": {
+              "type": "integer"
+            },
+            "pillar": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stemCode",
+                "stem",
+                "branchCode",
+                "branch",
+                "text"
+              ],
+              "properties": {
+                "stemCode": {
+                  "enum": [
+                    "JIA",
+                    "YI",
+                    "BING",
+                    "DING",
+                    "WU",
+                    "JI",
+                    "GENG",
+                    "XIN",
+                    "REN",
+                    "GUI"
+                  ]
+                },
+                "stem": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "branchCode": {
+                  "enum": [
+                    "ZI",
+                    "CHOU",
+                    "YIN",
+                    "MAO",
+                    "CHEN",
+                    "SI",
+                    "WU",
+                    "WEI",
+                    "SHEN",
+                    "YOU",
+                    "XU",
+                    "HAI"
+                  ]
+                },
+                "branch": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "annual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "pillar",
+        "tenGodCode",
+        "tenGod"
+      ],
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": 1600,
+          "maximum": 2400
+        },
+        "pillar": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stemCode",
+            "stem",
+            "branchCode",
+            "branch",
+            "text"
+          ],
+          "properties": {
+            "stemCode": {
+              "enum": [
+                "JIA",
+                "YI",
+                "BING",
+                "DING",
+                "WU",
+                "JI",
+                "GENG",
+                "XIN",
+                "REN",
+                "GUI"
+              ]
+            },
+            "stem": {
+              "type": "string",
+              "minLength": 1
+            },
+            "branchCode": {
+              "enum": [
+                "ZI",
+                "CHOU",
+                "YIN",
+                "MAO",
+                "CHEN",
+                "SI",
+                "WU",
+                "WEI",
+                "SHEN",
+                "YOU",
+                "XU",
+                "HAI"
+              ]
+            },
+            "branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 3
+            }
+          }
+        },
+        "tenGodCode": {
+          "enum": [
+            "BI_JIAN",
+            "JIE_CAI",
+            "SHI_SHEN",
+            "SHANG_GUAN",
+            "PIAN_CAI",
+            "ZHENG_CAI",
+            "QI_SHA",
+            "ZHENG_GUAN",
+            "PIAN_YIN",
+            "ZHENG_YIN"
+          ]
+        },
+        "tenGod": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "pattern": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primaryTenGodCode",
+        "primary",
+        "dayMasterStrengthCode",
+        "dayMasterStrength",
+        "favorableElementCodes",
+        "favorableElements",
+        "unfavorableElementCodes",
+        "unfavorableElements"
+      ],
+      "properties": {
+        "primaryTenGodCode": {
+          "enum": [
+            "BI_JIAN",
+            "JIE_CAI",
+            "SHI_SHEN",
+            "SHANG_GUAN",
+            "PIAN_CAI",
+            "ZHENG_CAI",
+            "QI_SHA",
+            "ZHENG_GUAN",
+            "PIAN_YIN",
+            "ZHENG_YIN"
+          ]
+        },
+        "primary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dayMasterStrengthCode": {
+          "enum": [
+            "WEAK",
+            "BALANCED",
+            "STRONG"
+          ]
+        },
+        "dayMasterStrength": {
+          "type": "string",
+          "minLength": 1
+        },
+        "favorableElementCodes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "WOOD",
+              "FIRE",
+              "EARTH",
+              "METAL",
+              "WATER"
+            ]
+          }
+        },
+        "favorableElements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unfavorableElementCodes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "WOOD",
+              "FIRE",
+              "EARTH",
+              "METAL",
+              "WATER"
+            ]
+          }
+        },
+        "unfavorableElements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { baziYear, findNextJie, mod, parseLocalIso, sexagenaryDayIndex, solarCor
 import { analyzePattern } from './pattern.js';
 import { calculateShenSha, SHEN_SHA_CATALOG } from './shen-sha.js';
 import { resolveLocation } from './cities.js';
-export const ENGINE_VERSION = '0.39.0';
+export const ENGINE_VERSION = '0.40.0';
 export function getMethodologyManifest(dayBoundary, trueSolarTime) {
     return { engineVersion: ENGINE_VERSION, profileCode: 'VIET_BAZI_STANDARD_V1', calendar: { yearBoundary: 'LI_CHUN', monthBoundary: 'TWELVE_JIE', dayBoundary: dayBoundary === 'early-zi' ? 'EARLY_ZI' : 'MIDNIGHT', hourBoundary: 'ZI_CENTERED_TWO_HOUR', solarTermModel: 'APPROXIMATE_SOLAR_LONGITUDE' }, trueSolarTime: { enabled: trueSolarTime, model: trueSolarTime ? 'LONGITUDE_PLUS_EQUATION_OF_TIME' : 'DISABLED' }, luckCycle: { directionRule: 'GENDER_AND_YEAR_STEM_POLARITY', startBoundary: 'DIRECTIONAL_JIE', ageConversion: 'THREE_DAYS_PER_YEAR' }, analysis: { elementBalance: 'WEIGHTED_HEURISTIC_V1', pattern: 'MONTH_QI_HEURISTIC_V1', shenSha: 'CATALOG_V1' } };
 }

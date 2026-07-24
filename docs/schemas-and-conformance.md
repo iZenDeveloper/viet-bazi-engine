@@ -6,6 +6,7 @@
 |---|---:|---|
 | Birth input | 1.0 | `https://viet-bazi.dev/schema/birth-input-1.0.json` |
 | Bazi result | 1.7 | `https://viet-bazi.dev/schema/bazi-result-1.7.json` |
+| Localized chart summary | 1.0 | `https://viet-bazi.dev/schema/localized-chart-summary-1.0.json` |
 | Bazi audit report | 1.0 | `https://viet-bazi.dev/schema/bazi-audit-report-1.0.json` |
 | Localized audit report | 1.0 | `https://viet-bazi.dev/schema/localized-audit-report-1.0.json` |
 | Localized facts report | 1.0 | `https://viet-bazi.dev/schema/localized-facts-report-1.0.json` |

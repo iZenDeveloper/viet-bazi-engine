@@ -11,7 +11,7 @@ Mở `http://127.0.0.1:8080/demo/`. Đổi cổng bằng biến `VIET_BAZI_DEMO_
 
 Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG rendering tại chỗ. Demo dùng catalog thành phố của engine hoặc cặp latitude/longitude tùy chỉnh cho từng người, hỗ trợ hai quy ước đổi ngày và báo cáo Việt/Anh. Có thể tải kết quả dạng SVG/JSON hoặc methodology JSON đúng schema; input gần ranh Tiết khí sẽ hiện cảnh báo.
 
-Sau mỗi lần tính, phần tóm tắt hiển thị Nhật Chủ, Lưu Niên, Đại Vận đang hoạt động và Cách cục; structured JSON vẫn là nguồn dữ liệu đầy đủ.
+Sau mỗi lần tính, phần tóm tắt hiển thị Nhật Chủ, Lưu Niên, Đại Vận đang hoạt động và Cách cục theo locale bằng cùng contract `localized-chart-summary-1.0`; structured JSON vẫn là nguồn dữ liệu đầy đủ.
 Phần giải thích hiển thị localized facts và 13 quy ước methodology. Đổi ngôn ngữ sẽ tính/render lại toàn bộ SVG và hai vùng giải thích mà không gửi dữ liệu ra ngoài.
 Audit trace đóng mặc định để giữ giao diện gọn; khi mở, nó hiển thị engine/chart version, rule code/version/category, mô tả theo locale và các đường dẫn input/output. Báo cáo tải xuống tuân theo `localized-audit-report-1.0`.
 Phần độ nhạy lấy 13 mẫu trong cửa sổ ±30 phút, nhóm các mẫu có cùng bốn trụ và chỉ rõ trụ nào thay đổi theo locale đang chọn. Báo cáo tải xuống dùng schema `localized-birth-time-sensitivity-1.0` với stable pillar codes.

@@ -5,7 +5,7 @@ import { calculateShenSha, SHEN_SHA_CATALOG } from './shen-sha.js';
 import { resolveLocation } from './cities.js';
 import type { ActiveLuck, AnnualAnalysis, AnnualTimelineEntry, BaziResult, BirthInput, Branch, BranchName, DayBoundaryConvention, Element, ElementScore, LuckPillar, MetadataFact, MethodologyManifest, Pillar, Relation, RelationTypeCode, Stem, TenGod } from './types.js';
 
-export const ENGINE_VERSION='0.39.0' as const;
+export const ENGINE_VERSION='0.40.0' as const;
 export function getMethodologyManifest(dayBoundary:DayBoundaryConvention,trueSolarTime:boolean):MethodologyManifest {
   return {engineVersion:ENGINE_VERSION,profileCode:'VIET_BAZI_STANDARD_V1',calendar:{yearBoundary:'LI_CHUN',monthBoundary:'TWELVE_JIE',dayBoundary:dayBoundary==='early-zi'?'EARLY_ZI':'MIDNIGHT',hourBoundary:'ZI_CENTERED_TWO_HOUR',solarTermModel:'APPROXIMATE_SOLAR_LONGITUDE'},trueSolarTime:{enabled:trueSolarTime,model:trueSolarTime?'LONGITUDE_PLUS_EQUATION_OF_TIME':'DISABLED'},luckCycle:{directionRule:'GENDER_AND_YEAR_STEM_POLARITY',startBoundary:'DIRECTIONAL_JIE',ageConversion:'THREE_DAYS_PER_YEAR'},analysis:{elementBalance:'WEIGHTED_HEURISTIC_V1',pattern:'MONTH_QI_HEURISTIC_V1',shenSha:'CATALOG_V1'}};
 }

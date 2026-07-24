@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.40.0
+
+- Thêm localized chart summary `vi`/`en` cho bốn trụ, Nhật Chủ, Ngũ Hành, Đại Vận, Lưu Niên và cách cục.
+- Đồng bộ TypeScript, JSON bridge, CLI `--summary`, Python, demo và JSON Schema với stable codes.
+
 ## 0.39.0
 
 - Thêm localized birth-time sensitivity report `vi`/`en` với stable pillar codes và summary thân thiện LLM.

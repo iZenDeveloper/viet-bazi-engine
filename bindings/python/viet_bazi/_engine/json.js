@@ -4,7 +4,7 @@ import { parseLocalIso } from './calendar.js';
 import { compareBirthInputs, localizeCompatibility } from './compatibility.js';
 import { renderBaziSvg } from './svg.js';
 import { createBaziAuditReport, localizeBaziAuditReport } from './traceability.js';
-import { localizeAnnualTimeline, localizeFacts, localizeMethodology } from './localization-report.js';
+import { localizeAnnualTimeline, localizeChartSummary, localizeFacts, localizeMethodology } from './localization-report.js';
 const assertKnownKeys = (value, allowed, path) => { const unknown = Object.keys(value).filter(key => !allowed.includes(key)); if (unknown.length)
     throw new TypeError(`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`); };
 export function validateBirthInput(value, legacyAsOfYear) {
@@ -115,3 +115,4 @@ export function calculateAnnualTimelineFromJson(json, fromYear, toYear, asOfYear
 export function localizeAnnualTimelineFromJson(json, fromYear, toYear, locale = 'vi', asOfYear) { return localizeAnnualTimeline(calculateAnnualTimelineFromJson(json, fromYear, toYear, asOfYear), locale); }
 export function localizeFactsFromJson(json, locale = 'vi', asOfYear) { return localizeFacts(calculateBaziFromJson(json, asOfYear), locale); }
 export function localizeMethodologyFromJson(json, locale = 'vi', asOfYear) { return localizeMethodology(calculateBaziFromJson(json, asOfYear).metadata.methodology, locale); }
+export function localizeChartSummaryFromJson(json, locale = 'vi', asOfYear) { return localizeChartSummary(calculateBaziFromJson(json, asOfYear), locale); }

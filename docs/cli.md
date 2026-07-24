@@ -28,6 +28,14 @@ viet-bazi --timeline 2025:2035 --locale en --compact '{...}'
 
 Bỏ `--locale` để nhận timeline thô; dùng `vi` hoặc `en` để nhận localized report với stable stem/branch/ten-god codes.
 
+## Localized chart summary
+
+```bash
+printf '%s' '{...}' | viet-bazi --stdin --summary --locale en --compact
+```
+
+Trả bản tóm tắt AI-friendly có stable codes cho các building block chính. Locale mặc định là `vi`.
+
 ## Batch
 
 ```bash

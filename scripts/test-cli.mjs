@@ -40,7 +40,10 @@ if(facts.status!==0||JSON.parse(facts.stdout).locale!=='en'||!JSON.parse(facts.s
 const methodology=run(['--stdin','--methodology','--locale','en','--compact'],JSON.stringify(valid));
 const methodologyResult=JSON.parse(methodology.stdout);
 if(methodology.status!==0||methodologyResult.locale!=='en'||methodologyResult.items.length!==13||methodologyResult.items[0]?.code!=='YEAR_BOUNDARY')throw new Error(`methodology failed: ${methodology.stderr}`);
+const summary=run(['--stdin','--summary','--locale','en','--compact'],JSON.stringify(valid));
+const summaryResult=JSON.parse(summary.stdout);
+if(summary.status!==0||summaryResult.locale!=='en'||summaryResult.pillars.day.stemCode!=='JIA'||summaryResult.elements.length!==5||!summaryResult.pattern.primaryTenGodCode)throw new Error(`localized summary failed: ${summary.stderr}`);
 const localizedTimeline=run(['--stdin','--timeline','2025:2027','--locale','en','--compact'],JSON.stringify(valid));
 const localizedTimelineResult=JSON.parse(localizedTimeline.stdout);
 if(localizedTimeline.status!==0||localizedTimelineResult.locale!=='en'||localizedTimelineResult.entries.length!==3||localizedTimelineResult.entries[0].annual.stem==='Giáp')throw new Error(`localized timeline failed: ${localizedTimeline.stderr}`);
-console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,localizedSensitivity:true,compatibility:true,localizedCompatibility:true,svg:true,audit:true,localizedAudit:true,facts:true,methodology:true,localizedTimeline:true,capabilities:true,conflictRejected:true}));
+console.log(JSON.stringify({stdinSingle:true,stdinBatch:true,stdinSensitivity:true,localizedSensitivity:true,compatibility:true,localizedCompatibility:true,svg:true,audit:true,localizedAudit:true,summary:true,facts:true,methodology:true,localizedTimeline:true,capabilities:true,conflictRejected:true}));
