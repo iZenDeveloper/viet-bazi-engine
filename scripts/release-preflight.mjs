@@ -8,5 +8,5 @@ if(pythonVersion!==version||engineVersion!==version)throw new Error(`Version dri
 if(!changelog.includes(`## ${version}`))throw new Error(`CHANGELOG missing ${version}`);
 if(schemaManifest.formatVersion!==1||schemaManifest.count!==Object.keys(schemaManifest.schemas).length||schemaManifest.count<1)throw new Error('Schema manifest invalid');
 const packed=JSON.parse(execFileSync('npm',['pack','--dry-run','--json'],{encoding:'utf8'}))[0],paths=new Set(packed.files.map(file=>file.path));
-for(const path of ['dist/index.js','dist/index.d.ts','dist/wasm/calendar.wasm','schemas/manifest.json','fixtures/v1/manifest.json','README.md','CHANGELOG.md','LICENSE'])if(!paths.has(path))throw new Error(`npm tarball missing ${path}`);
+for(const path of ['dist/index.js','dist/index.d.ts','dist/wasm/calendar.wasm','schemas/manifest.json','fixtures/v1/manifest.json','fixtures/v1/timezone-boundaries.json','README.md','CHANGELOG.md','LICENSE'])if(!paths.has(path))throw new Error(`npm tarball missing ${path}`);
 console.log(JSON.stringify({releaseReady:true,version,schemaArtifacts:schemaManifest.count,packageFiles:packed.entryCount}));

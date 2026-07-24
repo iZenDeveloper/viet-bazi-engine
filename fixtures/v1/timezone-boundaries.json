@@ -1,0 +1,12 @@
+[
+  {"id":"same-2000-vn","group":"same-utc-2000","localDateTime":"2000-01-07T12:00:00","timezoneOffsetMinutes":420,"dayBoundary":"early-zi","utc":"2000-01-07T05:00:00.000Z","year":"JI-MAO","month":"DING-CHOU","day":"JIA-ZI","hour":"GENG-WU"},
+  {"id":"same-2000-utc","group":"same-utc-2000","localDateTime":"2000-01-07T05:00:00","timezoneOffsetMinutes":0,"dayBoundary":"early-zi","utc":"2000-01-07T05:00:00.000Z","year":"JI-MAO","month":"DING-CHOU","day":"JIA-ZI","hour":"DING-MAO"},
+  {"id":"same-2000-ny","group":"same-utc-2000","localDateTime":"2000-01-07T00:00:00","timezoneOffsetMinutes":-300,"dayBoundary":"early-zi","utc":"2000-01-07T05:00:00.000Z","year":"JI-MAO","month":"DING-CHOU","day":"JIA-ZI","hour":"JIA-ZI"},
+  {"id":"lichun-vn","group":"same-utc-lichun","localDateTime":"2026-02-04T03:30:00","timezoneOffsetMinutes":420,"dayBoundary":"early-zi","utc":"2026-02-03T20:30:00.000Z","year":"BING-WU","month":"GENG-YIN","day":"JI-YOU","hour":"BING-YIN"},
+  {"id":"lichun-utc","group":"same-utc-lichun","localDateTime":"2026-02-03T20:30:00","timezoneOffsetMinutes":0,"dayBoundary":"early-zi","utc":"2026-02-03T20:30:00.000Z","year":"BING-WU","month":"GENG-YIN","day":"WU-SHEN","hour":"REN-XU"},
+  {"id":"lichun-ny","group":"same-utc-lichun","localDateTime":"2026-02-03T15:30:00","timezoneOffsetMinutes":-300,"dayBoundary":"early-zi","utc":"2026-02-03T20:30:00.000Z","year":"BING-WU","month":"GENG-YIN","day":"WU-SHEN","hour":"GENG-SHEN"},
+  {"id":"zi-before","group":"early-zi-boundary","localDateTime":"2000-01-07T22:59:00","timezoneOffsetMinutes":420,"dayBoundary":"early-zi","utc":"2000-01-07T15:59:00.000Z","year":"JI-MAO","month":"DING-CHOU","day":"JIA-ZI","hour":"YI-HAI"},
+  {"id":"zi-after","group":"early-zi-boundary","localDateTime":"2000-01-07T23:00:00","timezoneOffsetMinutes":420,"dayBoundary":"early-zi","utc":"2000-01-07T16:00:00.000Z","year":"JI-MAO","month":"DING-CHOU","day":"YI-CHOU","hour":"BING-ZI"},
+  {"id":"midnight-before","group":"midnight-boundary","localDateTime":"2000-01-07T23:59:00","timezoneOffsetMinutes":420,"dayBoundary":"midnight","utc":"2000-01-07T16:59:00.000Z","year":"JI-MAO","month":"DING-CHOU","day":"JIA-ZI","hour":"JIA-ZI"},
+  {"id":"midnight-after","group":"midnight-boundary","localDateTime":"2000-01-08T00:00:00","timezoneOffsetMinutes":420,"dayBoundary":"midnight","utc":"2000-01-07T17:00:00.000Z","year":"JI-MAO","month":"DING-CHOU","day":"YI-CHOU","hour":"BING-ZI"}
+]

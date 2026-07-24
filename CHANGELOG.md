@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.45.0
+
+- Nâng conformance fixtures lên `1.1.0` với 10 ca chéo UTC+7/UTC/UTC-5 và ranh đổi ngày 23:00/00:00.
+- Khóa normalized UTC cùng expected four-pillar codes; cùng UTC instant giữ trụ Năm/Tháng nhưng Ngày/Giờ theo local civil time.
+- Export fixture TypeScript/JSON và đưa dataset portable vào npm package.
+
 ## 0.44.0
 
 - Mở rộng stable error taxonomy cho timeline, sensitivity, SVG và WASM.

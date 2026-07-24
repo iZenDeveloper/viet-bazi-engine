@@ -9,7 +9,7 @@ const output = execFileSync(process.execPath, [
 const report = JSON.parse(output);
 
 if (report.benchmarkVersion !== '1.0') throw new Error('Unexpected benchmark schema');
-if (report.engineVersion !== '0.44.0') throw new Error(`Unexpected engine version: ${report.engineVersion}`);
+if (report.engineVersion !== '0.45.0') throw new Error(`Unexpected engine version: ${report.engineVersion}`);
 if (report.workload.records !== 25 || report.workload.batchSize !== 10 || !report.workload.deterministic) throw new Error('Unexpected workload metadata');
 if (report.result.succeeded !== 25 || report.result.failed !== 0) throw new Error('Benchmark did not calculate every record');
 for (const metric of ['durationMs', 'recordsPerSecond', 'heapUsedMiB', 'checksum']) {

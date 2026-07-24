@@ -116,7 +116,7 @@ Error taxonomy bao phủ birth input, JSON parsing, batch, compatibility, timeli
 - `getMethodologyManifest(dayBoundary, trueSolarTime)`
 - `STEMS`, `BRANCHES`, `ELEMENTS`
 - `SHEN_SHA_CATALOG`, `SHEN_SHA_CODES`
-- `CONFORMANCE_VERSION`, `JIE_2026_FIXTURES`, `SEXAGENARY_DAY_FIXTURES`
+- `CONFORMANCE_VERSION`, `JIE_2026_FIXTURES`, `SEXAGENARY_DAY_FIXTURES`, `TIMEZONE_BOUNDARY_FIXTURES`
 
 ## JSON Schema exports
 

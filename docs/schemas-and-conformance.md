@@ -44,10 +44,11 @@ Can, Chi, Ngũ Hành, Âm Dương, Thập Thần, quan hệ, Thần Sát và met
 
 ## Conformance fixtures
 
-`fixtures/v1/manifest.json` mô tả fixture set `1.0.0` và nguồn. Hai dataset portable:
+`fixtures/v1/manifest.json` mô tả fixture set `1.1.0` và nguồn. Ba dataset portable:
 
 - `jie-2026.json`: 12 ranh Tiết.
 - `sexagenary-days.json`: 6 ngày Can–Chi trải 1900–2099.
+- `timezone-boundaries.json`: 10 ca UTC normalization, múi giờ và ranh đổi ngày.
 
 Chạy độc lập trên artifact đã build:
 
@@ -57,6 +58,8 @@ npm run test:conformance
 ```
 
 Runner đồng thời kiểm tra JSON fixtures trùng exports TypeScript, tránh drift giữa bindings.
+
+Dataset timezone khóa UTC+7, UTC, UTC-5, cùng UTC instant sát Lập Xuân và hai ranh đổi ngày 23:00/00:00. Đây là invariant nội bộ của methodology công khai, không phải nguồn thiên văn độc lập: cùng instant giữ normalized UTC và trụ Năm/Tháng, trong khi Ngày/Giờ vẫn theo local civil time.
 
 ## Capability discovery
 
