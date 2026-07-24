@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.41.0
+
+- Bản địa hóa toàn bộ giao diện demo `vi`/`en`: form, options, headings, tables, actions, aria labels, trạng thái và disclaimer.
+- Giữ một DOM semantic duy nhất và đổi ngôn ngữ hoàn toàn client-side/offline.
+
 ## 0.40.0
 
 - Thêm localized chart summary `vi`/`en` cho bốn trụ, Nhật Chủ, Ngũ Hành, Đại Vận, Lưu Niên và cách cục.

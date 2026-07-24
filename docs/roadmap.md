@@ -44,6 +44,7 @@
 - [x] Localized audit và annual timeline `vi`/`en` với stable rule/pillar/ten-god codes.
 - [x] Localized birth-time sensitivity `vi`/`en` với stable changed-pillar codes.
 - [x] Localized chart summary `vi`/`en` cho các building block chính và AI consumers.
+- [x] Bản địa hóa toàn bộ UI chrome, table headers, actions và accessibility labels của demo.
 
 ## Nguyên tắc phát hành
 

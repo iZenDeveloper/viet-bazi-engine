@@ -9,7 +9,7 @@ npm run demo
 
 Mở `http://127.0.0.1:8080/demo/`. Đổi cổng bằng biến `VIET_BAZI_DEMO_PORT`. Server chỉ dùng Node.js built-ins, phục vụ workspace trên loopback và chặn path vượt khỏi project root.
 
-Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG rendering tại chỗ. Demo dùng catalog thành phố của engine hoặc cặp latitude/longitude tùy chỉnh cho từng người, hỗ trợ hai quy ước đổi ngày và báo cáo Việt/Anh. Có thể tải kết quả dạng SVG/JSON hoặc methodology JSON đúng schema; input gần ranh Tiết khí sẽ hiện cảnh báo.
+Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG rendering tại chỗ. Demo dùng catalog thành phố của engine hoặc cặp latitude/longitude tùy chỉnh cho từng người, hỗ trợ hai quy ước đổi ngày và báo cáo Việt/Anh. Khi đổi locale, toàn bộ form, options, headings, table headers, actions, aria labels, trạng thái và disclaimer cũng đổi ngay trên máy. Có thể tải kết quả dạng SVG/JSON hoặc methodology JSON đúng schema; input gần ranh Tiết khí sẽ hiện cảnh báo.
 
 Sau mỗi lần tính, phần tóm tắt hiển thị Nhật Chủ, Lưu Niên, Đại Vận đang hoạt động và Cách cục theo locale bằng cùng contract `localized-chart-summary-1.0`; structured JSON vẫn là nguồn dữ liệu đầy đủ.
 Phần giải thích hiển thị localized facts và 13 quy ước methodology. Đổi ngôn ngữ sẽ tính/render lại toàn bộ SVG và hai vùng giải thích mà không gửi dữ liệu ra ngoài.
