@@ -83,14 +83,16 @@ Batch envelope:
 
 ```json
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "summary": { "total": 2, "succeeded": 1, "failed": 1 },
   "items": [
     { "index": 0, "ok": true, "result": {} },
-    { "index": 1, "ok": false, "error": { "name": "RangeError", "message": "..." } }
+    { "index": 1, "ok": false, "error": { "name": "TypeError", "code": "GENDER", "message": "..." } }
   ]
 }
 ```
+
+`BaziError` cung cấp stable `code`, `name` tương thích và message mặc định tiếng Việt. `toBaziErrorPayload(error, locale)` tạo payload `vi`/`en` mà không đổi code. CLI hỗ trợ `--error-json`; Python `VietBaziError` expose cùng code qua thuộc tính `.code`.
 
 ## Calendar primitives
 

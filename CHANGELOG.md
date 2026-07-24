@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.43.0
+
+- Thêm `BaziError` với stable code, message `vi`/`en` và serializer machine-readable.
+- Batch failure có `error.code`; JSON Schema, CLI `--error-json` và Python `VietBaziError.code` dùng cùng contract.
+- Chuẩn hóa lỗi birth input, JSON parsing, batch limit và compatibility arity.
+
 ## 0.42.0
 
 - Khởi động Phase 4 với benchmark batch deterministic, output JSON machine-readable và correctness contract trong CI.

@@ -1,0 +1,20 @@
+export const BAZI_ERROR_CODES = [
+  'INVALID_JSON','INPUT_NOT_OBJECT','UNKNOWN_PROPERTY','LOCAL_DATETIME_TYPE','LOCAL_DATETIME_FORMAT',
+  'TIMEZONE_OFFSET','AS_OF_YEAR','GENDER','TRUE_SOLAR_TIME_TYPE','DAY_BOUNDARY','LOCATION_TYPE',
+  'LATITUDE','LONGITUDE','LOCATION_COORDINATES_REQUIRED','CITY_TYPE','LOCATION_REQUIRED',
+  'TRUE_SOLAR_LOCATION_REQUIRED','BATCH_NOT_ARRAY','BATCH_LIMIT','COMPATIBILITY_ARITY','CALCULATION_ERROR'
+] as const;
+export type BaziErrorCode = (typeof BAZI_ERROR_CODES)[number];
+export type BaziErrorLocale = 'vi'|'en';
+export interface BaziErrorPayload { name:string;code:BaziErrorCode;message:string }
+export class BaziError extends Error {
+  readonly code:BaziErrorCode;
+  readonly messages:Readonly<Record<BaziErrorLocale,string>>;
+  constructor(code:BaziErrorCode,name:string,messages:Record<BaziErrorLocale,string>){super(messages.vi);this.name=name;this.code=code;this.messages=Object.freeze({...messages});}
+  toPayload(locale:BaziErrorLocale='vi'):BaziErrorPayload{return {name:this.name,code:this.code,message:this.messages[locale]};}
+}
+export const baziError=(code:BaziErrorCode,name:string,vi:string,en:string)=>new BaziError(code,name,{vi,en});
+export function toBaziErrorPayload(error:unknown,locale:BaziErrorLocale='vi'):BaziErrorPayload {
+  if(error instanceof BaziError)return error.toPayload(locale);
+  return {name:error instanceof Error?error.name:'Error',code:'CALCULATION_ERROR',message:error instanceof Error?error.message:String(error)};
+}

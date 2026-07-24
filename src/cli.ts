@@ -4,6 +4,7 @@ import { calculateAnnualTimeline } from './engine.js';
 import { localizeAnnualTimeline } from './localization-report.js';
 import { localizeBirthTimeSensitivity } from './sensitivity.js';
 import { getEngineCapabilities } from './capabilities.js';
+import { toBaziErrorPayload } from './errors.js';
 
 declare const process:{argv:string[];stdin:{setEncoding(encoding:string):void;on(event:'data',listener:(chunk:string)=>void):void;on(event:'end',listener:()=>void):void;on(event:'error',listener:(error:Error)=>void):void;destroy(error?:Error):void};stdout:{write(s:string):void};stderr:{write(s:string):void};exitCode:number};
 const MAX_STDIN_BYTES=10*1024*1024;
@@ -11,10 +12,10 @@ function readStdin():Promise<string>{return new Promise((resolve,reject)=>{let v
 
 const args=process.argv.slice(2),yearAt=args.indexOf('--year'),timelineAt=args.indexOf('--timeline'),sensitivityAt=args.indexOf('--sensitivity'),localeAt=args.indexOf('--locale'),titleAt=args.indexOf('--title'),widthAt=args.indexOf('--width'),year=yearAt>=0?Number(args[yearAt+1]):undefined;
 const excluded=new Set<number>();for(const at of [yearAt,timelineAt,sensitivityAt,localeAt,titleAt,widthAt])if(at>=0){excluded.add(at);excluded.add(at+1);}
-const inlineJson=args.find((x,i)=>!excluded.has(i)&&!['--compact','--batch','--compatibility','--audit','--facts','--methodology','--summary','--stdin','--svg','--no-hidden-stems','--no-element-balance','--high-contrast'].includes(x));
+const inlineJson=args.find((x,i)=>!excluded.has(i)&&!['--compact','--error-json','--batch','--compatibility','--audit','--facts','--methodology','--summary','--stdin','--svg','--no-hidden-stems','--no-element-balance','--high-contrast'].includes(x));
 try {
   if(args.includes('--capabilities')){
-    if(args.some(arg=>!['--capabilities','--compact'].includes(arg)))throw new TypeError('--capabilities chỉ dùng cùng --compact');
+    if(args.some(arg=>!['--capabilities','--compact','--error-json'].includes(arg)))throw new TypeError('--capabilities chỉ dùng cùng --compact');
     process.stdout.write(JSON.stringify(getEngineCapabilities(),null,args.includes('--compact')?undefined:2)+'\n');
   } else {
   const json=args.includes('--stdin')?await readStdin():inlineJson;
@@ -38,5 +39,6 @@ try {
   }
   }
 } catch(error) {
-  process.stderr.write(`${error instanceof Error?error.message:String(error)}\n`);process.exitCode=error instanceof TypeError&&error.message.startsWith('Usage:')?2:1;
+  const payload=toBaziErrorPayload(error,args[localeAt+1]==='en'?'en':'vi');
+  process.stderr.write(args.includes('--error-json')?`${JSON.stringify(payload)}\n`:`${payload.message}\n`);process.exitCode=error instanceof TypeError&&error.message.startsWith('Usage:')?2:1;
 }

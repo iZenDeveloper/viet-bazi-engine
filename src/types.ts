@@ -82,8 +82,8 @@ export interface LocalizedAuditRule extends Omit<CalculationRuleTrace,'descripti
 export interface LocalizedAuditReport {schemaVersion:'1.0';locale:'vi'|'en';engineVersion:string;chartSchemaVersion:BaziResult['schemaVersion'];methodologyProfile:MethodologyManifest['profileCode'];rules:LocalizedAuditRule[];warnings:string[]}
 export interface CityLocation { id:string; name:string; aliases:readonly string[]; latitude:number; longitude:number; timezoneOffsetMinutes:number }
 export interface BatchSuccess { index:number; ok:true; result:BaziResult }
-export interface BatchFailure { index:number; ok:false; error:{name:string;message:string} }
-export interface BaziBatchResult { schemaVersion:'1.0'; summary:{total:number;succeeded:number;failed:number}; items:(BatchSuccess|BatchFailure)[] }
+export interface BatchFailure { index:number; ok:false; error:{name:string;code:import('./errors.js').BaziErrorCode;message:string} }
+export interface BaziBatchResult { schemaVersion:'1.1'; summary:{total:number;succeeded:number;failed:number}; items:(BatchSuccess|BatchFailure)[] }
 export interface PillarSnapshot { year:string;month:string;day:string;hour:string }
 export interface BirthTimeVariant { firstOffsetMinutes:number;lastOffsetMinutes:number;localDateTime:string;pillars:PillarSnapshot;changedPillars:Pillar['labelCode'][] }
 export interface BirthTimeSensitivity { schemaVersion:'1.0';windowMinutes:number;stepMinutes:number;sampleCount:number;stable:boolean;baseline:{localDateTime:string;pillars:PillarSnapshot};variants:BirthTimeVariant[] }

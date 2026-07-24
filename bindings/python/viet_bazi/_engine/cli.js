@@ -4,6 +4,7 @@ import { calculateAnnualTimeline } from './engine.js';
 import { localizeAnnualTimeline } from './localization-report.js';
 import { localizeBirthTimeSensitivity } from './sensitivity.js';
 import { getEngineCapabilities } from './capabilities.js';
+import { toBaziErrorPayload } from './errors.js';
 const MAX_STDIN_BYTES = 10 * 1024 * 1024;
 function readStdin() { return new Promise((resolve, reject) => { let value = '', bytes = 0; process.stdin.setEncoding('utf8'); process.stdin.on('data', chunk => { bytes += new TextEncoder().encode(chunk).length; if (bytes > MAX_STDIN_BYTES) {
     const error = new RangeError('stdin vượt giới hạn 10 MiB');
@@ -18,10 +19,10 @@ for (const at of [yearAt, timelineAt, sensitivityAt, localeAt, titleAt, widthAt]
         excluded.add(at);
         excluded.add(at + 1);
     }
-const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--batch', '--compatibility', '--audit', '--facts', '--methodology', '--summary', '--stdin', '--svg', '--no-hidden-stems', '--no-element-balance', '--high-contrast'].includes(x));
+const inlineJson = args.find((x, i) => !excluded.has(i) && !['--compact', '--error-json', '--batch', '--compatibility', '--audit', '--facts', '--methodology', '--summary', '--stdin', '--svg', '--no-hidden-stems', '--no-element-balance', '--high-contrast'].includes(x));
 try {
     if (args.includes('--capabilities')) {
-        if (args.some(arg => !['--capabilities', '--compact'].includes(arg)))
+        if (args.some(arg => !['--capabilities', '--compact', '--error-json'].includes(arg)))
             throw new TypeError('--capabilities chỉ dùng cùng --compact');
         process.stdout.write(JSON.stringify(getEngineCapabilities(), null, args.includes('--compact') ? undefined : 2) + '\n');
     }
@@ -77,6 +78,7 @@ try {
     }
 }
 catch (error) {
-    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+    const payload = toBaziErrorPayload(error, args[localeAt + 1] === 'en' ? 'en' : 'vi');
+    process.stderr.write(args.includes('--error-json') ? `${JSON.stringify(payload)}\n` : `${payload.message}\n`);
     process.exitCode = error instanceof TypeError && error.message.startsWith('Usage:') ? 2 : 1;
 }

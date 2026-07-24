@@ -1,5 +1,13 @@
 # JSON CLI
 
+Thêm `--error-json` để nhận lỗi machine-readable trên `stderr`:
+
+```json
+{"name":"SyntaxError","code":"INVALID_JSON","message":"Invalid JSON input"}
+```
+
+Kết hợp `--locale en` để lấy message tiếng Anh; stable `code` không đổi theo locale.
+
 CLI nhận JSON, ghi duy nhất JSON ra stdout và ghi lỗi ra stderr. Exit code `0` là thành công, `1` là lỗi xử lý, `2` là thiếu input/usage.
 
 Sau khi build:

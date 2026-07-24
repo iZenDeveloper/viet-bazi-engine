@@ -2,6 +2,8 @@
 
 ## Python
 
+Lỗi engine được chuyển thành `VietBaziError`. Thuộc tính `.code` dùng cùng stable error code với TypeScript, batch schema và CLI `--error-json`.
+
 Python package ở `bindings/python` không có Python dependency. Wheel bundle snapshot engine JavaScript đã build để chạy mà không cần cài npm package riêng; máy chạy vẫn cần Node.js 20+. TypeScript tiếp tục là nguồn chân lý duy nhất và bundle được tạo bằng `npm run sync:python`.
 
 ```bash

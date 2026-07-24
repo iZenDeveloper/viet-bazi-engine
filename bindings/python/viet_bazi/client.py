@@ -13,6 +13,17 @@ from typing import Any, Literal
 class VietBaziError(RuntimeError):
     """Raised when the TypeScript calculation engine rejects the request."""
 
+    def __init__(self, message: str, *, code: str = "PYTHON_BRIDGE_ERROR") -> None:
+        try:
+            payload = json.loads(message)
+        except (json.JSONDecodeError, TypeError):
+            payload = None
+        if isinstance(payload, dict) and isinstance(payload.get("code"), str) and isinstance(payload.get("message"), str):
+            code = payload["code"]
+            message = payload["message"]
+        self.code = code
+        super().__init__(message)
+
 
 def _verify_engine_dir(root: Path) -> dict[str, Any]:
     manifest_path = root / "manifest.json"
@@ -71,13 +82,13 @@ def _command() -> list[str]:
     bundled_cli = Path(__file__).resolve().with_name("_engine") / "cli.js"
     if node and bundled_cli.is_file():
         verify_bundled_engine()
-        return [node, str(bundled_cli)]
+        return [node, str(bundled_cli), "--error-json"]
     installed = shutil.which("viet-bazi")
     if installed:
-        return [installed]
+        return [installed, "--error-json"]
     local_cli = Path(__file__).resolve().parents[3] / "dist" / "cli.js"
     if node and local_cli.is_file():
-        return [node, str(local_cli)]
+        return [node, str(local_cli), "--error-json"]
     raise VietBaziError("Không tìm thấy Node.js hoặc CLI viet-bazi. Python binding yêu cầu Node.js 20+ để chạy engine đi kèm.")
 
 

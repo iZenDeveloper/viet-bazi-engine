@@ -57,9 +57,10 @@
 
 ### P4.2 Accuracy và error contract
 
+- [x] Stable error codes và message `vi`/`en` cho birth input, batch, CLI và Python bridge.
 - [ ] Mở rộng fixtures nhiều thế kỷ, múi giờ và ranh Tiết khí.
 - [ ] Đối chiếu ephemeris độc lập và công bố sai số theo từng miền thời gian.
-- [ ] Stable error codes cùng thông báo `vi`/`en` cho mọi JSON boundary.
+- [ ] Mở rộng error taxonomy chuyên biệt cho timeline, sensitivity, SVG và WASM.
 
 ### P4.3 AI integration
 

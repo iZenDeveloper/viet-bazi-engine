@@ -1,3 +1,4 @@
+import { BAZI_ERROR_CODES } from './errors.js';
 const stemCodes = ['JIA', 'YI', 'BING', 'DING', 'WU', 'JI', 'GENG', 'XIN', 'REN', 'GUI'];
 const branchCodes = ['ZI', 'CHOU', 'YIN', 'MAO', 'CHEN', 'SI', 'WU', 'WEI', 'SHEN', 'YOU', 'XU', 'HAI'];
 const elementCodes = ['WOOD', 'FIRE', 'EARTH', 'METAL', 'WATER'];
@@ -61,13 +62,13 @@ export const BAZI_BATCH_INPUT_JSON_SCHEMA = {
     $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/bazi-batch-input-1.0.json', title: 'Viet Bazi Batch Input 1.0', type: 'array', minItems: 0, maxItems: 1000, items: { $ref: BIRTH_INPUT_JSON_SCHEMA.$id }
 };
 export const BAZI_BATCH_RESULT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/bazi-batch-result-1.0.json', title: 'Viet Bazi Batch Result 1.0', type: 'object', additionalProperties: false,
+    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/bazi-batch-result-1.1.json', title: 'Viet Bazi Batch Result 1.1', type: 'object', additionalProperties: false,
     required: ['schemaVersion', 'summary', 'items'], properties: {
-        schemaVersion: { const: '1.0' },
+        schemaVersion: { const: '1.1' },
         summary: { type: 'object', additionalProperties: false, required: ['total', 'succeeded', 'failed'], properties: { total: { type: 'integer', minimum: 0, maximum: 1000 }, succeeded: { type: 'integer', minimum: 0, maximum: 1000 }, failed: { type: 'integer', minimum: 0, maximum: 1000 } } },
         items: { type: 'array', minItems: 0, maxItems: 1000, items: { oneOf: [
                     { type: 'object', additionalProperties: false, required: ['index', 'ok', 'result'], properties: { index: { type: 'integer', minimum: 0, maximum: 999 }, ok: { const: true }, result: { $ref: BAZI_RESULT_JSON_SCHEMA.$id } } },
-                    { type: 'object', additionalProperties: false, required: ['index', 'ok', 'error'], properties: { index: { type: 'integer', minimum: 0, maximum: 999 }, ok: { const: false }, error: { type: 'object', additionalProperties: false, required: ['name', 'message'], properties: { name: { type: 'string', minLength: 1 }, message: { type: 'string', minLength: 1 } } } } }
+                    { type: 'object', additionalProperties: false, required: ['index', 'ok', 'error'], properties: { index: { type: 'integer', minimum: 0, maximum: 999 }, ok: { const: false }, error: { type: 'object', additionalProperties: false, required: ['name', 'code', 'message'], properties: { name: { type: 'string', minLength: 1 }, code: { enum: BAZI_ERROR_CODES }, message: { type: 'string', minLength: 1 } } } } }
                 ] } }
     }
 };

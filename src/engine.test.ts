@@ -13,7 +13,7 @@ describe('calculateBazi',()=>{
     expect(a).toEqual(b); expect(a.pillars.day.stem.name).toBe('Giáp'); expect(a.pillars.day.branch.name).toBe('Tý');
     expect(Object.keys(a.pillars)).toHaveLength(4); expect(a.elements.reduce((s,x)=>s+x.percent,0)).toBeCloseTo(100,1);
     expect(a.schemaVersion).toBe('1.7');expect(a.metadata.supportedShenSha).toEqual(SHEN_SHA_CATALOG);
-    expect(a.metadata.methodology).toMatchObject({engineVersion:'0.42.0',profileCode:'VIET_BAZI_STANDARD_V1',calendar:{dayBoundary:'EARLY_ZI'}});
+    expect(a.metadata.methodology).toMatchObject({engineVersion:'0.43.0',profileCode:'VIET_BAZI_STANDARD_V1',calendar:{dayBoundary:'EARLY_ZI'}});
     expect(a.pillars.day.stem.code).toBe('JIA');expect(a.pillars.day.branch.code).toBe('ZI');expect(a.pillars.day.tenGodCode).toBe('DAY_MASTER');
     expect(a.pattern.evidence.length).toBeGreaterThan(0);
     expect(a.luck.pillars.every(p=>p.tenGodCode.length>0)).toBe(true);expect(a.annualAnalysis.interactions).toHaveLength(4);
@@ -50,7 +50,7 @@ describe('calculateBazi',()=>{
     expect(()=>validateBirthInput({localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'unknown'})).toThrow('gender');
   });
   it('keeps runtime input validation aligned with the public schema',()=>{const base={localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'};expect(()=>validateBirthInput({...base,unknown:true})).toThrow('property không hỗ trợ');expect(()=>validateBirthInput({...base,timezoneOffsetMinutes:420.5})).toThrow('-840..840');expect(()=>validateBirthInput({...base,location:{city:'Hà Nội',latitude:21}})).toThrow('đủ latitude');expect(()=>validateBirthInput({...base,location:{}})).toThrow('location cần');expect(()=>validateBirthInput({...base,trueSolarTime:true})).toThrow('trueSolarTime cần location');});
-  it('calculates batches without failing valid siblings',()=>{const valid={localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'};const batch=calculateBaziBatch([valid,{...valid,gender:'unknown'},valid]);expect(batch.summary).toEqual({total:3,succeeded:2,failed:1});expect(batch.items.map(x=>x.ok)).toEqual([true,false,true]);expect(batch.items[1]).toMatchObject({index:1,ok:false,error:{name:'TypeError'}});expect(JSON.stringify(batch)).not.toContain('stack');expect(calculateBaziBatchFromJson('[]').summary.total).toBe(0);expect(()=>calculateBaziBatch(Array.from({length:1001}))).toThrow('1000');});
+  it('calculates batches without failing valid siblings',()=>{const valid={localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'};const batch=calculateBaziBatch([valid,{...valid,gender:'unknown'},valid]);expect(batch.summary).toEqual({total:3,succeeded:2,failed:1});expect(batch.items.map(x=>x.ok)).toEqual([true,false,true]);expect(batch.items[1]).toMatchObject({index:1,ok:false,error:{name:'TypeError',code:'GENDER'}});expect(JSON.stringify(batch)).not.toContain('stack');expect(calculateBaziBatchFromJson('[]').summary.total).toBe(0);expect(()=>calculateBaziBatch(Array.from({length:1001}))).toThrow('1000');});
   it('keeps machine codes stable while labels can be localized',()=>{
     const en=getCoreLabels('en'),vi=getCoreLabels('vi');
     expect(en.stems.JIA).toBe('Jia');expect(vi.stems.JIA).toBe('Giáp');expect(en.tenGods.ZHENG_GUAN).toBe('Direct Officer');
