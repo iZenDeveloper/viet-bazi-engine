@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "engineVersion": "0.41.0",
+  "engineVersion": "0.42.0",
   "files": {
     "calendar.js": {
       "bytes": 5227,
@@ -32,7 +32,7 @@
     },
     "engine.js": {
       "bytes": 13261,
-      "sha256": "4af0e7e8df36e6383a0b06941e79997f977e4c255525eb5b450be5150b184303"
+      "sha256": "93d7cfe3025ce8a669a745f24d2a17e11fc215ca12556db5790607d837f50aef"
     },
     "index.js": {
       "bytes": 2209,

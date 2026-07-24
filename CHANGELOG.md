@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.42.0
+
+- Khởi động Phase 4 với benchmark batch deterministic, output JSON machine-readable và correctness contract trong CI.
+- Thêm tài liệu benchmark, badge CI/release/license và kiểm tra README không chứa thống kê test viết tay dễ lỗi thời.
+- Mở roadmap Reliability, Accuracy, AI integration và Pre-1.0 stabilization.
+
 ## 0.41.0
 
 - Bản địa hóa toàn bộ giao diện demo `vi`/`en`: form, options, headings, tables, actions, aria labels, trạng thái và disclaimer.

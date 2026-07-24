@@ -46,6 +46,33 @@
 - [x] Localized chart summary `vi`/`en` cho các building block chính và AI consumers.
 - [x] Bản địa hóa toàn bộ UI chrome, table headers, actions và accessibility labels của demo.
 
+## Phase 4 — Reliability & Adoption
+
+### P4.1 Distribution và benchmark
+
+- [x] Benchmark batch deterministic, machine-readable và không áp ngưỡng CI dễ flaky.
+- [x] Badge CI/release/license và kiểm tra metadata README chống lỗi thời.
+- [ ] Publish package chính thức lên npm và PyPI sau khi có token/phê duyệt owner.
+- [ ] Thêm benchmark history trên các runtime/phần cứng tham chiếu.
+
+### P4.2 Accuracy và error contract
+
+- [ ] Mở rộng fixtures nhiều thế kỷ, múi giờ và ranh Tiết khí.
+- [ ] Đối chiếu ephemeris độc lập và công bố sai số theo từng miền thời gian.
+- [ ] Stable error codes cùng thông báo `vi`/`en` cho mọi JSON boundary.
+
+### P4.3 AI integration
+
+- [ ] Prompt templates có grounding theo stable codes/evidence.
+- [ ] MCP server offline gọi engine bằng structured tools.
+- [ ] Ví dụ interpretation pipeline tách calculation khỏi nội dung luận giải.
+
+### P4.4 Pre-1.0 stabilization
+
+- [ ] Công bố compatibility, deprecation và breaking-change policy.
+- [ ] Browser E2E cho demo trên Chromium/WebKit/Firefox.
+- [ ] Release candidate và audit public API trước `1.0.0`.
+
 ## Nguyên tắc phát hành
 
 - Mỗi thay đổi public API phải có test TypeScript, JSON boundary và Python parity khi phù hợp.

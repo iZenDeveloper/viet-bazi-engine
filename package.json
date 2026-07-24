@@ -1,6 +1,6 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.41.0",
+  "version": "0.42.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
   "repository": {
     "type": "git",
@@ -40,8 +40,9 @@
     "demo": "npm run build && node scripts/serve-demo.mjs",
     "demo:check": "npm run build && node scripts/serve-demo.mjs --check",
     "pages:build": "npm run build && node scripts/prepare-pages.mjs && node scripts/test-pages-artifact.mjs",
+    "benchmark": "node scripts/benchmark-batch.mjs",
     "release:check": "npm test && npm run test:python-wheel && node scripts/release-preflight.mjs",
-    "test": "vitest run && npm run build && node scripts/test-schema-artifacts.mjs && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && node scripts/test-pages-workflow.mjs && npm run test:conformance",
+    "test": "vitest run && npm run build && node scripts/test-schema-artifacts.mjs && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && node scripts/test-pages-workflow.mjs && node scripts/test-benchmark.mjs && node scripts/test-readme.mjs && npm run test:conformance",
     "test:unit": "vitest run",
     "test:wasm": "npm run build && node scripts/test-wasm.mjs",
     "test:conformance": "node scripts/verify-conformance.mjs",
@@ -53,7 +54,9 @@
     "bazi",
     "four-pillars",
     "tứ-trụ",
+    "vietnamese-astrology",
     "typescript",
+    "wasm",
     "offline"
   ],
   "license": "MIT",
