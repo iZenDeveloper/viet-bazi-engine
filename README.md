@@ -6,7 +6,7 @@
 
 Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline, deterministic và không có runtime dependency. Kết quả là JSON có type, stable machine codes, metadata giải thích và JSON Schema để dùng trực tiếp trong ứng dụng hoặc LLM tools.
 
-> Trạng thái: `0.45.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
+> Trạng thái: `0.46.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
 ## Tính năng
 
@@ -78,7 +78,7 @@ npm run demo
 
 ## Kiểm thử và giới hạn đã công bố
 
-Suite bao phủ TypeScript, Python wheel cô lập, CLI end-to-end, demo/PWA, parity WASM full-output, JSON Schema và conformance runner. README không ghi tổng test thủ công; CI là nguồn trạng thái chính xác. Bộ fixtures gồm 12 ranh Tiết năm 2026, 6 ngày Can–Chi 1900–2099 từ NAOJ và 10 ca chéo múi giờ/ranh đổi ngày; sai số ranh Tiết quan sát lớn nhất là 11 phút với ngưỡng regression 15 phút.
+Suite bao phủ TypeScript, Python wheel cô lập, CLI end-to-end, demo/PWA, parity WASM full-output, JSON Schema và conformance runner. README không ghi tổng test thủ công; CI là nguồn trạng thái chính xác. Bộ fixtures gồm 36 ranh Tiết chính thức NAOJ trong các năm 2013/2020/2026, 6 ngày Can–Chi 1900–2099 và 10 ca chéo múi giờ/ranh đổi ngày; sai số ranh Tiết quan sát lớn nhất là 11 phút với ngưỡng regression 15 phút.
 
 Đo batch calculation bằng workload deterministic:
 

@@ -44,9 +44,10 @@ Can, Chi, Ngũ Hành, Âm Dương, Thập Thần, quan hệ, Thần Sát và met
 
 ## Conformance fixtures
 
-`fixtures/v1/manifest.json` mô tả fixture set `1.1.0` và nguồn. Ba dataset portable:
+`fixtures/v1/manifest.json` mô tả fixture set `1.2.0` và nguồn. Bốn dataset portable:
 
 - `jie-2026.json`: 12 ranh Tiết.
+- `jie-multi-year.json`: 24 ranh Tiết chính thức các năm 2013 và 2020.
 - `sexagenary-days.json`: 6 ngày Can–Chi trải 1900–2099.
 - `timezone-boundaries.json`: 10 ca UTC normalization, múi giờ và ranh đổi ngày.
 

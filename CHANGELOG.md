@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.46.0
+
+- Nâng conformance fixtures lên `1.2.0` với 24 ranh Tiết NAOJ năm 2013 và 2020, tổng cộng 36 điểm qua ba năm.
+- Giữ regression threshold 15 phút; sai số lớn nhất quan sát được vẫn là 11 phút.
+- Export dataset TypeScript/JSON, ghi rõ JCST→UTC và đưa file vào package preflight.
+
 ## 0.45.0
 
 - Nâng conformance fixtures lên `1.1.0` với 10 ca chéo UTC+7/UTC/UTC-5 và ranh đổi ngày 23:00/00:00.

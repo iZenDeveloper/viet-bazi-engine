@@ -1,6 +1,7 @@
-export const CONFORMANCE_VERSION='1.1.0' as const;
+export const CONFORMANCE_VERSION='1.2.0' as const;
 
 export interface SolarTermFixture { name:string; longitude:number; utc:string; monthIndex:number }
+export interface MultiYearSolarTermFixture extends SolarTermFixture { year:number }
 export interface SexagenaryDayFixture { date:string; eto:string; index:number }
 export interface TimezoneBoundaryFixture { id:string;group:string;localDateTime:string;timezoneOffsetMinutes:number;dayBoundary:'early-zi'|'midnight';utc:string;year:string;month:string;day:string;hour:string }
 
@@ -18,6 +19,22 @@ export const JIE_2026_FIXTURES:readonly SolarTermFixture[]=[
   {name:'Hàn Lộ',longitude:195,utc:'2026-10-08T06:29:00Z',monthIndex:8},
   {name:'Lập Đông',longitude:225,utc:'2026-11-07T09:52:00Z',monthIndex:9},
   {name:'Đại Tuyết',longitude:255,utc:'2026-12-07T02:53:00Z',monthIndex:10}
+];
+
+/** NAOJ Reki Yoko 2013 and 2020, JCST converted to UTC. */
+export const JIE_MULTI_YEAR_FIXTURES:readonly MultiYearSolarTermFixture[]=[
+  {year:2013,name:'Tiểu Hàn',longitude:285,utc:'2013-01-05T04:34:00Z',monthIndex:11},{year:2013,name:'Lập Xuân',longitude:315,utc:'2013-02-03T16:13:00Z',monthIndex:0},
+  {year:2013,name:'Kinh Trập',longitude:345,utc:'2013-03-05T10:15:00Z',monthIndex:1},{year:2013,name:'Thanh Minh',longitude:15,utc:'2013-04-04T15:02:00Z',monthIndex:2},
+  {year:2013,name:'Lập Hạ',longitude:45,utc:'2013-05-05T08:18:00Z',monthIndex:3},{year:2013,name:'Mang Chủng',longitude:75,utc:'2013-06-05T12:23:00Z',monthIndex:4},
+  {year:2013,name:'Tiểu Thử',longitude:105,utc:'2013-07-06T22:35:00Z',monthIndex:5},{year:2013,name:'Lập Thu',longitude:135,utc:'2013-08-07T08:20:00Z',monthIndex:6},
+  {year:2013,name:'Bạch Lộ',longitude:165,utc:'2013-09-07T11:16:00Z',monthIndex:7},{year:2013,name:'Hàn Lộ',longitude:195,utc:'2013-10-08T02:58:00Z',monthIndex:8},
+  {year:2013,name:'Lập Đông',longitude:225,utc:'2013-11-07T06:14:00Z',monthIndex:9},{year:2013,name:'Đại Tuyết',longitude:255,utc:'2013-12-06T23:09:00Z',monthIndex:10},
+  {year:2020,name:'Tiểu Hàn',longitude:285,utc:'2020-01-05T21:30:00Z',monthIndex:11},{year:2020,name:'Lập Xuân',longitude:315,utc:'2020-02-04T09:03:00Z',monthIndex:0},
+  {year:2020,name:'Kinh Trập',longitude:345,utc:'2020-03-05T02:57:00Z',monthIndex:1},{year:2020,name:'Thanh Minh',longitude:15,utc:'2020-04-04T07:38:00Z',monthIndex:2},
+  {year:2020,name:'Lập Hạ',longitude:45,utc:'2020-05-05T00:51:00Z',monthIndex:3},{year:2020,name:'Mang Chủng',longitude:75,utc:'2020-06-05T04:58:00Z',monthIndex:4},
+  {year:2020,name:'Tiểu Thử',longitude:105,utc:'2020-07-06T15:14:00Z',monthIndex:5},{year:2020,name:'Lập Thu',longitude:135,utc:'2020-08-07T01:06:00Z',monthIndex:6},
+  {year:2020,name:'Bạch Lộ',longitude:165,utc:'2020-09-07T04:08:00Z',monthIndex:7},{year:2020,name:'Hàn Lộ',longitude:195,utc:'2020-10-07T19:55:00Z',monthIndex:8},
+  {year:2020,name:'Lập Đông',longitude:225,utc:'2020-11-06T23:14:00Z',monthIndex:9},{year:2020,name:'Đại Tuyết',longitude:255,utc:'2020-12-06T16:09:00Z',monthIndex:10}
 ];
 
 /** NAOJ Japanese Calendar Database, Gregorian conversion with Eto of Day. */

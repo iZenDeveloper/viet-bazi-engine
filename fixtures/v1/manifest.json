@@ -1,9 +1,11 @@
 {
-  "fixtureVersion": "1.1.0",
+  "fixtureVersion": "1.2.0",
   "methodologyProfile": "VIET_BAZI_STANDARD_V1",
-  "datasets": ["jie-2026.json", "sexagenary-days.json", "timezone-boundaries.json"],
+  "datasets": ["jie-2026.json", "jie-multi-year.json", "sexagenary-days.json", "timezone-boundaries.json"],
   "sources": [
     "https://eco.mtk.nao.ac.jp/koyomi/yoko/2026/rekiyou262.html.en",
+    "https://eco.mtk.nao.ac.jp/koyomi/yoko/pdf/yoko2013.pdf",
+    "https://eco.mtk.nao.ac.jp/koyomi/yoko/2020/rekiyou202.html.en",
     "https://eco.mtk.nao.ac.jp/cgi-bin/koyomi/caldb_en.cgi",
     "internal:timezone-normalization-and-day-boundary-invariants"
   ]

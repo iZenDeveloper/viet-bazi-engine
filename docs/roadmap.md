@@ -58,7 +58,8 @@
 ### P4.2 Accuracy và error contract
 
 - [x] Stable error codes và message `vi`/`en` cho birth input, batch, CLI và Python bridge.
-- [ ] Mở rộng fixtures nhiều thế kỷ và ranh Tiết khí.
+- [ ] Mở rộng fixtures nhiều thế kỷ.
+- [x] Mở rộng ranh Tiết khí chính thức NAOJ lên 36 điểm trong các năm 2013, 2020 và 2026.
 - [x] Thêm fixtures chéo múi giờ, cùng UTC instant và ranh đổi ngày 23:00/00:00.
 - [ ] Đối chiếu ephemeris độc lập và công bố sai số theo từng miền thời gian.
 - [x] Mở rộng error taxonomy chuyên biệt cho timeline, sensitivity, SVG và WASM.

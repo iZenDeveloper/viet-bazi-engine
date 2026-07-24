@@ -32,7 +32,7 @@ Catalog hiện có 23 Thần Sát phổ biến. Output chỉ chứa sao kích ho
 
 ## Độ chính xác thiên văn
 
-Solar longitude là công thức xấp xỉ. Đối chiếu 12 Tiết năm 2026 với NAOJ cho sai số lớn nhất 11 phút, threshold test 15 phút. Nếu sinh gần ranh:
+Solar longitude là công thức xấp xỉ. Đối chiếu 36 ranh Tiết các năm 2013, 2020 và 2026 với NAOJ cho sai số lớn nhất 11 phút, threshold test 15 phút. Nếu sinh gần ranh:
 
 ```ts
 const sensitivity = analyzeBirthTimeSensitivity(input, 120, 5);
@@ -43,4 +43,6 @@ Hãy coi kết quả là không ổn định nếu `stable === false`, kiểm tr
 ## Nguồn đối chiếu
 
 - [NAOJ Reki Yoko 2026](https://eco.mtk.nao.ac.jp/koyomi/yoko/2026/rekiyou262.html.en)
+- [NAOJ Reki Yoko 2013](https://eco.mtk.nao.ac.jp/koyomi/yoko/pdf/yoko2013.pdf)
+- [NAOJ Reki Yoko 2020](https://eco.mtk.nao.ac.jp/koyomi/yoko/2020/rekiyou202.html.en)
 - [NAOJ Japanese Calendar Database](https://eco.mtk.nao.ac.jp/cgi-bin/koyomi/caldb_en.cgi)
