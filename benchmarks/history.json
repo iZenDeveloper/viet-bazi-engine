@@ -33,6 +33,39 @@
         "recordsPerSecond": {"min": 2649.7, "median": 2735.56, "max": 2815.92},
         "heapUsedMiB": {"min": 44.17, "median": 44.87, "max": 55.58}
       }
+    },
+    {
+      "engineVersion": "0.53.0",
+      "benchmarkVersion": "1.0",
+      "capturedAt": "2026-07-25T06:48:46.258Z",
+      "sourceCommit": "3e4d34e793aec2d432497cb9085e7194dbe9b79a",
+      "environment": {
+        "platform": "linux",
+        "osRelease": "6.17.0-1020-azure",
+        "architecture": "x64",
+        "node": "v20.20.2",
+        "cpu": "AMD EPYC 7763 64-Core Processor",
+        "logicalCpus": 4,
+        "totalMemoryMiB": 15994,
+        "freeMemoryMiBAtCapture": 14725
+      },
+      "workload": {
+        "records": 10000,
+        "batchSize": 1000,
+        "warmup": 250,
+        "deterministic": true
+      },
+      "samples": 5,
+      "correctness": {
+        "succeeded": 10000,
+        "failed": 0,
+        "checksum": 593824
+      },
+      "metrics": {
+        "durationMs": {"min": 3608.42, "median": 3628.73, "max": 4071.7},
+        "recordsPerSecond": {"min": 2455.98, "median": 2755.79, "max": 2771.3},
+        "heapUsedMiB": {"min": 76.47, "median": 233.78, "max": 236.38}
+      }
     }
   ]
 }

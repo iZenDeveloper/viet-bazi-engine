@@ -8,7 +8,7 @@ for(const token of [
   'npm run test:e2e',
   'reference-benchmark:',
   "if: github.event_name == 'workflow_dispatch'",
-  'npm run benchmark:reference',
+  'node scripts/benchmark-reference.mjs',
   'actions/upload-artifact@v4',
   'benchmark-node20-linux-${{ github.sha }}'
 ])if(!workflow.includes(token))throw new Error(`CI workflow missing ${token}`);

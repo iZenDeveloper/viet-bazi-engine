@@ -47,7 +47,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Capture reference benchmark
-        run: npm run benchmark:reference -- --samples 5 --count 10000 --batch-size 1000 --warmup 250 > benchmark-reference.json
+        run: node scripts/benchmark-reference.mjs --samples 5 --count 10000 --batch-size 1000 --warmup 250 > benchmark-reference.json
       - uses: actions/upload-artifact@v4
         with:
           name: benchmark-node20-linux-${{ github.sha }}

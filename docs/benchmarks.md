@@ -36,4 +36,8 @@ Baseline đầu tiên trên MacBookPro16,1, Intel Core i9-9880H, 16 GiB RAM, mac
 25.5.0 và Node.js 22.22.1 đạt median 2.735,56 records/giây cho 10.000 records qua năm
 mẫu. Con số này là dữ liệu quan sát, không phải performance SLA.
 
+Baseline GitHub-hosted Node.js 20.20.2 trên Linux x64, 4 logical CPUs của AMD EPYC 7763
+và khoảng 16 GiB RAM đạt median 2.755,79 records/giây trên cùng workload năm mẫu. Cả hai
+baseline cho checksum `593824`.
+
 Các số đo chỉ có ý nghĩa khi so sánh trên cùng phần cứng, phiên bản Node.js và trạng thái tải hệ thống. CI chỉ kiểm tra contract/correctness bằng workload nhỏ; dự án không áp một ngưỡng thời gian cố định để tránh flaky test.

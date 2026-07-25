@@ -54,7 +54,7 @@
 - [x] Badge CI/release/license và kiểm tra metadata README chống lỗi thời.
 - [ ] Publish package chính thức lên npm và PyPI sau khi có token/phê duyệt owner.
 - [x] Thêm benchmark history có provenance, nhiều mẫu và min/median/max cùng baseline macOS/x64.
-- [ ] Bổ sung baseline Node.js 20 trên Linux từ manual GitHub-hosted benchmark artifact.
+- [x] Bổ sung baseline Node.js 20 trên Linux từ manual GitHub-hosted benchmark artifact.
 
 ### P4.2 Accuracy và error contract
 
