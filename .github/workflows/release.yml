@@ -41,4 +41,7 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist-release/* --verify-tag --generate-notes --title "Viet Bazi Engine $GITHUB_REF_NAME"
+        run: |
+          prerelease=()
+          if [[ "${GITHUB_REF_NAME#v}" == *-* ]]; then prerelease+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" dist-release/* --verify-tag --generate-notes --title "Viet Bazi Engine $GITHUB_REF_NAME" "${prerelease[@]}"

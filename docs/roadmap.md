@@ -78,7 +78,7 @@
 - [x] Công bố compatibility, deprecation và breaking-change policy dạng tài liệu + machine-readable CI contract.
 - [x] Browser E2E cho demo trên Chromium, Firefox và WebKit bằng Playwright.
 - [x] Audit public API bằng snapshot máy đọc cho TypeScript, package, schema, MCP và Python.
-- [ ] Tạo/tag release candidate sau khi registry credentials sẵn sàng và các release gates xanh.
+- [x] Tạo/tag `v1.0.0-rc.1` sau khi release gates xanh; registry publish được theo dõi bằng gate độc lập.
 
 ## Nguyên tắc phát hành
 
