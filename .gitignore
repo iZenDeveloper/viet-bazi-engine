@@ -9,3 +9,6 @@ __pycache__/
 *.egg-info/
 .venv/
 bindings/python/build/
+test-results/
+playwright-report/
+blob-report/

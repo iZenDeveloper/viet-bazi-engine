@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.52.0
+
+- Thêm Playwright Browser E2E projects cho Chromium, Firefox và WebKit.
+- Khóa calculation, localization, compatibility, structured download, service-worker cache và calculation không network.
+- Cung cấp lệnh cài browser/system dependencies cho CI; Playwright chỉ là dev dependency, runtime engine vẫn zero dependency.
+
 ## 0.51.0
 
 - Công bố public contract, additive/breaking classification và chính sách accuracy fixes trong giai đoạn pre-1.0.

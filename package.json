@@ -1,6 +1,6 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.51.0",
+  "version": "0.52.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
   "repository": {
     "type": "git",
@@ -55,6 +55,7 @@
     "test:mcp": "npm run build && node scripts/test-mcp.mjs",
     "test:interpretation": "npm run build && node scripts/test-interpretation-pipeline.mjs",
     "test:policy": "node scripts/test-compatibility-policy.mjs",
+    "test:e2e": "playwright test",
     "sync:python": "npm run build && node scripts/sync-python-engine.mjs",
     "test:python-wheel": "npm run sync:python && sh scripts/test-python-wheel.sh",
     "typecheck": "tsc -p tsconfig.json --noEmit"
@@ -71,6 +72,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "assemblyscript": "^0.28.8",

@@ -73,7 +73,7 @@
 ### P4.4 Pre-1.0 stabilization
 
 - [x] Công bố compatibility, deprecation và breaking-change policy dạng tài liệu + machine-readable CI contract.
-- [ ] Browser E2E cho demo trên Chromium/WebKit/Firefox.
+- [x] Browser E2E cho demo trên Chromium, Firefox và WebKit bằng Playwright.
 - [ ] Release candidate và audit public API trước `1.0.0`.
 
 ## Nguyên tắc phát hành
