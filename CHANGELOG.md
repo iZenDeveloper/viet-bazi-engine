@@ -11,6 +11,7 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 - Chạy Playwright trên hosted Chromium/Firefox/WebKit CI và cung cấp manual Node 20/Linux reference benchmark artifact.
 - Hỗ trợ SemVer prerelease trong release preflight và thêm machine-readable RC readiness check không tự tag/publish.
 - Thêm release version preparer dry-run mặc định, khóa worktree/changelog/occurrence trước khi cho phép ghi đồng bộ RC version.
+- Tái cấu trúc README theo adoption funnel với live demo CTA, lý do tồn tại, use cases, contract khác biệt và trạng thái registry minh bạch.
 
 ## 0.52.0
 

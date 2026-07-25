@@ -8,6 +8,11 @@ for (const token of [
   `Trạng thái: \`${pkg.version}\``,
   'actions/workflows/ci.yml/badge.svg',
   'releases/latest',
+  'https://izendeveloper.github.io/viet-bazi-engine/',
+  'Vì sao dự án này tồn tại?',
+  'Phù hợp cho',
+  'Thử trong 30 giây',
+  'Package npm/PyPI chưa được publish',
   'npm run benchmark',
   'docs/benchmarks.md'
 ]) {

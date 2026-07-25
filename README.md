@@ -1,14 +1,52 @@
 # viet-bazi-engine
 
 [![CI](https://github.com/iZenDeveloper/viet-bazi-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/iZenDeveloper/viet-bazi-engine/actions/workflows/ci.yml)
+[![Live Demo](https://img.shields.io/badge/demo-try%20offline-267143)](https://izendeveloper.github.io/viet-bazi-engine/)
 [![Release](https://img.shields.io/github/v/release/iZenDeveloper/viet-bazi-engine)](https://github.com/iZenDeveloper/viet-bazi-engine/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline, deterministic và không có runtime dependency. Kết quả là JSON có type, stable machine codes, metadata giải thích và JSON Schema để dùng trực tiếp trong ứng dụng hoặc LLM tools.
+Engine Bát Tự/Tứ Trụ dành cho ứng dụng, automation và AI tools. Calculation chạy hoàn
+toàn offline, deterministic, không có runtime dependency và trả về JSON có type, stable
+machine codes, evidence, metadata phương pháp cùng JSON Schema.
 
 > Trạng thái: `0.53.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
-## Tính năng
+**[Thử live demo](https://izendeveloper.github.io/viet-bazi-engine/)** ·
+**[Bắt đầu trong 5 phút](docs/getting-started.md)** ·
+**[Xem API](docs/api-reference.md)** ·
+**[Dùng với AI/MCP](docs/ai-integration.md)**
+
+## Vì sao dự án này tồn tại?
+
+Phần lớn ứng dụng Bát Tự cần nhiều hơn một chuỗi “Can Chi”: chúng cần kết quả ổn định để
+lưu trữ, schema để validate, quy ước có thể audit và cùng một calculation chạy được trên
+web, CLI, Python hoặc agent. `viet-bazi-engine` tách calculation khỏi phần luận giải để:
+
+- cùng input và version luôn tạo cùng output;
+- dữ liệu ngày sinh không phải gửi tới server;
+- app/LLM có thể dẫn lại stable codes, evidence và methodology thay vì đoán;
+- sai số, trường phái và các ca gần ranh được công bố thay vì ẩn đi.
+
+## Phù hợp cho
+
+- Web/mobile app cần tính lá số ngay trên thiết bị.
+- Backend hoặc batch pipeline cần structured JSON và stable error codes.
+- AI agent cần MCP tools, grounded prompts và audit envelope.
+- Nghiên cứu cần fixtures, provenance và lựa chọn quy ước đổi ngày rõ ràng.
+- Báo cáo cần SVG accessible, localized facts và methodology Việt/Anh.
+
+## Điểm khác biệt
+
+| Thuộc tính | Hợp đồng của engine |
+|---|---|
+| Runtime | Offline-first, zero runtime dependency |
+| Determinism | Không đọc đồng hồ hệ thống; `asOfYear` luôn là input |
+| Transparency | Rule/version trace, warnings, methodology và conformance fixtures |
+| Integration | TypeScript, JSON CLI, Python wheel, WASM và MCP stdio |
+| AI safety | Stable codes/evidence; generated prose không thể thay đổi calculation |
+| Portability | Browser/PWA, Node.js và self-contained Python binding |
+
+## Tính năng chính
 
 - Tứ Trụ Năm–Tháng–Ngày–Giờ theo Lập Xuân và 12 Tiết.
 - Hai quy ước đổi ngày: đầu giờ Tý 23:00 và nửa đêm 00:00.
@@ -24,7 +62,17 @@ Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline
 - Interpretation pipeline mẫu tách calculation, grounded prompt và generated prose bằng audit envelope.
 - Public API snapshot khóa TypeScript, package, schema, MCP và Python surface trước release candidate.
 
-## Bắt đầu nhanh
+## Thử trong 30 giây
+
+Live demo chạy calculation ngay trong trình duyệt, không analytics và không gửi ngày sinh
+ra ngoài thiết bị. Sau lần mở đầu tiên, service worker cho phép dùng lại khi offline.
+
+**[Mở Viet Bazi Engine Live Demo →](https://izendeveloper.github.io/viet-bazi-engine/)**
+
+Demo có sẵn dữ liệu mẫu; nhấn **Lập lá số** để xem Tứ Trụ, Ngũ Hành, Đại Vận, Lưu Niên,
+độ nhạy giờ sinh và audit trace, hoặc tải SVG/JSON chỉ với một lần bấm.
+
+## Bắt đầu từ source
 
 Yêu cầu Node.js 20 trở lên.
 
@@ -34,6 +82,9 @@ cd viet-bazi-engine
 npm install
 npm test
 ```
+
+Package npm/PyPI chưa được publish ở version pre-1.0 hiện tại. Ví dụ import dưới đây dùng
+package root sau khi clone/build hoặc dùng trực tiếp trong workspace:
 
 ```ts
 import { calculateBazi } from 'viet-bazi-engine';
@@ -57,7 +108,7 @@ node dist/cli.js --capabilities --compact
 node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffsetMinutes":420,"asOfYear":2026,"gender":"female"}'
 ```
 
-Demo web/PWA offline sau khi build:
+Chạy demo web/PWA offline sau khi build:
 
 ```bash
 npm run demo
