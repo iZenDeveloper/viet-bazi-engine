@@ -42,6 +42,7 @@ console.log(JSON.stringify({
   engineVersion:first.engineVersion,
   benchmarkVersion:first.benchmarkVersion,
   capturedAt:new Date().toISOString(),
+  sourceCommit:process.env.GITHUB_SHA??null,
   environment:{
     platform:platform(),
     osRelease:release(),

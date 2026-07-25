@@ -3,6 +3,7 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
@@ -21,3 +22,33 @@ jobs:
           python-version: '3.12'
       - run: PYTHONPATH=bindings/python python -m unittest discover -s bindings/python/tests -v
       - run: npm run test:python-wheel
+
+  browser-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:e2e
+
+  reference-benchmark:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Capture reference benchmark
+        run: npm run benchmark:reference -- --samples 5 --count 10000 --batch-size 1000 --warmup 250 > benchmark-reference.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-node20-linux-${{ github.sha }}
+          path: benchmark-reference.json

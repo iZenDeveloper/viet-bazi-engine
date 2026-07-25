@@ -54,7 +54,7 @@
 - [x] Badge CI/release/license và kiểm tra metadata README chống lỗi thời.
 - [ ] Publish package chính thức lên npm và PyPI sau khi có token/phê duyệt owner.
 - [x] Thêm benchmark history có provenance, nhiều mẫu và min/median/max cùng baseline macOS/x64.
-- [ ] Bổ sung baseline Node.js 20 trên Linux GitHub-hosted runner khi có quyền cập nhật workflow.
+- [ ] Bổ sung baseline Node.js 20 trên Linux từ manual GitHub-hosted benchmark artifact.
 
 ### P4.2 Accuracy và error contract
 
@@ -76,7 +76,7 @@
 - [x] Công bố compatibility, deprecation và breaking-change policy dạng tài liệu + machine-readable CI contract.
 - [x] Browser E2E cho demo trên Chromium, Firefox và WebKit bằng Playwright.
 - [x] Audit public API bằng snapshot máy đọc cho TypeScript, package, schema, MCP và Python.
-- [ ] Tạo/tag release candidate sau khi registry credentials và hosted browser CI sẵn sàng.
+- [ ] Tạo/tag release candidate sau khi registry credentials sẵn sàng và các release gates xanh.
 
 ## Nguyên tắc phát hành
 

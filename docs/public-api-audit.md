@@ -42,8 +42,8 @@ Các cổng kỹ thuật trong workspace đã có:
 Chưa tạo tag release candidate. Trước `1.0.0-rc.1` còn cần:
 
 1. token/quyền owner để xác minh publish npm và PyPI;
-2. quyền GitHub token có scope `workflow` để đưa browser E2E vào hosted CI;
-3. chạy `npm run release:check` và browser E2E trên commit định tag.
+2. chạy `npm run release:check` và browser E2E trên commit định tag;
+3. review artifact reference benchmark gần nhất, không coi throughput là SLA.
 
 Không cập nhật snapshot chỉ để làm test xanh: mọi drift phải được review như một thay đổi
 hợp đồng.

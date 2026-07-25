@@ -28,6 +28,10 @@ min/median/max cùng Node, OS, kiến trúc, CPU và dung lượng RAM. Khi thê
 [`benchmarks/history.json`](../benchmarks/history.json), điền commit đầy đủ đã benchmark
 vào `sourceCommit`; không lưu hostname hoặc identifier cá nhân.
 
+Workflow `CI` có job `reference-benchmark` chỉ chạy khi kích hoạt thủ công. Job dùng
+Node.js 20 trên Ubuntu GitHub-hosted runner và upload JSON artifact theo commit SHA; nó
+không tự sửa history hoặc tạo performance gate.
+
 Baseline đầu tiên trên MacBookPro16,1, Intel Core i9-9880H, 16 GiB RAM, macOS Darwin
 25.5.0 và Node.js 22.22.1 đạt median 2.735,56 records/giây cho 10.000 records qua năm
 mẫu. Con số này là dữ liệu quan sát, không phải performance SLA.
