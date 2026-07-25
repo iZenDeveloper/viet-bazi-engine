@@ -14,8 +14,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "viet-bazi": "./dist/cli.js",
-    "viet-bazi-mcp": "./dist/mcp-server.js"
+    "viet-bazi": "dist/cli.js",
+    "viet-bazi-mcp": "dist/mcp-server.js"
   },
   "exports": {
     ".": {

@@ -2,6 +2,11 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 1.0.0-rc.2
+
+- Chuẩn hóa npm `bin` paths bằng `npm pkg fix` để first publish không cần auto-correction.
+- Giữ workflow Trusted Publishing và metadata prerelease fixes đã bổ sung sau tag RC đầu tiên.
+
 ## 1.0.0-rc.1
 
 - Chốt public API audit cho TypeScript, JSON Schema, CLI, MCP, Python và WASM trước giai đoạn ổn định 1.0.

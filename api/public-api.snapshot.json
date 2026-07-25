@@ -12,7 +12,7 @@
       "./fixtures/v1/sexagenary-days.json": "./fixtures/v1/sexagenary-days.json",
       "./fixtures/v1/timezone-boundaries.json": "./fixtures/v1/timezone-boundaries.json"
     },
-    "binaries": {"viet-bazi": "./dist/cli.js", "viet-bazi-mcp": "./dist/mcp-server.js"}
+    "binaries": {"viet-bazi": "dist/cli.js", "viet-bazi-mcp": "dist/mcp-server.js"}
   },
   "typescript": {
     "runtimeExports": [
