@@ -66,6 +66,12 @@
             "midnight"
           ]
         },
+        "solarTermModel": {
+          "enum": [
+            "legacy",
+            "apparent"
+          ]
+        },
         "location": {
           "$ref": "#/$defs/location"
         }
@@ -2071,7 +2077,10 @@
                   "const": "ZI_CENTERED_TWO_HOUR"
                 },
                 "solarTermModel": {
-                  "const": "APPROXIMATE_SOLAR_LONGITUDE"
+                  "enum": [
+                    "APPROXIMATE_SOLAR_LONGITUDE",
+                    "APPARENT_SOLAR_LONGITUDE_V1"
+                  ]
                 }
               }
             },

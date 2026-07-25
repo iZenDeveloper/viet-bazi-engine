@@ -13,7 +13,7 @@ export function validateBirthInput(value, legacyAsOfYear) {
     if (!value || typeof value !== 'object' || Array.isArray(value))
         throw baziError('INPUT_NOT_OBJECT', 'TypeError', 'Input phải là JSON object', 'Input must be a JSON object');
     const x = value;
-    assertKnownKeys(x, ['localDateTime', 'timezoneOffsetMinutes', 'asOfYear', 'gender', 'location', 'trueSolarTime', 'dayBoundary'], 'Input');
+    assertKnownKeys(x, ['localDateTime', 'timezoneOffsetMinutes', 'asOfYear', 'gender', 'location', 'trueSolarTime', 'dayBoundary', 'solarTermModel'], 'Input');
     if (typeof x.localDateTime !== 'string')
         throw baziError('LOCAL_DATETIME_TYPE', 'TypeError', 'localDateTime phải là string', 'localDateTime must be a string');
     try {
@@ -33,6 +33,8 @@ export function validateBirthInput(value, legacyAsOfYear) {
         throw baziError('TRUE_SOLAR_TIME_TYPE', 'TypeError', 'trueSolarTime phải là boolean', 'trueSolarTime must be a boolean');
     if (x.dayBoundary !== undefined && x.dayBoundary !== 'early-zi' && x.dayBoundary !== 'midnight')
         throw baziError('DAY_BOUNDARY', 'TypeError', 'dayBoundary phải là early-zi hoặc midnight', 'dayBoundary must be early-zi or midnight');
+    if (x.solarTermModel !== undefined && x.solarTermModel !== 'legacy' && x.solarTermModel !== 'apparent')
+        throw baziError('SOLAR_TERM_MODEL', 'TypeError', 'solarTermModel phải là legacy hoặc apparent', 'solarTermModel must be legacy or apparent');
     let location;
     if (x.location !== undefined) {
         if (!x.location || typeof x.location !== 'object' || Array.isArray(x.location))
@@ -53,7 +55,7 @@ export function validateBirthInput(value, legacyAsOfYear) {
     }
     if (x.trueSolarTime === true && !location)
         throw baziError('TRUE_SOLAR_LOCATION_REQUIRED', 'RangeError', 'trueSolarTime cần location', 'trueSolarTime requires location');
-    return { localDateTime: x.localDateTime, timezoneOffsetMinutes: x.timezoneOffsetMinutes, asOfYear, gender: x.gender, ...(x.trueSolarTime === undefined ? {} : { trueSolarTime: x.trueSolarTime }), ...(x.dayBoundary === undefined ? {} : { dayBoundary: x.dayBoundary }), ...(location ? { location } : {}) };
+    return { localDateTime: x.localDateTime, timezoneOffsetMinutes: x.timezoneOffsetMinutes, asOfYear, gender: x.gender, ...(x.trueSolarTime === undefined ? {} : { trueSolarTime: x.trueSolarTime }), ...(x.dayBoundary === undefined ? {} : { dayBoundary: x.dayBoundary }), ...(x.solarTermModel === undefined ? {} : { solarTermModel: x.solarTermModel }), ...(location ? { location } : {}) };
 }
 export function calculateBaziFromJson(json, asOfYear) {
     let parsed;

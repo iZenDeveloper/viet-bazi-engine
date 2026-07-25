@@ -5,7 +5,8 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 ## 0.54.0
 
 - Thêm model hoàng kinh Mặt Trời biểu kiến opt-in dựa trên Julian centuries, equation of center ba harmonic và nutation correction.
-- Giữ `legacy` làm mặc định; model `apparent` hiện khả dụng qua `solarLongitude()` và `solarTermBoundary()` mà không đổi orchestration hiện tại.
+- Giữ `legacy` làm mặc định; model `apparent` khả dụng qua `solarLongitude()`, `solarTermBoundary()` và `BirthInput.solarTermModel`.
+- Đồng bộ lựa chọn model qua JSON Schema/CLI/MCP, WASM orchestration và Python binding mà không đổi WASM ABI v1.
 - Khóa 24 mốc NAOJ trong 15 phút và 9 checkpoint JPL 1600–2400 trong 7 phút; sai số JPL lớn nhất quan sát giảm từ 36,84 xuống 5,92 phút.
 
 ## 0.53.0

@@ -14,7 +14,7 @@ interface JsonRpcRequest {jsonrpc:'2.0';id?:JsonRpcId;method:string;params?:Reco
 interface JsonRpcResponse {jsonrpc:'2.0';id:JsonRpcId|null;result?:Record<string,unknown>;error?:{code:number;message:string;data?:unknown}}
 
 const locationSchema={type:'object',additionalProperties:false,properties:{city:{type:'string',minLength:1},latitude:{type:'number',minimum:-90,maximum:90},longitude:{type:'number',minimum:-180,maximum:180}},dependentRequired:{latitude:['longitude'],longitude:['latitude']},anyOf:[{required:['city']},{required:['latitude','longitude']}]} as const;
-const birthSchema={type:'object',additionalProperties:false,required:['localDateTime','timezoneOffsetMinutes','asOfYear','gender'],properties:{localDateTime:{type:'string',pattern:'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$'},timezoneOffsetMinutes:{type:'integer',minimum:-840,maximum:840},asOfYear:{type:'integer',minimum:1600,maximum:2400},gender:{enum:['male','female']},trueSolarTime:{type:'boolean'},dayBoundary:{enum:['early-zi','midnight']},location:locationSchema}} as const;
+const birthSchema={type:'object',additionalProperties:false,required:['localDateTime','timezoneOffsetMinutes','asOfYear','gender'],properties:{localDateTime:{type:'string',pattern:'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$'},timezoneOffsetMinutes:{type:'integer',minimum:-840,maximum:840},asOfYear:{type:'integer',minimum:1600,maximum:2400},gender:{enum:['male','female']},trueSolarTime:{type:'boolean'},dayBoundary:{enum:['early-zi','midnight']},solarTermModel:{enum:['legacy','apparent']},location:locationSchema}} as const;
 const focusSchema={enum:['overview','elements','career','relationships','timing']} as const;
 
 export const MCP_TOOLS=[

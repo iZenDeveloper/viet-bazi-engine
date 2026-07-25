@@ -96,7 +96,8 @@ const chart = calculateBazi({
   gender: 'female',
   trueSolarTime: true,
   location: { city: 'Hà Nội' },
-  dayBoundary: 'early-zi'
+  dayBoundary: 'early-zi',
+  solarTermModel: 'apparent'
 });
 
 console.log(chart.pillars, chart.elements, chart.metadata.methodology);

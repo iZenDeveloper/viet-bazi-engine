@@ -55,7 +55,7 @@
       "LocalizedCompatibilityReport", "LocalizedFact", "LocalizedFactsReport", "LocalizedMethodologyItem",
       "LocalizedMethodologyReport", "LocalizedTimelinePillar", "LuckPillar", "MetadataFact",
       "MethodologyManifest", "PatternAnalysis", "Pillar", "PillarSnapshot", "Polarity", "PolarityCode",
-      "Relation", "RelationTypeCode", "ShenSha", "ShenShaCode", "SolarLongitudeModel", "Stem", "StemCode", "StemName",
+      "Relation", "RelationTypeCode", "ShenSha", "ShenShaCode", "SolarLongitudeModel", "SolarTermModel", "Stem", "StemCode", "StemName",
       "SvgOptions", "TenGod", "TenGodCode", "WasmBaziEngine", "WasmCalendarKernel", "WasmCalendarSource"
     ]
   },

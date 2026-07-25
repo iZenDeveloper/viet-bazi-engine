@@ -23,6 +23,7 @@ const fixtures=[
   {localDateTime:'2000-01-07T12:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'},
   {localDateTime:'1990-05-17T14:30:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'female',trueSolarTime:true,location:{city:'Hà Nội'}},
   {localDateTime:'2026-02-04T02:59:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'}
+  ,{localDateTime:'1600-02-04T10:30:00',timezoneOffsetMinutes:0,asOfYear:1600,gender:'male',solarTermModel:'apparent'}
 ];
 for(const input of fixtures){const js=calculateBazi(input),wasm=engine.calculateBazi(input);if(JSON.stringify(js)!==JSON.stringify(wasm))throw new Error(`Full-output WASM parity mismatch for ${input.localDateTime}`);}
 console.log(JSON.stringify({abiVersion:kernel.abiVersion,lichunLongitude:longitude,referenceDayIndex:0,responseStreaming:true,mimeFallback:true}));

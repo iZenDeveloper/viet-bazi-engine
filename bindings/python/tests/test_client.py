@@ -56,6 +56,12 @@ class ClientTest(unittest.TestCase):
         self.assertEqual(result["pillars"]["day"]["stem"]["code"], "JIA")
         self.assertEqual(result["normalized"]["dayBoundary"], "midnight")
 
+    def test_selects_apparent_solar_term_model(self) -> None:
+        result = calculate_bazi(BirthInput("1600-02-04T10:30:00", 0, "male", 1600, solarTermModel="apparent"))
+        self.assertEqual(result["input"]["solarTermModel"], "apparent")
+        self.assertEqual(result["pillars"]["year"]["branch"]["code"], "ZI")
+        self.assertEqual(result["metadata"]["methodology"]["calendar"]["solarTermModel"], "APPARENT_SOLAR_LONGITUDE_V1")
+
     def test_calculates_batch_in_input_order(self) -> None:
         values = [BirthInput("2000-01-07T12:00:00", 420, "male", 2026), BirthInput("not-a-date", 420, "male", 2026)]
         result = calculate_bazi_batch(values)

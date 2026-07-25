@@ -109,6 +109,7 @@
                       "GENDER",
                       "TRUE_SOLAR_TIME_TYPE",
                       "DAY_BOUNDARY",
+                      "SOLAR_TERM_MODEL",
                       "LOCATION_TYPE",
                       "LATITUDE",
                       "LONGITUDE",

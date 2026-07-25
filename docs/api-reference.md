@@ -117,7 +117,7 @@ Error taxonomy bao phủ birth input, JSON parsing, batch, compatibility, timeli
 
 - `ENGINE_VERSION`
 - `getEngineCapabilities()`
-- `getMethodologyManifest(dayBoundary, trueSolarTime)`
+- `getMethodologyManifest(dayBoundary, trueSolarTime, solarTermModel?)`
 - `STEMS`, `BRANCHES`, `ELEMENTS`
 - `SHEN_SHA_CATALOG`, `SHEN_SHA_CODES`
 - `CONFORMANCE_VERSION`, `INTERPRETATION_PROMPT_VERSION`, `JIE_2026_FIXTURES`, `JIE_MULTI_YEAR_FIXTURES`, `JPL_LICHUN_MULTI_CENTURY_FIXTURES`, `SEXAGENARY_DAY_FIXTURES`, `TIMEZONE_BOUNDARY_FIXTURES`

@@ -40,6 +40,12 @@
         "midnight"
       ]
     },
+    "solarTermModel": {
+      "enum": [
+        "legacy",
+        "apparent"
+      ]
+    },
     "location": {
       "$ref": "#/$defs/location"
     }

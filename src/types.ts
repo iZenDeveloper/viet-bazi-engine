@@ -11,6 +11,7 @@ export type TenGodCode = 'BI_JIAN'|'JIE_CAI'|'SHI_SHEN'|'SHANG_GUAN'|'PIAN_CAI'|
 export type RelationTypeCode = 'LIU_HE'|'LIU_CHONG'|'LIU_HAI'|'LIU_PO'|'ZI_XING'|'SAN_XING'|'SAN_HE'|'SAN_HUI';
 export type ShenShaCode = 'TIAN_YI_GUI_REN'|'TAI_JI_GUI_REN'|'WEN_CHANG'|'LU_SHEN'|'YANG_REN'|'JIN_YU'|'GUO_YIN'|'XUE_TANG'|'TAO_HUA'|'HONG_LUAN'|'TIAN_XI'|'YI_MA'|'HUA_GAI'|'JIANG_XING'|'JIE_SHA'|'WANG_SHEN'|'ZAI_SHA'|'GU_SHEN'|'GUA_SU'|'TIAN_YI'|'TIAN_LUO'|'DI_WANG'|'TIAN_SHE';
 export type DayBoundaryConvention = 'early-zi'|'midnight';
+export type SolarTermModel = 'legacy'|'apparent';
 
 export interface BirthInput {
   /** Local civil time in ISO format without a trailing Z, e.g. 1990-05-17T14:30:00. */
@@ -25,6 +26,8 @@ export interface BirthInput {
   trueSolarTime?: boolean;
   /** Defaults to early-zi: the sexagenary day changes at 23:00. */
   dayBoundary?: DayBoundaryConvention;
+  /** Defaults to legacy for backwards-compatible solar-term boundaries. */
+  solarTermModel?: SolarTermModel;
 }
 export interface Stem { index:number; code:StemCode; name:StemName; elementCode:ElementCode; element:Element; polarityCode:PolarityCode; polarity:Polarity }
 export interface Branch { index:number; code:BranchCode; name:BranchName; elementCode:ElementCode; element:Element; polarityCode:PolarityCode; polarity:Polarity; hiddenStems: HiddenStem[] }
@@ -50,7 +53,7 @@ export interface LocalizedChartPillar extends LocalizedTimelinePillar {labelCode
 export interface LocalizedChartSummary {schemaVersion:'1.0';locale:'vi'|'en';engineVersion:string;pillars:{year:LocalizedChartPillar;month:LocalizedChartPillar;day:LocalizedChartPillar;hour:LocalizedChartPillar};dayMaster:{stemCode:StemCode;stem:string;elementCode:ElementCode;element:string;text:string};elements:{elementCode:ElementCode;element:string;percent:number;strengthCode:'MISSING'|'WEAK'|'BALANCED'|'STRONG';strength:string}[];activeLuck:{order:number;startYear:number;pillar:LocalizedTimelinePillar}|null;annual:{year:number;pillar:LocalizedTimelinePillar;tenGodCode:TenGodCode;tenGod:string};pattern:{primaryTenGodCode:TenGodCode;primary:string;dayMasterStrengthCode:'WEAK'|'BALANCED'|'STRONG';dayMasterStrength:string;favorableElementCodes:ElementCode[];favorableElements:string[];unfavorableElementCodes:ElementCode[];unfavorableElements:string[]};warnings:string[]}
 export interface MethodologyManifest {
   engineVersion:string; profileCode:'VIET_BAZI_STANDARD_V1';
-  calendar:{ yearBoundary:'LI_CHUN'; monthBoundary:'TWELVE_JIE'; dayBoundary:'EARLY_ZI'|'MIDNIGHT'; hourBoundary:'ZI_CENTERED_TWO_HOUR'; solarTermModel:'APPROXIMATE_SOLAR_LONGITUDE' };
+  calendar:{ yearBoundary:'LI_CHUN'; monthBoundary:'TWELVE_JIE'; dayBoundary:'EARLY_ZI'|'MIDNIGHT'; hourBoundary:'ZI_CENTERED_TWO_HOUR'; solarTermModel:'APPROXIMATE_SOLAR_LONGITUDE'|'APPARENT_SOLAR_LONGITUDE_V1' };
   trueSolarTime:{ enabled:boolean; model:'LONGITUDE_PLUS_EQUATION_OF_TIME'|'DISABLED' };
   luckCycle:{ directionRule:'GENDER_AND_YEAR_STEM_POLARITY'; startBoundary:'DIRECTIONAL_JIE'; ageConversion:'THREE_DAYS_PER_YEAR' };
   analysis:{ elementBalance:'WEIGHTED_HEURISTIC_V1'; pattern:'MONTH_QI_HEURISTIC_V1'; shenSha:'CATALOG_V1' };
@@ -96,5 +99,5 @@ export interface BirthTimeVariant { firstOffsetMinutes:number;lastOffsetMinutes:
 export interface BirthTimeSensitivity { schemaVersion:'1.0';windowMinutes:number;stepMinutes:number;sampleCount:number;stable:boolean;baseline:{localDateTime:string;pillars:PillarSnapshot};variants:BirthTimeVariant[] }
 export interface LocalizedBirthTimeVariant {firstOffsetMinutes:number;lastOffsetMinutes:number;localDateTime:string;pillars:PillarSnapshot;changedPillarCodes:Pillar['labelCode'][];changedPillars:string[]}
 export interface LocalizedBirthTimeSensitivityReport {schemaVersion:'1.0';locale:'vi'|'en';windowMinutes:number;stepMinutes:number;sampleCount:number;stable:boolean;summary:string;baseline:{localDateTime:string;pillars:PillarSnapshot};variants:LocalizedBirthTimeVariant[]}
-export type EngineFeatureCode='FOUR_PILLARS'|'TRUE_SOLAR_TIME'|'TEN_GODS'|'HIDDEN_STEMS'|'ELEMENT_BALANCE'|'BRANCH_RELATIONS'|'LUCK_CYCLES'|'ANNUAL_ANALYSIS'|'SHEN_SHA'|'PATTERN_ANALYSIS'|'COMPATIBILITY'|'SVG_EXPORT'|'AUDIT_TRACE'|'BATCH'|'BIRTH_TIME_SENSITIVITY'|'WASM_CALENDAR'|'PROMPT_GROUNDING'|'MCP_SERVER';
+export type EngineFeatureCode='FOUR_PILLARS'|'TRUE_SOLAR_TIME'|'APPARENT_SOLAR_LONGITUDE'|'TEN_GODS'|'HIDDEN_STEMS'|'ELEMENT_BALANCE'|'BRANCH_RELATIONS'|'LUCK_CYCLES'|'ANNUAL_ANALYSIS'|'SHEN_SHA'|'PATTERN_ANALYSIS'|'COMPATIBILITY'|'SVG_EXPORT'|'AUDIT_TRACE'|'BATCH'|'BIRTH_TIME_SENSITIVITY'|'WASM_CALENDAR'|'PROMPT_GROUNDING'|'MCP_SERVER';
 export interface EngineCapabilities { schemaVersion:'1.0';engineVersion:string;offline:true;runtimeDependencyCount:0;methodologyProfiles:string[];features:EngineFeatureCode[];bindings:('TYPESCRIPT'|'JSON_CLI'|'PYTHON'|'WASM'|'MCP')[];limits:{batchRecords:number;stdinBytes:number;sensitivityWindowMinutes:number;sensitivitySamples:number;annualTimelineYears:number};schemas:{birthInput:string;baziResult:string;localizedChartSummary:string;baziAuditReport:string;localizedAuditReport:string;localizedFactsReport:string;localizedMethodologyReport:string;localizedCompatibilityReport:string;interpretationPromptBundle:string;annualTimeline:string;localizedAnnualTimeline:string;batchInput:string;batchResult:string;birthTimeSensitivity:string;localizedBirthTimeSensitivity:string;compatibilityInput:string;compatibilityResult:string};conformanceVersion:string }
