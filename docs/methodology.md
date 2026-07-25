@@ -36,6 +36,13 @@ Solar longitude là công thức xấp xỉ. Đối chiếu 36 ranh Tiết các 
 
 Đối chiếu độc lập thứ hai dùng NASA/JPL Horizons quantity `31` (`ObsEcLon`) của Mặt Trời nhìn từ địa tâm. Chín checkpoint Lập Xuân theo từng thế kỷ từ 1600 đến 2400 cho sai số tuyệt đối lần lượt là 36,84; 22,98; 12,21; 17,41; 7,40; 5,16; 6,80; 19,43 và 0,08 phút. Ngưỡng regression 40 phút bao phủ toàn miền hỗ trợ, không phải cam kết mọi ngày đều đạt sai số đó. Query profile và hai mẫu 5 phút kẹp 315° được lưu trong fixture để audit.
 
+API calendar có model `apparent` opt-in, dùng Julian centuries từ J2000, geometric mean
+longitude/anomaly, equation of center ba harmonic và apparent-longitude correction. Trên
+cùng fixtures, sai số lớn nhất quan sát là 13 phút với 24 mốc NAOJ 2013/2020 và 5,92
+phút với 9 checkpoint JPL 1600–2400. Model mặc định vẫn là `legacy` trong giai đoạn
+pre-1.0 để không âm thầm đổi lá số; hiện opt-in áp dụng cho `solarLongitude()` và
+`solarTermBoundary()`, chưa đổi orchestration `calculateBazi()`.
+
 Nếu sinh gần ranh:
 
 ```ts
@@ -52,3 +59,5 @@ Hãy coi kết quả là không ổn định nếu `stable === false`, kiểm tr
 - [NAOJ Japanese Calendar Database](https://eco.mtk.nao.ac.jp/cgi-bin/koyomi/caldb_en.cgi)
 - [NASA/JPL Horizons API](https://ssd-api.jpl.nasa.gov/doc/horizons.html)
 - [NASA/JPL Horizons observer quantity 31](https://ssd.jpl.nasa.gov/horizons/manual.html#observer-table)
+- [NOAA calculation details — equations based on Jean Meeus](https://gml.noaa.gov/grad/solcalc/calcdetails.html)
+- [USNO approximate solar coordinates](https://aa.usno.navy.mil/faq/sun_approx)

@@ -100,10 +100,12 @@ Error taxonomy bao phủ birth input, JSON parsing, batch, compatibility, timeli
 
 ## Calendar primitives
 
-- `solarLongitude(date)` — hoàng kinh biểu kiến xấp xỉ, độ.
+- `solarLongitude(date, model?)` — hoàng kinh Mặt Trời, mặc định model `legacy`.
+- `solarLongitudeApparent(date)` — model biểu kiến opt-in dùng Julian-century terms.
 - `equationOfTime(date)` — equation of time xấp xỉ, phút.
 - `solarCorrectionMinutes(date, longitude, offsetMinutes)`.
-- `solarTermBoundary(year, targetLongitude)` — crossing với độ phân giải phút.
+- `solarTermBoundary(year, targetLongitude, model?)` — crossing với độ phân giải phút;
+  truyền `apparent` để dùng model chính xác cao hơn.
 
 ## Location
 

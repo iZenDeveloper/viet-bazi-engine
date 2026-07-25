@@ -1,5 +1,6 @@
 const RAD = Math.PI / 180;
 const mod = (n:number,m:number) => ((n%m)+m)%m;
+export type SolarLongitudeModel='legacy'|'apparent';
 
 export function parseLocalIso(value:string): Date {
   const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(value);
@@ -11,10 +12,23 @@ export function parseLocalIso(value:string): Date {
 }
 export function toUtc(local:Date,offsetMinutes:number):Date { return new Date(local.getTime()-offsetMinutes*60000); }
 export function julianDay(date:Date):number { return date.getTime()/86400000+2440587.5; }
-export function solarLongitude(date:Date):number {
+export function solarLongitude(date:Date,model:SolarLongitudeModel='legacy'):number {
+  if(model==='apparent')return solarLongitudeApparent(date);
   const n=julianDay(date)-2451545.0;
   const L=mod(280.460+0.9856474*n,360), g=mod(357.528+0.9856003*n,360)*RAD;
   return mod(L+1.915*Math.sin(g)+0.020*Math.sin(2*g),360);
+}
+/** Apparent geocentric solar longitude using Julian-century terms and nutation correction. */
+export function solarLongitudeApparent(date:Date):number {
+  const t=(julianDay(date)-2451545.0)/36525;
+  const meanLongitude=mod(280.46646+t*(36000.76983+0.0003032*t),360);
+  const meanAnomaly=mod(357.52911+t*(35999.05029-0.0001537*t),360);
+  const anomalyRadians=meanAnomaly*RAD;
+  const center=Math.sin(anomalyRadians)*(1.914602-t*(0.004817+0.000014*t))
+    +Math.sin(2*anomalyRadians)*(0.019993-0.000101*t)
+    +Math.sin(3*anomalyRadians)*0.000289;
+  const omega=(125.04-1934.136*t)*RAD;
+  return mod(meanLongitude+center-0.00569-0.00478*Math.sin(omega),360);
 }
 /** Equation of time, in minutes (NOAA approximation). */
 export function equationOfTime(date:Date):number {
@@ -56,15 +70,15 @@ export function findJieBoundary(utc:Date,direction:1|-1,longitude:(date:Date)=>n
   throw new Error('Không tìm thấy tiết khí lân cận');
 }
 /** Finds a solar-longitude crossing with minute precision. Target is in degrees. */
-export function solarTermBoundary(year:number,targetLongitude:number):Date {
+export function solarTermBoundary(year:number,targetLongitude:number,model:SolarLongitudeModel='legacy'):Date {
   if(!Number.isInteger(year)||year<1600||year>2400)throw new RangeError('year phải nằm trong 1600..2400');
   if(!Number.isFinite(targetLongitude)||targetLongitude<0||targetLongitude>=360)throw new RangeError('targetLongitude phải nằm trong [0, 360)');
   const estimatedDay=mod(targetLongitude-280,360)/.9856474;
   const center=Date.UTC(year,0,1)+estimatedDay*86400000;
   let best=new Date(center),bestError=Infinity;
-  for(let minutes=-5*1440;minutes<=5*1440;minutes+=10){const candidate=new Date(center+minutes*60000);const error=Math.abs(mod(solarLongitude(candidate)-targetLongitude+180,360)-180);if(error<bestError){bestError=error;best=candidate;}}
+  for(let minutes=-5*1440;minutes<=5*1440;minutes+=10){const candidate=new Date(center+minutes*60000);const error=Math.abs(mod(solarLongitude(candidate,model)-targetLongitude+180,360)-180);if(error<bestError){bestError=error;best=candidate;}}
   let lo=best.getTime()-20*60000,hi=best.getTime()+20*60000;
-  for(let i=0;i<24;i++){const m1=lo+(hi-lo)/3,m2=hi-(hi-lo)/3;const e1=Math.abs(mod(solarLongitude(new Date(m1))-targetLongitude+180,360)-180),e2=Math.abs(mod(solarLongitude(new Date(m2))-targetLongitude+180,360)-180);if(e1<e2)hi=m2;else lo=m1;}
+  for(let i=0;i<24;i++){const m1=lo+(hi-lo)/3,m2=hi-(hi-lo)/3;const e1=Math.abs(mod(solarLongitude(new Date(m1),model)-targetLongitude+180,360)-180),e2=Math.abs(mod(solarLongitude(new Date(m2),model)-targetLongitude+180,360)-180);if(e1<e2)hi=m2;else lo=m1;}
   return new Date(Math.round((lo+hi)/2/60000)*60000);
 }
 export { mod };

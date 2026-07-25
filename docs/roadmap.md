@@ -64,6 +64,8 @@
 - [x] Thêm fixtures chéo múi giờ, cùng UTC instant và ranh đổi ngày 23:00/00:00.
 - [x] Đối chiếu NASA/JPL Horizons độc lập và công bố sai số theo từng thế kỷ.
 - [x] Mở rộng error taxonomy chuyên biệt cho timeline, sensitivity, SVG và WASM.
+- [x] Thêm model hoàng kinh biểu kiến opt-in với regression NAOJ/JPL trên miền 1600–2400.
+- [ ] Đưa lựa chọn model biểu kiến vào `calculateBazi`, JSON Schema, WASM và Python parity.
 
 ### P4.3 AI integration
 

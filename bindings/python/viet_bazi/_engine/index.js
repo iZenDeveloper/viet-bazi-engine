@@ -1,6 +1,6 @@
 export { calculateAnnualTimeline, calculateBazi, ENGINE_VERSION, getMethodologyManifest } from './engine.js';
 export { BAZI_ERROR_CODES, BaziError, toBaziErrorPayload } from './errors.js';
-export { equationOfTime, solarCorrectionMinutes, solarLongitude, solarTermBoundary } from './calendar.js';
+export { equationOfTime, solarCorrectionMinutes, solarLongitude, solarLongitudeApparent, solarTermBoundary } from './calendar.js';
 export { BRANCHES, ELEMENTS, STEMS } from './constants.js';
 export { SHEN_SHA_CATALOG, SHEN_SHA_CODES } from './shen-sha.js';
 export { compareBaziCharts, compareBirthInputs, localizeCompatibility } from './compatibility.js';

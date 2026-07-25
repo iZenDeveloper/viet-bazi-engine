@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.54.0
+
+- Thêm model hoàng kinh Mặt Trời biểu kiến opt-in dựa trên Julian centuries, equation of center ba harmonic và nutation correction.
+- Giữ `legacy` làm mặc định; model `apparent` hiện khả dụng qua `solarLongitude()` và `solarTermBoundary()` mà không đổi orchestration hiện tại.
+- Khóa 24 mốc NAOJ trong 15 phút và 9 checkpoint JPL 1600–2400 trong 7 phút; sai số JPL lớn nhất quan sát giảm từ 36,84 xuống 5,92 phút.
+
 ## 0.53.0
 
 - Khóa public API bằng snapshot máy đọc cho JavaScript runtime, TypeScript declarations, package entrypoints/binaries, schema IDs, MCP tools và Python exports.

@@ -37,7 +37,8 @@
       "LOCALIZED_FACTS_REPORT_JSON_SCHEMA", "LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA", "localizeFacts",
       "localizeFactsFromJson", "localizeMethodology", "localizeMethodologyFromJson", "renderBaziSvg",
       "renderBaziSvgFromJson", "resolveLocation", "SEXAGENARY_DAY_FIXTURES", "SHEN_SHA_CATALOG",
-      "SHEN_SHA_CODES", "solarCorrectionMinutes", "solarLongitude", "solarTermBoundary", "STEMS",
+      "SHEN_SHA_CODES", "solarCorrectionMinutes", "solarLongitude", "solarLongitudeApparent",
+      "solarTermBoundary", "STEMS",
       "TIMEZONE_BOUNDARY_FIXTURES", "toBaziErrorPayload", "validateBirthInput", "VIETNAM_CITIES"
     ],
     "typeDeclarations": [
@@ -54,7 +55,7 @@
       "LocalizedCompatibilityReport", "LocalizedFact", "LocalizedFactsReport", "LocalizedMethodologyItem",
       "LocalizedMethodologyReport", "LocalizedTimelinePillar", "LuckPillar", "MetadataFact",
       "MethodologyManifest", "PatternAnalysis", "Pillar", "PillarSnapshot", "Polarity", "PolarityCode",
-      "Relation", "RelationTypeCode", "ShenSha", "ShenShaCode", "Stem", "StemCode", "StemName",
+      "Relation", "RelationTypeCode", "ShenSha", "ShenShaCode", "SolarLongitudeModel", "Stem", "StemCode", "StemName",
       "SvgOptions", "TenGod", "TenGodCode", "WasmBaziEngine", "WasmCalendarKernel", "WasmCalendarSource"
     ]
   },
