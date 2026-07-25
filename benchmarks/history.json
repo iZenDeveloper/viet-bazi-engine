@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "runs": [
+    {
+      "engineVersion": "0.53.0",
+      "benchmarkVersion": "1.0",
+      "capturedAt": "2026-07-25T06:42:43.054Z",
+      "sourceCommit": "e5ea5b7fc62dd9cc36a0874fc3442ccbeb34c250",
+      "environment": {
+        "platform": "darwin",
+        "osRelease": "25.5.0",
+        "architecture": "x64",
+        "node": "v22.22.1",
+        "cpu": "Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz",
+        "logicalCpus": 16,
+        "totalMemoryMiB": 16384,
+        "freeMemoryMiBAtCapture": 702
+      },
+      "workload": {
+        "records": 10000,
+        "batchSize": 1000,
+        "warmup": 250,
+        "deterministic": true
+      },
+      "samples": 5,
+      "correctness": {
+        "succeeded": 10000,
+        "failed": 0,
+        "checksum": 593824
+      },
+      "metrics": {
+        "durationMs": {"min": 3551.23, "median": 3655.56, "max": 3774.01},
+        "recordsPerSecond": {"min": 2649.7, "median": 2735.56, "max": 2815.92},
+        "heapUsedMiB": {"min": 44.17, "median": 44.87, "max": 55.58}
+      }
+    }
+  ]
+}
