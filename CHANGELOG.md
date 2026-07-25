@@ -8,6 +8,7 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 - Đưa model hoàng kinh Mặt Trời biểu kiến opt-in vào toàn bộ calculation pipeline, giữ `legacy` làm mặc định tương thích.
 - Cho phép chọn model `legacy`/`apparent` trực tiếp trong live demo và giữ cùng lựa chọn khi so sánh hai lá số.
 - Hoàn thiện release gates, wheel integrity, offline PWA và hosted E2E trên Chromium, Firefox, WebKit.
+- Tách readiness của GitHub RC tag khỏi readiness publish npm/PyPI để phản ánh đúng ranh giới workflow.
 - Không thay đổi các cảnh báo sử dụng văn hóa/tham khảo; cách cục và dụng/hỷ/kỵ vẫn được công bố là heuristic.
 
 ## 0.54.0

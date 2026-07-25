@@ -29,8 +29,9 @@ npm run release:readiness -- --candidate 1.0.0-rc.1
 ```
 
 Output JSON phân biệt release preflight, public API snapshot, worktree, hosted browser CI
-và registry credentials. `readyForRcTag` chỉ là gate kỹ thuật; owner vẫn phải phê duyệt
-việc tạo tag và publish.
+và registry credentials. `readyForRcTag` chỉ phụ thuộc các gate kỹ thuật cần cho GitHub
+Release; `readyForRegistryPublish` yêu cầu thêm xác thực npm/PyPI. Owner vẫn phải phê
+duyệt riêng việc tạo tag và publish.
 
 Xem trước 10 file và 18 vị trí version cần đổi mà không sửa workspace:
 

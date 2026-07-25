@@ -21,7 +21,10 @@ const gates={
   npmAuthenticated:npmIdentity.status===0,
   pypiCredentialConfigured:pypiCredential
 };
-const blockers=Object.entries(gates).filter(([,ready])=>!ready).map(([name])=>name);
+const tagGateNames=['cleanWorktree','releasePreflight','publicApiSnapshot','hostedBrowserWorkflowConfigured'];
+const registryGateNames=['npmAuthenticated','pypiCredentialConfigured'];
+const failed=(names)=>names.filter(name=>!gates[name]);
+const tagBlockers=failed(tagGateNames),registryBlockers=failed(registryGateNames);
 
 console.log(JSON.stringify({
   formatVersion:1,
@@ -29,6 +32,9 @@ console.log(JSON.stringify({
   candidateVersion:candidate,
   pythonNormalizedCandidate:pythonNormalizedVersion(candidate),
   gates,
-  readyForRcTag:blockers.length===0,
-  blockers
+  readyForRcTag:tagBlockers.length===0,
+  readyForRegistryPublish:tagBlockers.length===0&&registryBlockers.length===0,
+  tagBlockers,
+  registryBlockers,
+  blockers:[...tagBlockers,...registryBlockers]
 }));
