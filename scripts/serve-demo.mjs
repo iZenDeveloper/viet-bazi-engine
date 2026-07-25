@@ -3,7 +3,7 @@ import { readFile,stat } from 'node:fs/promises';
 import { dirname,extname,resolve,sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),port=Number(process.env.VIET_BAZI_DEMO_PORT??8080);
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),port=Number(process.env.VIET_BAZI_DEMO_PORT??8081);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.wasm':'application/wasm'};
 const required=['demo/index.html','demo/app.js','demo/style.css','demo/manifest.webmanifest','service-worker.js','dist/index.js'];
 if(process.argv.includes('--check')){await Promise.all(required.map(path=>stat(resolve(root,path))));console.log(JSON.stringify({ready:true,port,root}));process.exit(0);}
