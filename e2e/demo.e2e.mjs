@@ -30,7 +30,7 @@ test('uses the cached demo and calculates without network',async({page,context,b
   await page.evaluate(()=>navigator.serviceWorker.ready);
   await page.reload();
   await expect(page.locator('#status')).toHaveClass('success');
-  const cached=await page.evaluate(async()=>{const cache=await caches.open('viet-bazi-demo-v18');return Promise.all(['../demo/','../demo/app.js','../dist/index.js'].map(async path=>Boolean(await cache.match(path))));});
+  const cached=await page.evaluate(async()=>{const cache=await caches.open('viet-bazi-demo-v19');return Promise.all(['../demo/','../demo/app.js','../dist/index.js'].map(async path=>Boolean(await cache.match(path))));});
   expect(cached).toEqual([true,true,true]);
   await context.setOffline(true);
   if(browserName!=='webkit')await page.reload();
