@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.50.0
+
+- Thêm interpretation pipeline provider-neutral, chạy offline bằng mock provider và không thêm runtime dependency.
+- Tách calculation khỏi generated prose bằng callback boundary; lưu chart SHA-256, engine/template và provider/model metadata.
+- Thêm JSON Schema cho audit envelope cùng test khóa tính deterministic và chống generated text làm drift calculation.
+
 ## 0.49.0
 
 - Thêm binary `viet-bazi-mcp`, stdio JSON-RPC theo MCP revision `2025-06-18` và không có runtime dependency.

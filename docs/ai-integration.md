@@ -39,3 +39,32 @@ Output tuân theo `interpretation-prompt-bundle-1.0.json`. System message yêu c
 ## Ranh giới trách nhiệm
 
 Engine chịu trách nhiệm calculation và grounding deterministic. Model bên ngoài chỉ chịu trách nhiệm diễn đạt. Ứng dụng nên lưu `engineVersion`, `templateVersion`, model/version và output để audit; không đưa văn bản do model sinh ngược lại làm dữ kiện calculation.
+
+## Interpretation pipeline mẫu
+
+[`examples/interpretation-pipeline.mjs`](../examples/interpretation-pipeline.mjs) minh họa bốn stage:
+
+1. Tính chart deterministic.
+2. Tạo grounded prompt.
+3. Gọi callback `generate({ messages, metadata })` do ứng dụng cung cấp.
+4. Đóng gói chart, SHA-256 calculation, template metadata và generated text trong audit envelope.
+
+```bash
+npm run build
+node examples/interpretation-pipeline.mjs
+```
+
+Ví dụ mặc định dùng `offlineMockProvider`, nên không cần API key hoặc network. Khi thay bằng SDK thật, callback chỉ nên nhận `messages` và metadata bất biến như ví dụ; không truyền quyền sửa chart. Envelope tuân theo [`interpretation-envelope.schema.json`](../examples/interpretation-envelope.schema.json).
+
+```js
+const result = await runInterpretationPipeline({
+  birth,
+  locale: 'en',
+  focus: 'timing',
+  generate: async ({ messages, metadata }) => ({
+    provider: 'your-provider',
+    model: 'your-model-version',
+    text: await callYourModel(messages, metadata)
+  })
+});
+```

@@ -1,6 +1,6 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.49.0",
+  "version": "0.50.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "schemas",
     "fixtures",
     "docs",
+    "examples",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -46,11 +47,12 @@
     "pages:build": "npm run build && node scripts/prepare-pages.mjs && node scripts/test-pages-artifact.mjs",
     "benchmark": "node scripts/benchmark-batch.mjs",
     "release:check": "npm test && npm run test:python-wheel && node scripts/release-preflight.mjs",
-    "test": "vitest run && npm run build && node scripts/test-schema-artifacts.mjs && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-mcp.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && node scripts/test-pages-workflow.mjs && node scripts/test-benchmark.mjs && node scripts/test-readme.mjs && npm run test:conformance",
+    "test": "vitest run && npm run build && node scripts/test-schema-artifacts.mjs && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-mcp.mjs && node scripts/test-interpretation-pipeline.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && node scripts/test-pages-workflow.mjs && node scripts/test-benchmark.mjs && node scripts/test-readme.mjs && npm run test:conformance",
     "test:unit": "vitest run",
     "test:wasm": "npm run build && node scripts/test-wasm.mjs",
     "test:conformance": "node scripts/verify-conformance.mjs",
     "test:mcp": "npm run build && node scripts/test-mcp.mjs",
+    "test:interpretation": "npm run build && node scripts/test-interpretation-pipeline.mjs",
     "sync:python": "npm run build && node scripts/sync-python-engine.mjs",
     "test:python-wheel": "npm run sync:python && sh scripts/test-python-wheel.sh",
     "typecheck": "tsc -p tsconfig.json --noEmit"

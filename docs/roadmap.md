@@ -68,7 +68,7 @@
 
 - [x] Prompt templates `vi`/`en` có grounding theo stable codes/evidence và JSON Schema.
 - [x] MCP `2025-06-18` server offline gọi engine bằng structured tools qua stdio.
-- [ ] Ví dụ interpretation pipeline tách calculation khỏi nội dung luận giải.
+- [x] Ví dụ interpretation pipeline tách calculation khỏi generated text bằng provider callback, SHA-256 và audit envelope.
 
 ### P4.4 Pre-1.0 stabilization
 

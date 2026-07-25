@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/example/interpretation-envelope-1.0.json",
+  "title": "Viet Bazi Interpretation Pipeline Envelope 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "calculation", "prompt", "generation", "warnings"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "calculation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engineVersion", "chartSchemaVersion", "sha256", "chart"],
+      "properties": {
+        "engineVersion": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "chartSchemaVersion": {"const": "1.7"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "chart": {"type": "object"}
+      }
+    },
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["templateCode", "templateVersion", "locale", "focus"],
+      "properties": {
+        "templateCode": {"const": "GROUNDED_BAZI_INTERPRETATION"},
+        "templateVersion": {"type": "string"},
+        "locale": {"enum": ["vi", "en"]},
+        "focus": {"enum": ["overview", "elements", "career", "relationships", "timing"]}
+      }
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "text"],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "text": {"type": "string", "minLength": 1}
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}}
+  }
+}

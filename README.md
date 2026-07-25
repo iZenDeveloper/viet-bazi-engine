@@ -6,7 +6,7 @@
 
 Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline, deterministic và không có runtime dependency. Kết quả là JSON có type, stable machine codes, metadata giải thích và JSON Schema để dùng trực tiếp trong ứng dụng hoặc LLM tools.
 
-> Trạng thái: `0.49.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
+> Trạng thái: `0.50.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
 ## Tính năng
 
@@ -21,6 +21,7 @@ Engine Bát Tự/Tứ Trụ viết bằng TypeScript, chạy hoàn toàn offline
 - Audit report machine-readable ánh xạ rule/version với các trường input và output.
 - Prompt bundle `vi`/`en` cho LLM, grounding bằng stable codes, evidence và audit rules.
 - MCP server offline với 5 structured tools, stdio và không telemetry.
+- Interpretation pipeline mẫu tách calculation, grounded prompt và generated prose bằng audit envelope.
 
 ## Bắt đầu nhanh
 
