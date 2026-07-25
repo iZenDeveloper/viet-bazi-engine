@@ -44,10 +44,11 @@ Can, Chi, Ngũ Hành, Âm Dương, Thập Thần, quan hệ, Thần Sát và met
 
 ## Conformance fixtures
 
-`fixtures/v1/manifest.json` mô tả fixture set `1.2.0` và nguồn. Bốn dataset portable:
+`fixtures/v1/manifest.json` mô tả fixture set `1.3.0` và nguồn. Năm dataset portable:
 
 - `jie-2026.json`: 12 ranh Tiết.
 - `jie-multi-year.json`: 24 ranh Tiết chính thức các năm 2013 và 2020.
+- `jpl-lichun-multi-century.json`: 9 checkpoint Lập Xuân độc lập theo từng thế kỷ từ 1600 đến 2400.
 - `sexagenary-days.json`: 6 ngày Can–Chi trải 1900–2099.
 - `timezone-boundaries.json`: 10 ca UTC normalization, múi giờ và ranh đổi ngày.
 
@@ -59,6 +60,8 @@ npm run test:conformance
 ```
 
 Runner đồng thời kiểm tra JSON fixtures trùng exports TypeScript, tránh drift giữa bindings.
+
+Dataset JPL dùng Mặt Trời (`COMMAND=10`) nhìn từ địa tâm (`CENTER=500@399`), observer quantity `31` (`ObsEcLon`), UT, Gregorian, airless và bước 5 phút. Mỗi checkpoint là nội suy tuyến tính giữa hai mẫu kẹp kinh độ biểu kiến 315°. JSON lưu nguyên query profile, hai mẫu kẹp, ngày truy xuất và ngưỡng regression 40 phút. Runner công bố sai số tuyệt đối cho từng thế kỷ; trên 9 checkpoint hiện tại, sai số lớn nhất là 36,84 phút tại năm 1600. Đây là đối chiếu ephemeris độc lập, không được tạo từ output của engine.
 
 Dataset timezone khóa UTC+7, UTC, UTC-5, cùng UTC instant sát Lập Xuân và hai ranh đổi ngày 23:00/00:00. Đây là invariant nội bộ của methodology công khai, không phải nguồn thiên văn độc lập: cùng instant giữ normalized UTC và trụ Năm/Tháng, trong khi Ngày/Giờ vẫn theo local civil time.
 

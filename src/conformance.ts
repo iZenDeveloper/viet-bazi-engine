@@ -1,9 +1,33 @@
-export const CONFORMANCE_VERSION='1.2.0' as const;
+export const CONFORMANCE_VERSION='1.3.0' as const;
 
 export interface SolarTermFixture { name:string; longitude:number; utc:string; monthIndex:number }
 export interface MultiYearSolarTermFixture extends SolarTermFixture { year:number }
 export interface SexagenaryDayFixture { date:string; eto:string; index:number }
 export interface TimezoneBoundaryFixture { id:string;group:string;localDateTime:string;timezoneOffsetMinutes:number;dayBoundary:'early-zi'|'midnight';utc:string;year:string;month:string;day:string;hour:string }
+export interface JplLichunPoint { year:number;utc:string;bracketStartUtc:string;bracketEndUtc:string;startLongitude:number;endLongitude:number }
+export interface JplLichunFixtureSet {
+  source:string;sourceUrl:string;retrievedAt:string;
+  query:{apiVersion:string;command:string;center:string;ephemerisType:string;quantities:string;timeType:string;calendarType:string;apparent:string;objectData:string;makeEphemeris:string;timeDigits:string;calendarFormat:string;csvFormat:string;extraPrecision:string;stepSizeMinutes:number;window:string};
+  method:string;regressionThresholdMinutes:number;points:readonly JplLichunPoint[];
+}
+
+/** Frozen NASA/JPL Horizons quantity 31 checkpoints; see the JSON artifact for full provenance. */
+export const JPL_LICHUN_MULTI_CENTURY_FIXTURES:JplLichunFixtureSet={
+  source:'NASA/JPL Horizons API',sourceUrl:'https://ssd.jpl.nasa.gov/api/horizons.api',retrievedAt:'2026-07-25',
+  query:{apiVersion:'1.2',command:'10',center:'500@399',ephemerisType:'OBSERVER',quantities:'31',timeType:'UT',calendarType:'GREGORIAN',apparent:'AIRLESS',objectData:'NO',makeEphemeris:'YES',timeDigits:'SECONDS',calendarFormat:'BOTH',csvFormat:'YES',extraPrecision:'YES',stepSizeMinutes:5,window:'February 2 00:00 through February 6 00:00 UTC'},
+  method:'Linear interpolation between the adjacent five-minute ObsEcLon samples bracketing 315 degrees.',regressionThresholdMinutes:40,
+  points:[
+    {year:1600,utc:'1600-02-04T10:31:09.442Z',bracketStartUtc:'1600-02-04T10:30:00Z',bracketEndUtc:'1600-02-04T10:35:00Z',startLongitude:314.9991867,endLongitude:315.0027003},
+    {year:1700,utc:'1700-02-03T17:04:00.965Z',bracketStartUtc:'1700-02-03T17:00:00Z',bracketEndUtc:'1700-02-03T17:05:00Z',startLongitude:314.9971767,endLongitude:315.0006917},
+    {year:1800,utc:'1800-02-03T23:34:47.532Z',bracketStartUtc:'1800-02-03T23:30:00Z',bracketEndUtc:'1800-02-03T23:35:00Z',startLongitude:314.9966285,endLongitude:315.0001462},
+    {year:1900,utc:'1900-02-04T05:51:35.228Z',bracketStartUtc:'1900-02-04T05:50:00Z',bracketEndUtc:'1900-02-04T05:55:00Z',startLongitude:314.9988825,endLongitude:315.002403},
+    {year:2000,utc:'2000-02-04T12:40:23.828Z',bracketStartUtc:'2000-02-04T12:40:00Z',bracketEndUtc:'2000-02-04T12:45:00Z',startLongitude:314.9997202,endLongitude:315.0032429},
+    {year:2100,utc:'2100-02-03T19:02:09.622Z',bracketStartUtc:'2100-02-03T19:00:00Z',bracketEndUtc:'2100-02-03T19:05:00Z',startLongitude:314.9984775,endLongitude:315.0020012},
+    {year:2200,utc:'2200-02-04T01:29:48.242Z',bracketStartUtc:'2200-02-04T01:25:00Z',bracketEndUtc:'2200-02-04T01:30:00Z',startLongitude:314.9966145,endLongitude:315.0001381},
+    {year:2300,utc:'2300-02-04T08:09:25.867Z',bracketStartUtc:'2300-02-04T08:05:00Z',bracketEndUtc:'2300-02-04T08:10:00Z',startLongitude:314.9968765,endLongitude:315.000401},
+    {year:2400,utc:'2400-02-04T14:18:04.708Z',bracketStartUtc:'2400-02-04T14:15:00Z',bracketEndUtc:'2400-02-04T14:20:00Z',startLongitude:314.9978285,endLongitude:315.0013554}
+  ]
+};
 
 /** NAOJ Reki Yoko 2026, Japanese civil time converted to UTC. */
 export const JIE_2026_FIXTURES:readonly SolarTermFixture[]=[

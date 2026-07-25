@@ -32,7 +32,11 @@ Catalog hiện có 23 Thần Sát phổ biến. Output chỉ chứa sao kích ho
 
 ## Độ chính xác thiên văn
 
-Solar longitude là công thức xấp xỉ. Đối chiếu 36 ranh Tiết các năm 2013, 2020 và 2026 với NAOJ cho sai số lớn nhất 11 phút, threshold test 15 phút. Nếu sinh gần ranh:
+Solar longitude là công thức xấp xỉ. Đối chiếu 36 ranh Tiết các năm 2013, 2020 và 2026 với NAOJ cho sai số lớn nhất 11 phút, threshold test 15 phút.
+
+Đối chiếu độc lập thứ hai dùng NASA/JPL Horizons quantity `31` (`ObsEcLon`) của Mặt Trời nhìn từ địa tâm. Chín checkpoint Lập Xuân theo từng thế kỷ từ 1600 đến 2400 cho sai số tuyệt đối lần lượt là 36,84; 22,98; 12,21; 17,41; 7,40; 5,16; 6,80; 19,43 và 0,08 phút. Ngưỡng regression 40 phút bao phủ toàn miền hỗ trợ, không phải cam kết mọi ngày đều đạt sai số đó. Query profile và hai mẫu 5 phút kẹp 315° được lưu trong fixture để audit.
+
+Nếu sinh gần ranh:
 
 ```ts
 const sensitivity = analyzeBirthTimeSensitivity(input, 120, 5);
@@ -46,3 +50,5 @@ Hãy coi kết quả là không ổn định nếu `stable === false`, kiểm tr
 - [NAOJ Reki Yoko 2013](https://eco.mtk.nao.ac.jp/koyomi/yoko/pdf/yoko2013.pdf)
 - [NAOJ Reki Yoko 2020](https://eco.mtk.nao.ac.jp/koyomi/yoko/2020/rekiyou202.html.en)
 - [NAOJ Japanese Calendar Database](https://eco.mtk.nao.ac.jp/cgi-bin/koyomi/caldb_en.cgi)
+- [NASA/JPL Horizons API](https://ssd-api.jpl.nasa.gov/doc/horizons.html)
+- [NASA/JPL Horizons observer quantity 31](https://ssd.jpl.nasa.gov/horizons/manual.html#observer-table)

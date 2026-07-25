@@ -4,15 +4,16 @@ import { fileURLToPath } from 'node:url';
 import { solarMonthIndex,solarTermBoundary } from '../dist/calendar.js';
 import { sexagenaryDayIndex } from '../dist/calendar.js';
 import { calculateBazi } from '../dist/engine.js';
-import { CONFORMANCE_VERSION,JIE_2026_FIXTURES,JIE_MULTI_YEAR_FIXTURES,SEXAGENARY_DAY_FIXTURES,TIMEZONE_BOUNDARY_FIXTURES } from '../dist/conformance.js';
+import { CONFORMANCE_VERSION,JIE_2026_FIXTURES,JIE_MULTI_YEAR_FIXTURES,JPL_LICHUN_MULTI_CENTURY_FIXTURES,SEXAGENARY_DAY_FIXTURES,TIMEZONE_BOUNDARY_FIXTURES } from '../dist/conformance.js';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const load=name=>JSON.parse(readFileSync(resolve(root,'fixtures/v1',name),'utf8'));
-const jie=load('jie-2026.json'),multiYearJie=load('jie-multi-year.json'),days=load('sexagenary-days.json'),timezoneBoundaries=load('timezone-boundaries.json');
+const jie=load('jie-2026.json'),multiYearJie=load('jie-multi-year.json'),jplLichun=load('jpl-lichun-multi-century.json'),days=load('sexagenary-days.json'),timezoneBoundaries=load('timezone-boundaries.json');
 const manifest=load('manifest.json');
 if(manifest.fixtureVersion!==CONFORMANCE_VERSION)throw new Error('Conformance manifest version differs from TypeScript export');
 if(JSON.stringify(jie)!==JSON.stringify(JIE_2026_FIXTURES))throw new Error('Jie JSON differs from TypeScript fixtures');
 if(JSON.stringify(multiYearJie)!==JSON.stringify(JIE_MULTI_YEAR_FIXTURES))throw new Error('Multi-year Jie JSON differs from TypeScript fixtures');
+if(JSON.stringify(jplLichun)!==JSON.stringify(JPL_LICHUN_MULTI_CENTURY_FIXTURES))throw new Error('JPL Lichun JSON differs from TypeScript fixtures');
 if(JSON.stringify(days)!==JSON.stringify(SEXAGENARY_DAY_FIXTURES))throw new Error('Day JSON differs from TypeScript fixtures');
 if(JSON.stringify(timezoneBoundaries)!==JSON.stringify(TIMEZONE_BOUNDARY_FIXTURES))throw new Error('Timezone/boundary JSON differs from TypeScript fixtures');
 let maxSolarTermErrorMinutes=0;
@@ -28,6 +29,17 @@ for(const f of multiYearJie){
   if(error>15)throw new Error(`${f.year} ${f.name}: solar-term error ${error.toFixed(2)} minutes`);
   if(solarMonthIndex(new Date(official+15*60000))!==f.monthIndex)throw new Error(`${f.year} ${f.name}: wrong month after boundary`);
 }
+const jplErrorsByCentury={};
+let maxJplLichunErrorMinutes=0;
+for(const f of jplLichun.points){
+  if(!(f.startLongitude<315&&f.endLongitude>=315))throw new Error(`${f.year}: JPL bracket does not contain 315 degrees`);
+  if(Date.parse(f.bracketEndUtc)-Date.parse(f.bracketStartUtc)!==jplLichun.query.stepSizeMinutes*60000)throw new Error(`${f.year}: JPL bracket width drift`);
+  const error=Math.abs(solarTermBoundary(f.year,315).getTime()-Date.parse(f.utc))/60000;
+  maxJplLichunErrorMinutes=Math.max(maxJplLichunErrorMinutes,error);
+  if(error>jplLichun.regressionThresholdMinutes)throw new Error(`${f.year} Lichun: JPL error ${error.toFixed(2)} minutes`);
+  const century=`${Math.floor(f.year/100)*100}-${Math.floor(f.year/100)*100+99}`;
+  jplErrorsByCentury[century]=Math.round(error*100)/100;
+}
 for(const f of days)if(sexagenaryDayIndex(new Date(`${f.date}T12:00:00Z`))!==f.index)throw new Error(`${f.date}: wrong sexagenary day`);
 const code=pillar=>`${pillar.stem.code}-${pillar.branch.code}`,sameUtcGroups=new Map();
 for(const f of timezoneBoundaries){
@@ -40,4 +52,4 @@ for(const [group,charts] of sameUtcGroups){
   if(new Set(charts.map(chart=>chart.normalized.utcTime)).size!==1)throw new Error(`${group}: normalized UTC differs`);
   if(new Set(charts.map(chart=>code(chart.pillars.year))).size!==1||new Set(charts.map(chart=>code(chart.pillars.month))).size!==1)throw new Error(`${group}: year/month differs for one UTC instant`);
 }
-console.log(JSON.stringify({fixtureVersion:CONFORMANCE_VERSION,solarTerms:jie.length+multiYearJie.length,solarTermYears:[...new Set([2026,...multiYearJie.map(f=>f.year)])].sort(),sexagenaryDays:days.length,timezoneBoundaries:timezoneBoundaries.length,timezoneInvariantGroups:sameUtcGroups.size,maxSolarTermErrorMinutes:Math.round(maxSolarTermErrorMinutes*100)/100}));
+console.log(JSON.stringify({fixtureVersion:CONFORMANCE_VERSION,solarTerms:jie.length+multiYearJie.length,solarTermYears:[...new Set([2026,...multiYearJie.map(f=>f.year)])].sort(),jplLichunCheckpoints:jplLichun.points.length,jplYearRange:[jplLichun.points[0].year,jplLichun.points.at(-1).year],jplErrorMinutesByCentury:jplErrorsByCentury,maxJplLichunErrorMinutes:Math.round(maxJplLichunErrorMinutes*100)/100,sexagenaryDays:days.length,timezoneBoundaries:timezoneBoundaries.length,timezoneInvariantGroups:sameUtcGroups.size,maxNaojSolarTermErrorMinutes:Math.round(maxSolarTermErrorMinutes*100)/100}));

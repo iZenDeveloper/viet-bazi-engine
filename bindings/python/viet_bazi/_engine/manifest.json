@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "engineVersion": "0.46.0",
+  "engineVersion": "0.47.0",
   "files": {
     "calendar.js": {
       "bytes": 5227,
@@ -23,8 +23,8 @@
       "sha256": "401efc2030f92953f82791b88da710bf295eb4373b5283ddc8ecf5229d301a1e"
     },
     "conformance.js": {
-      "bytes": 6732,
-      "sha256": "17ac9c1460f8dd66516756e458a56b9ae9c04082087bd4dec21ff5abc24039b4"
+      "bytes": 9284,
+      "sha256": "a061a456cbea3db74b98166061e62dc738d2cccc13309195cef6724b7a5245f0"
     },
     "constants.js": {
       "bytes": 2916,
@@ -32,15 +32,15 @@
     },
     "engine.js": {
       "bytes": 13472,
-      "sha256": "24bbc161af6e001bde2d3b6cc407b07378061133909bcdde40253898ae06ad7b"
+      "sha256": "1ada16c096a517061fe476388d00456ec4f1efd9d9d7c499fbcc74713487a7aa"
     },
     "errors.js": {
       "bytes": 1350,
       "sha256": "10b713e3563a5cd7c9bcce961ff9055015eeea13fbc05df524d4db739ee1ed30"
     },
     "index.js": {
-      "bytes": 2341,
-      "sha256": "6ae899439f05823f7dd5961144c6cc3cb1dd79764fde05ddc3356975a2c0e44b"
+      "bytes": 2376,
+      "sha256": "ddca15b85ac18957486fda3e4ebf8adc597b849d833a7a5d3d6c792349bd71a3"
     },
     "json.js": {
       "bytes": 9677,

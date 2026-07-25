@@ -1,6 +1,6 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.46.0",
+  "version": "0.47.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "./fixtures/v1/manifest.json": "./fixtures/v1/manifest.json",
     "./fixtures/v1/jie-2026.json": "./fixtures/v1/jie-2026.json",
     "./fixtures/v1/jie-multi-year.json": "./fixtures/v1/jie-multi-year.json",
+    "./fixtures/v1/jpl-lichun-multi-century.json": "./fixtures/v1/jpl-lichun-multi-century.json",
     "./fixtures/v1/sexagenary-days.json": "./fixtures/v1/sexagenary-days.json",
     "./fixtures/v1/timezone-boundaries.json": "./fixtures/v1/timezone-boundaries.json"
   },

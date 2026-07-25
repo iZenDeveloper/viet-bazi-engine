@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.47.0
+
+- Nâng conformance fixtures lên `1.3.0` với 9 checkpoint Lập Xuân NASA/JPL Horizons từ năm 1600 đến 2400.
+- Lưu query profile, mẫu kinh độ kẹp 315°, phép nội suy và provenance để fixture có thể audit độc lập.
+- Công bố sai số theo từng thế kỷ; sai số lớn nhất quan sát là 36,84 phút với ngưỡng regression 40 phút trên toàn miền.
+
 ## 0.46.0
 
 - Nâng conformance fixtures lên `1.2.0` với 24 ranh Tiết NAOJ năm 2013 và 2020, tổng cộng 36 điểm qua ba năm.
