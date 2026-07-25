@@ -2045,7 +2045,7 @@
           "properties": {
             "engineVersion": {
               "type": "string",
-              "pattern": "^\\d+\\.\\d+\\.\\d+$"
+              "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
             },
             "profileCode": {
               "const": "VIET_BAZI_STANDARD_V1"

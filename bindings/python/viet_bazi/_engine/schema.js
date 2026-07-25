@@ -1,109 +1,1319 @@
-import { BAZI_ERROR_CODES } from './errors.js';
-const stemCodes = ['JIA', 'YI', 'BING', 'DING', 'WU', 'JI', 'GENG', 'XIN', 'REN', 'GUI'];
-const branchCodes = ['ZI', 'CHOU', 'YIN', 'MAO', 'CHEN', 'SI', 'WU', 'WEI', 'SHEN', 'YOU', 'XU', 'HAI'];
-const elementCodes = ['WOOD', 'FIRE', 'EARTH', 'METAL', 'WATER'];
-const tenGodCodes = ['BI_JIAN', 'JIE_CAI', 'SHI_SHEN', 'SHANG_GUAN', 'PIAN_CAI', 'ZHENG_CAI', 'QI_SHA', 'ZHENG_GUAN', 'PIAN_YIN', 'ZHENG_YIN'];
-const relationCodes = ['LIU_HE', 'LIU_CHONG', 'LIU_HAI', 'LIU_PO', 'ZI_XING', 'SAN_XING', 'SAN_HE', 'SAN_HUI'];
+import { BAZI_ERROR_CODES } from "./errors.js";
+const stemCodes = [
+    "JIA",
+    "YI",
+    "BING",
+    "DING",
+    "WU",
+    "JI",
+    "GENG",
+    "XIN",
+    "REN",
+    "GUI",
+];
+const branchCodes = [
+    "ZI",
+    "CHOU",
+    "YIN",
+    "MAO",
+    "CHEN",
+    "SI",
+    "WU",
+    "WEI",
+    "SHEN",
+    "YOU",
+    "XU",
+    "HAI",
+];
+const elementCodes = ["WOOD", "FIRE", "EARTH", "METAL", "WATER"];
+const tenGodCodes = [
+    "BI_JIAN",
+    "JIE_CAI",
+    "SHI_SHEN",
+    "SHANG_GUAN",
+    "PIAN_CAI",
+    "ZHENG_CAI",
+    "QI_SHA",
+    "ZHENG_GUAN",
+    "PIAN_YIN",
+    "ZHENG_YIN",
+];
+const relationCodes = [
+    "LIU_HE",
+    "LIU_CHONG",
+    "LIU_HAI",
+    "LIU_PO",
+    "ZI_XING",
+    "SAN_XING",
+    "SAN_HE",
+    "SAN_HUI",
+];
+const semverPattern = "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$";
 export const BIRTH_INPUT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/birth-input-1.0.json', title: 'Viet Bazi Birth Input', type: 'object', additionalProperties: false,
-    required: ['localDateTime', 'timezoneOffsetMinutes', 'asOfYear', 'gender'],
-    properties: { localDateTime: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$' }, timezoneOffsetMinutes: { type: 'integer', minimum: -840, maximum: 840 }, asOfYear: { type: 'integer', minimum: 1600, maximum: 2400 }, gender: { enum: ['male', 'female'] }, trueSolarTime: { type: 'boolean' }, dayBoundary: { enum: ['early-zi', 'midnight'] }, solarTermModel: { enum: ['legacy', 'apparent'] }, location: { $ref: '#/$defs/location' } },
-    allOf: [{ if: { properties: { trueSolarTime: { const: true } }, required: ['trueSolarTime'] }, then: { required: ['location'] } }],
-    $defs: { location: { type: 'object', additionalProperties: false, properties: { city: { type: 'string', minLength: 1 }, latitude: { type: 'number', minimum: -90, maximum: 90 }, longitude: { type: 'number', minimum: -180, maximum: 180 } }, dependentRequired: { latitude: ['longitude'], longitude: ['latitude'] }, anyOf: [{ required: ['city'] }, { required: ['latitude', 'longitude'] }] } }
-};
-const stem = { type: 'object', additionalProperties: false, required: ['index', 'code', 'name', 'elementCode', 'element', 'polarityCode', 'polarity'], properties: { index: { type: 'integer', minimum: 0, maximum: 9 }, code: { enum: stemCodes }, name: { type: 'string' }, elementCode: { enum: elementCodes }, element: { type: 'string' }, polarityCode: { enum: ['YANG', 'YIN'] }, polarity: { type: 'string' } } };
-const hiddenStem = { type: 'object', additionalProperties: false, required: [...stem.required, 'weight', 'tenGodCode', 'tenGod'], properties: { ...stem.properties, weight: { type: 'number', minimum: 0, maximum: 1 }, tenGodCode: { enum: tenGodCodes }, tenGod: { type: 'string' } } };
-const branch = { type: 'object', additionalProperties: false, required: ['index', 'code', 'name', 'elementCode', 'element', 'polarityCode', 'polarity', 'hiddenStems'], properties: { index: { type: 'integer', minimum: 0, maximum: 11 }, code: { enum: branchCodes }, name: { type: 'string' }, elementCode: { enum: elementCodes }, element: { type: 'string' }, polarityCode: { enum: ['YANG', 'YIN'] }, polarity: { type: 'string' }, hiddenStems: { type: 'array', minItems: 1, maxItems: 3, items: hiddenStem } } };
-const pillar = { type: 'object', additionalProperties: false, required: ['labelCode', 'label', 'stem', 'branch', 'tenGodCode', 'tenGod'], properties: { labelCode: { enum: ['YEAR', 'MONTH', 'DAY', 'HOUR'] }, label: { type: 'string' }, stem, branch, tenGodCode: { enum: [...tenGodCodes, 'DAY_MASTER'] }, tenGod: { type: 'string' } } };
-export const BAZI_RESULT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/bazi-result-1.7.json', title: 'Viet Bazi Result 1.7', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'input', 'normalized', 'pillars', 'dayMaster', 'elements', 'relations', 'tenGods', 'luck', 'annual', 'annualAnalysis', 'shenSha', 'pattern', 'metadata'],
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/birth-input-1.0.json",
+    title: "Viet Bazi Birth Input",
+    type: "object",
+    additionalProperties: false,
+    required: ["localDateTime", "timezoneOffsetMinutes", "asOfYear", "gender"],
     properties: {
-        schemaVersion: { const: '1.7' }, input: BIRTH_INPUT_JSON_SCHEMA,
-        normalized: { type: 'object', required: ['civilTime', 'solarTime', 'utcTime', 'correctionMinutes', 'dayBoundary', 'solarTerms'], properties: { civilTime: { type: 'string' }, solarTime: { type: 'string' }, utcTime: { type: 'string', format: 'date-time' }, correctionMinutes: { type: 'number' }, dayBoundary: { enum: ['early-zi', 'midnight'] }, location: { type: 'object' }, solarTerms: { type: 'object', required: ['previousJie', 'nextJie', 'nearestDistanceMinutes', 'nearBoundary'], properties: { previousJie: { type: 'string', format: 'date-time' }, nextJie: { type: 'string', format: 'date-time' }, nearestDistanceMinutes: { type: 'integer', minimum: 0 }, nearBoundary: { type: 'boolean' } } } } },
-        pillars: { type: 'object', additionalProperties: false, required: ['year', 'month', 'day', 'hour'], properties: { year: pillar, month: pillar, day: pillar, hour: pillar } }, dayMaster: stem,
-        elements: { type: 'array', minItems: 5, maxItems: 5, items: { type: 'object', required: ['elementCode', 'element', 'raw', 'percent', 'strength'], properties: { elementCode: { enum: elementCodes }, element: { type: 'string' }, raw: { type: 'number' }, percent: { type: 'number', minimum: 0, maximum: 100 }, strength: { enum: ['khuyết', 'yếu', 'trung bình', 'vượng'] } } } },
-        relations: { type: 'array', items: { type: 'object', required: ['typeCode', 'type', 'branchCodes', 'branches'], properties: { typeCode: { enum: relationCodes }, type: { type: 'string' }, branchCodes: { type: 'array', items: { enum: branchCodes } }, branches: { type: 'array', items: { type: 'string' } }, resultElementCode: { enum: elementCodes }, resultElement: { type: 'string' } } } }, tenGods: { type: 'object' },
-        luck: { type: 'object', required: ['direction', 'startAge', 'pillars', 'active'], properties: { direction: { enum: ['thuận', 'nghịch'] }, startAge: { type: 'number', minimum: 0 }, pillars: { type: 'array', minItems: 8, maxItems: 8, items: { type: 'object' } }, active: { type: 'object', required: ['asOfYear', 'order', 'pillar'], properties: { asOfYear: { type: 'integer' }, order: { type: ['integer', 'null'] }, pillar: { type: ['object', 'null'] } } } } },
-        annual: pillar, annualAnalysis: { type: 'object', required: ['year', 'pillar', 'stemTenGodCode', 'stemTenGod', 'interactions', 'activeLuckInteraction'], properties: { year: { type: 'integer' }, pillar, stemTenGodCode: { enum: tenGodCodes }, stemTenGod: { type: 'string' }, interactions: { type: 'array', minItems: 4, maxItems: 4, items: { type: 'object' } }, activeLuckInteraction: { type: ['object', 'null'] } } }, shenSha: { type: 'array', items: { type: 'object', required: ['code', 'name', 'at', 'basis'], properties: { code: { type: 'string', pattern: '^[A-Z_]+$' }, name: { type: 'string' }, at: { type: 'array', items: { type: 'string' } }, basis: { type: 'string' } } } }, pattern: { type: 'object' }, metadata: { type: 'object', required: ['locale', 'methodology', 'facts', 'supportedShenSha', 'warnings'], properties: { locale: { const: 'vi' }, methodology: { type: 'object', additionalProperties: false, required: ['engineVersion', 'profileCode', 'calendar', 'trueSolarTime', 'luckCycle', 'analysis'], properties: { engineVersion: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' }, profileCode: { const: 'VIET_BAZI_STANDARD_V1' }, calendar: { type: 'object', additionalProperties: false, required: ['yearBoundary', 'monthBoundary', 'dayBoundary', 'hourBoundary', 'solarTermModel'], properties: { yearBoundary: { const: 'LI_CHUN' }, monthBoundary: { const: 'TWELVE_JIE' }, dayBoundary: { enum: ['EARLY_ZI', 'MIDNIGHT'] }, hourBoundary: { const: 'ZI_CENTERED_TWO_HOUR' }, solarTermModel: { enum: ['APPROXIMATE_SOLAR_LONGITUDE', 'APPARENT_SOLAR_LONGITUDE_V1'] } } }, trueSolarTime: { type: 'object', additionalProperties: false, required: ['enabled', 'model'], properties: { enabled: { type: 'boolean' }, model: { enum: ['LONGITUDE_PLUS_EQUATION_OF_TIME', 'DISABLED'] } } }, luckCycle: { type: 'object', additionalProperties: false, required: ['directionRule', 'startBoundary', 'ageConversion'], properties: { directionRule: { const: 'GENDER_AND_YEAR_STEM_POLARITY' }, startBoundary: { const: 'DIRECTIONAL_JIE' }, ageConversion: { const: 'THREE_DAYS_PER_YEAR' } } }, analysis: { type: 'object', additionalProperties: false, required: ['elementBalance', 'pattern', 'shenSha'], properties: { elementBalance: { const: 'WEIGHTED_HEURISTIC_V1' }, pattern: { const: 'MONTH_QI_HEURISTIC_V1' }, shenSha: { const: 'CATALOG_V1' } } } } }, facts: { type: 'array' }, supportedShenSha: { type: 'array', items: { type: 'string' } }, warnings: { type: 'array', items: { type: 'string' } } } }
-    }
+        localDateTime: {
+            type: "string",
+            pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$",
+        },
+        timezoneOffsetMinutes: { type: "integer", minimum: -840, maximum: 840 },
+        asOfYear: { type: "integer", minimum: 1600, maximum: 2400 },
+        gender: { enum: ["male", "female"] },
+        trueSolarTime: { type: "boolean" },
+        dayBoundary: { enum: ["early-zi", "midnight"] },
+        solarTermModel: { enum: ["legacy", "apparent"] },
+        location: { $ref: "#/$defs/location" },
+    },
+    allOf: [
+        {
+            if: {
+                properties: { trueSolarTime: { const: true } },
+                required: ["trueSolarTime"],
+            },
+            then: { required: ["location"] },
+        },
+    ],
+    $defs: {
+        location: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+                city: { type: "string", minLength: 1 },
+                latitude: { type: "number", minimum: -90, maximum: 90 },
+                longitude: { type: "number", minimum: -180, maximum: 180 },
+            },
+            dependentRequired: { latitude: ["longitude"], longitude: ["latitude"] },
+            anyOf: [{ required: ["city"] }, { required: ["latitude", "longitude"] }],
+        },
+    },
+};
+const stem = {
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "index",
+        "code",
+        "name",
+        "elementCode",
+        "element",
+        "polarityCode",
+        "polarity",
+    ],
+    properties: {
+        index: { type: "integer", minimum: 0, maximum: 9 },
+        code: { enum: stemCodes },
+        name: { type: "string" },
+        elementCode: { enum: elementCodes },
+        element: { type: "string" },
+        polarityCode: { enum: ["YANG", "YIN"] },
+        polarity: { type: "string" },
+    },
+};
+const hiddenStem = {
+    type: "object",
+    additionalProperties: false,
+    required: [...stem.required, "weight", "tenGodCode", "tenGod"],
+    properties: {
+        ...stem.properties,
+        weight: { type: "number", minimum: 0, maximum: 1 },
+        tenGodCode: { enum: tenGodCodes },
+        tenGod: { type: "string" },
+    },
+};
+const branch = {
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "index",
+        "code",
+        "name",
+        "elementCode",
+        "element",
+        "polarityCode",
+        "polarity",
+        "hiddenStems",
+    ],
+    properties: {
+        index: { type: "integer", minimum: 0, maximum: 11 },
+        code: { enum: branchCodes },
+        name: { type: "string" },
+        elementCode: { enum: elementCodes },
+        element: { type: "string" },
+        polarityCode: { enum: ["YANG", "YIN"] },
+        polarity: { type: "string" },
+        hiddenStems: { type: "array", minItems: 1, maxItems: 3, items: hiddenStem },
+    },
+};
+const pillar = {
+    type: "object",
+    additionalProperties: false,
+    required: ["labelCode", "label", "stem", "branch", "tenGodCode", "tenGod"],
+    properties: {
+        labelCode: { enum: ["YEAR", "MONTH", "DAY", "HOUR"] },
+        label: { type: "string" },
+        stem,
+        branch,
+        tenGodCode: { enum: [...tenGodCodes, "DAY_MASTER"] },
+        tenGod: { type: "string" },
+    },
+};
+export const BAZI_RESULT_JSON_SCHEMA = {
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/bazi-result-1.7.json",
+    title: "Viet Bazi Result 1.7",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "input",
+        "normalized",
+        "pillars",
+        "dayMaster",
+        "elements",
+        "relations",
+        "tenGods",
+        "luck",
+        "annual",
+        "annualAnalysis",
+        "shenSha",
+        "pattern",
+        "metadata",
+    ],
+    properties: {
+        schemaVersion: { const: "1.7" },
+        input: BIRTH_INPUT_JSON_SCHEMA,
+        normalized: {
+            type: "object",
+            required: [
+                "civilTime",
+                "solarTime",
+                "utcTime",
+                "correctionMinutes",
+                "dayBoundary",
+                "solarTerms",
+            ],
+            properties: {
+                civilTime: { type: "string" },
+                solarTime: { type: "string" },
+                utcTime: { type: "string", format: "date-time" },
+                correctionMinutes: { type: "number" },
+                dayBoundary: { enum: ["early-zi", "midnight"] },
+                location: { type: "object" },
+                solarTerms: {
+                    type: "object",
+                    required: [
+                        "previousJie",
+                        "nextJie",
+                        "nearestDistanceMinutes",
+                        "nearBoundary",
+                    ],
+                    properties: {
+                        previousJie: { type: "string", format: "date-time" },
+                        nextJie: { type: "string", format: "date-time" },
+                        nearestDistanceMinutes: { type: "integer", minimum: 0 },
+                        nearBoundary: { type: "boolean" },
+                    },
+                },
+            },
+        },
+        pillars: {
+            type: "object",
+            additionalProperties: false,
+            required: ["year", "month", "day", "hour"],
+            properties: { year: pillar, month: pillar, day: pillar, hour: pillar },
+        },
+        dayMaster: stem,
+        elements: {
+            type: "array",
+            minItems: 5,
+            maxItems: 5,
+            items: {
+                type: "object",
+                required: ["elementCode", "element", "raw", "percent", "strength"],
+                properties: {
+                    elementCode: { enum: elementCodes },
+                    element: { type: "string" },
+                    raw: { type: "number" },
+                    percent: { type: "number", minimum: 0, maximum: 100 },
+                    strength: { enum: ["khuyết", "yếu", "trung bình", "vượng"] },
+                },
+            },
+        },
+        relations: {
+            type: "array",
+            items: {
+                type: "object",
+                required: ["typeCode", "type", "branchCodes", "branches"],
+                properties: {
+                    typeCode: { enum: relationCodes },
+                    type: { type: "string" },
+                    branchCodes: { type: "array", items: { enum: branchCodes } },
+                    branches: { type: "array", items: { type: "string" } },
+                    resultElementCode: { enum: elementCodes },
+                    resultElement: { type: "string" },
+                },
+            },
+        },
+        tenGods: { type: "object" },
+        luck: {
+            type: "object",
+            required: ["direction", "startAge", "pillars", "active"],
+            properties: {
+                direction: { enum: ["thuận", "nghịch"] },
+                startAge: { type: "number", minimum: 0 },
+                pillars: {
+                    type: "array",
+                    minItems: 8,
+                    maxItems: 8,
+                    items: { type: "object" },
+                },
+                active: {
+                    type: "object",
+                    required: ["asOfYear", "order", "pillar"],
+                    properties: {
+                        asOfYear: { type: "integer" },
+                        order: { type: ["integer", "null"] },
+                        pillar: { type: ["object", "null"] },
+                    },
+                },
+            },
+        },
+        annual: pillar,
+        annualAnalysis: {
+            type: "object",
+            required: [
+                "year",
+                "pillar",
+                "stemTenGodCode",
+                "stemTenGod",
+                "interactions",
+                "activeLuckInteraction",
+            ],
+            properties: {
+                year: { type: "integer" },
+                pillar,
+                stemTenGodCode: { enum: tenGodCodes },
+                stemTenGod: { type: "string" },
+                interactions: {
+                    type: "array",
+                    minItems: 4,
+                    maxItems: 4,
+                    items: { type: "object" },
+                },
+                activeLuckInteraction: { type: ["object", "null"] },
+            },
+        },
+        shenSha: {
+            type: "array",
+            items: {
+                type: "object",
+                required: ["code", "name", "at", "basis"],
+                properties: {
+                    code: { type: "string", pattern: "^[A-Z_]+$" },
+                    name: { type: "string" },
+                    at: { type: "array", items: { type: "string" } },
+                    basis: { type: "string" },
+                },
+            },
+        },
+        pattern: { type: "object" },
+        metadata: {
+            type: "object",
+            required: [
+                "locale",
+                "methodology",
+                "facts",
+                "supportedShenSha",
+                "warnings",
+            ],
+            properties: {
+                locale: { const: "vi" },
+                methodology: {
+                    type: "object",
+                    additionalProperties: false,
+                    required: [
+                        "engineVersion",
+                        "profileCode",
+                        "calendar",
+                        "trueSolarTime",
+                        "luckCycle",
+                        "analysis",
+                    ],
+                    properties: {
+                        engineVersion: { type: "string", pattern: semverPattern },
+                        profileCode: { const: "VIET_BAZI_STANDARD_V1" },
+                        calendar: {
+                            type: "object",
+                            additionalProperties: false,
+                            required: [
+                                "yearBoundary",
+                                "monthBoundary",
+                                "dayBoundary",
+                                "hourBoundary",
+                                "solarTermModel",
+                            ],
+                            properties: {
+                                yearBoundary: { const: "LI_CHUN" },
+                                monthBoundary: { const: "TWELVE_JIE" },
+                                dayBoundary: { enum: ["EARLY_ZI", "MIDNIGHT"] },
+                                hourBoundary: { const: "ZI_CENTERED_TWO_HOUR" },
+                                solarTermModel: {
+                                    enum: [
+                                        "APPROXIMATE_SOLAR_LONGITUDE",
+                                        "APPARENT_SOLAR_LONGITUDE_V1",
+                                    ],
+                                },
+                            },
+                        },
+                        trueSolarTime: {
+                            type: "object",
+                            additionalProperties: false,
+                            required: ["enabled", "model"],
+                            properties: {
+                                enabled: { type: "boolean" },
+                                model: {
+                                    enum: ["LONGITUDE_PLUS_EQUATION_OF_TIME", "DISABLED"],
+                                },
+                            },
+                        },
+                        luckCycle: {
+                            type: "object",
+                            additionalProperties: false,
+                            required: ["directionRule", "startBoundary", "ageConversion"],
+                            properties: {
+                                directionRule: { const: "GENDER_AND_YEAR_STEM_POLARITY" },
+                                startBoundary: { const: "DIRECTIONAL_JIE" },
+                                ageConversion: { const: "THREE_DAYS_PER_YEAR" },
+                            },
+                        },
+                        analysis: {
+                            type: "object",
+                            additionalProperties: false,
+                            required: ["elementBalance", "pattern", "shenSha"],
+                            properties: {
+                                elementBalance: { const: "WEIGHTED_HEURISTIC_V1" },
+                                pattern: { const: "MONTH_QI_HEURISTIC_V1" },
+                                shenSha: { const: "CATALOG_V1" },
+                            },
+                        },
+                    },
+                },
+                facts: { type: "array" },
+                supportedShenSha: { type: "array", items: { type: "string" } },
+                warnings: { type: "array", items: { type: "string" } },
+            },
+        },
+    },
 };
 export const BAZI_AUDIT_REPORT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/bazi-audit-report-1.0.json', title: 'Viet Bazi Audit Report 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'engineVersion', 'chartSchemaVersion', 'methodologyProfile', 'rules', 'warnings'], properties: { schemaVersion: { const: '1.0' }, engineVersion: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' }, chartSchemaVersion: { const: '1.7' }, methodologyProfile: { const: 'VIET_BAZI_STANDARD_V1' }, rules: { type: 'array', minItems: 10, uniqueItems: true, items: { type: 'object', additionalProperties: false, required: ['ruleCode', 'ruleVersion', 'category', 'descriptionVi', 'inputPaths', 'outputPaths'], properties: { ruleCode: { type: 'string', pattern: '^[A-Z0-9_]+$' }, ruleVersion: { type: 'string', pattern: '^\\d+\\.\\d+$' }, category: { enum: ['calendar', 'normalization', 'analysis', 'luck'] }, descriptionVi: { type: 'string', minLength: 1 }, inputPaths: { type: 'array', minItems: 1, uniqueItems: true, items: { type: 'string', minLength: 1 } }, outputPaths: { type: 'array', minItems: 1, uniqueItems: true, items: { type: 'string', minLength: 1 } } } } }, warnings: { type: 'array', uniqueItems: true, items: { type: 'string', minLength: 1 } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/bazi-audit-report-1.0.json",
+    title: "Viet Bazi Audit Report 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "engineVersion",
+        "chartSchemaVersion",
+        "methodologyProfile",
+        "rules",
+        "warnings",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        engineVersion: { type: "string", pattern: semverPattern },
+        chartSchemaVersion: { const: "1.7" },
+        methodologyProfile: { const: "VIET_BAZI_STANDARD_V1" },
+        rules: {
+            type: "array",
+            minItems: 10,
+            uniqueItems: true,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: [
+                    "ruleCode",
+                    "ruleVersion",
+                    "category",
+                    "descriptionVi",
+                    "inputPaths",
+                    "outputPaths",
+                ],
+                properties: {
+                    ruleCode: { type: "string", pattern: "^[A-Z0-9_]+$" },
+                    ruleVersion: { type: "string", pattern: "^\\d+\\.\\d+$" },
+                    category: { enum: ["calendar", "normalization", "analysis", "luck"] },
+                    descriptionVi: { type: "string", minLength: 1 },
+                    inputPaths: {
+                        type: "array",
+                        minItems: 1,
+                        uniqueItems: true,
+                        items: { type: "string", minLength: 1 },
+                    },
+                    outputPaths: {
+                        type: "array",
+                        minItems: 1,
+                        uniqueItems: true,
+                        items: { type: "string", minLength: 1 },
+                    },
+                },
+            },
+        },
+        warnings: {
+            type: "array",
+            uniqueItems: true,
+            items: { type: "string", minLength: 1 },
+        },
+    },
 };
 export const LOCALIZED_AUDIT_REPORT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/localized-audit-report-1.0.json', title: 'Viet Bazi Localized Audit Report 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'locale', 'engineVersion', 'chartSchemaVersion', 'methodologyProfile', 'rules', 'warnings'], properties: { schemaVersion: { const: '1.0' }, locale: { enum: ['vi', 'en'] }, engineVersion: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' }, chartSchemaVersion: { const: '1.7' }, methodologyProfile: { const: 'VIET_BAZI_STANDARD_V1' }, rules: { type: 'array', minItems: 10, uniqueItems: true, items: { type: 'object', additionalProperties: false, required: ['ruleCode', 'ruleVersion', 'category', 'text', 'inputPaths', 'outputPaths'], properties: { ruleCode: { type: 'string', pattern: '^[A-Z0-9_]+$' }, ruleVersion: { type: 'string', pattern: '^\\d+\\.\\d+$' }, category: { enum: ['calendar', 'normalization', 'analysis', 'luck'] }, text: { type: 'string', minLength: 1 }, inputPaths: { type: 'array', minItems: 1, uniqueItems: true, items: { type: 'string', minLength: 1 } }, outputPaths: { type: 'array', minItems: 1, uniqueItems: true, items: { type: 'string', minLength: 1 } } } } }, warnings: { type: 'array', uniqueItems: true, items: { type: 'string', minLength: 1 } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/localized-audit-report-1.0.json",
+    title: "Viet Bazi Localized Audit Report 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "locale",
+        "engineVersion",
+        "chartSchemaVersion",
+        "methodologyProfile",
+        "rules",
+        "warnings",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        locale: { enum: ["vi", "en"] },
+        engineVersion: { type: "string", pattern: semverPattern },
+        chartSchemaVersion: { const: "1.7" },
+        methodologyProfile: { const: "VIET_BAZI_STANDARD_V1" },
+        rules: {
+            type: "array",
+            minItems: 10,
+            uniqueItems: true,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: [
+                    "ruleCode",
+                    "ruleVersion",
+                    "category",
+                    "text",
+                    "inputPaths",
+                    "outputPaths",
+                ],
+                properties: {
+                    ruleCode: { type: "string", pattern: "^[A-Z0-9_]+$" },
+                    ruleVersion: { type: "string", pattern: "^\\d+\\.\\d+$" },
+                    category: { enum: ["calendar", "normalization", "analysis", "luck"] },
+                    text: { type: "string", minLength: 1 },
+                    inputPaths: {
+                        type: "array",
+                        minItems: 1,
+                        uniqueItems: true,
+                        items: { type: "string", minLength: 1 },
+                    },
+                    outputPaths: {
+                        type: "array",
+                        minItems: 1,
+                        uniqueItems: true,
+                        items: { type: "string", minLength: 1 },
+                    },
+                },
+            },
+        },
+        warnings: {
+            type: "array",
+            uniqueItems: true,
+            items: { type: "string", minLength: 1 },
+        },
+    },
 };
 export const LOCALIZED_FACTS_REPORT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/localized-facts-report-1.0.json', title: 'Viet Bazi Localized Facts Report 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'locale', 'facts', 'warnings'], properties: { schemaVersion: { const: '1.0' }, locale: { enum: ['vi', 'en'] }, facts: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['code', 'text', 'confidence', 'evidence'], properties: { code: { type: 'string', minLength: 1 }, text: { type: 'string', minLength: 1 }, confidence: { enum: ['high', 'medium'] }, evidence: { type: 'array', minItems: 1, items: { type: 'string', minLength: 1 } } } } }, warnings: { type: 'array', items: { type: 'string' } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/localized-facts-report-1.0.json",
+    title: "Viet Bazi Localized Facts Report 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: ["schemaVersion", "locale", "facts", "warnings"],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        locale: { enum: ["vi", "en"] },
+        facts: {
+            type: "array",
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["code", "text", "confidence", "evidence"],
+                properties: {
+                    code: { type: "string", minLength: 1 },
+                    text: { type: "string", minLength: 1 },
+                    confidence: { enum: ["high", "medium"] },
+                    evidence: {
+                        type: "array",
+                        minItems: 1,
+                        items: { type: "string", minLength: 1 },
+                    },
+                },
+            },
+        },
+        warnings: { type: "array", items: { type: "string" } },
+    },
 };
 export const LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/localized-methodology-report-1.0.json', title: 'Viet Bazi Localized Methodology Report 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'locale', 'profileCode', 'engineVersion', 'items'], properties: { schemaVersion: { const: '1.0' }, locale: { enum: ['vi', 'en'] }, profileCode: { const: 'VIET_BAZI_STANDARD_V1' }, engineVersion: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' }, items: { type: 'array', minItems: 13, maxItems: 13, items: { type: 'object', additionalProperties: false, required: ['code', 'text', 'value'], properties: { code: { type: 'string', pattern: '^[A-Z_]+$' }, text: { type: 'string', minLength: 1 }, value: { type: ['string', 'boolean'] } } } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/localized-methodology-report-1.0.json",
+    title: "Viet Bazi Localized Methodology Report 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "locale",
+        "profileCode",
+        "engineVersion",
+        "items",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        locale: { enum: ["vi", "en"] },
+        profileCode: { const: "VIET_BAZI_STANDARD_V1" },
+        engineVersion: { type: "string", pattern: semverPattern },
+        items: {
+            type: "array",
+            minItems: 13,
+            maxItems: 13,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["code", "text", "value"],
+                properties: {
+                    code: { type: "string", pattern: "^[A-Z_]+$" },
+                    text: { type: "string", minLength: 1 },
+                    value: { type: ["string", "boolean"] },
+                },
+            },
+        },
+    },
 };
 export const ANNUAL_TIMELINE_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/annual-timeline-1.0.json', title: 'Viet Bazi Annual Timeline 1.0', type: 'array', minItems: 1, maxItems: 201,
-    items: { type: 'object', additionalProperties: false, required: ['year', 'activeLuck', 'analysis'], properties: { year: { type: 'integer', minimum: 1600, maximum: 2400 }, activeLuck: { type: 'object', additionalProperties: false, required: ['asOfYear', 'order', 'pillar'], properties: { asOfYear: { type: 'integer', minimum: 1600, maximum: 2400 }, order: { type: ['integer', 'null'], minimum: 1, maximum: 8 }, pillar: { type: ['object', 'null'] } } }, analysis: { type: 'object', additionalProperties: false, required: ['year', 'pillar', 'stemTenGodCode', 'stemTenGod', 'interactions', 'activeLuckInteraction'], properties: { year: { type: 'integer', minimum: 1600, maximum: 2400 }, pillar, stemTenGodCode: { enum: tenGodCodes }, stemTenGod: { type: 'string' }, interactions: { type: 'array', minItems: 4, maxItems: 4, items: { type: 'object' } }, activeLuckInteraction: { type: ['object', 'null'] } } } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/annual-timeline-1.0.json",
+    title: "Viet Bazi Annual Timeline 1.0",
+    type: "array",
+    minItems: 1,
+    maxItems: 201,
+    items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["year", "activeLuck", "analysis"],
+        properties: {
+            year: { type: "integer", minimum: 1600, maximum: 2400 },
+            activeLuck: {
+                type: "object",
+                additionalProperties: false,
+                required: ["asOfYear", "order", "pillar"],
+                properties: {
+                    asOfYear: { type: "integer", minimum: 1600, maximum: 2400 },
+                    order: { type: ["integer", "null"], minimum: 1, maximum: 8 },
+                    pillar: { type: ["object", "null"] },
+                },
+            },
+            analysis: {
+                type: "object",
+                additionalProperties: false,
+                required: [
+                    "year",
+                    "pillar",
+                    "stemTenGodCode",
+                    "stemTenGod",
+                    "interactions",
+                    "activeLuckInteraction",
+                ],
+                properties: {
+                    year: { type: "integer", minimum: 1600, maximum: 2400 },
+                    pillar,
+                    stemTenGodCode: { enum: tenGodCodes },
+                    stemTenGod: { type: "string" },
+                    interactions: {
+                        type: "array",
+                        minItems: 4,
+                        maxItems: 4,
+                        items: { type: "object" },
+                    },
+                    activeLuckInteraction: { type: ["object", "null"] },
+                },
+            },
+        },
+    },
 };
-const localizedTimelinePillar = { type: 'object', additionalProperties: false, required: ['stemCode', 'stem', 'branchCode', 'branch', 'text'], properties: { stemCode: { enum: stemCodes }, stem: { type: 'string', minLength: 1 }, branchCode: { enum: branchCodes }, branch: { type: 'string', minLength: 1 }, text: { type: 'string', minLength: 3 } } };
+const localizedTimelinePillar = {
+    type: "object",
+    additionalProperties: false,
+    required: ["stemCode", "stem", "branchCode", "branch", "text"],
+    properties: {
+        stemCode: { enum: stemCodes },
+        stem: { type: "string", minLength: 1 },
+        branchCode: { enum: branchCodes },
+        branch: { type: "string", minLength: 1 },
+        text: { type: "string", minLength: 3 },
+    },
+};
 export const LOCALIZED_ANNUAL_TIMELINE_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/localized-annual-timeline-1.0.json', title: 'Viet Bazi Localized Annual Timeline 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'locale', 'fromYear', 'toYear', 'entries'], properties: { schemaVersion: { const: '1.0' }, locale: { enum: ['vi', 'en'] }, fromYear: { type: 'integer', minimum: 1600, maximum: 2400 }, toYear: { type: 'integer', minimum: 1600, maximum: 2400 }, entries: { type: 'array', minItems: 1, maxItems: 201, items: { type: 'object', additionalProperties: false, required: ['year', 'annual', 'tenGodCode', 'tenGod', 'activeLuck'], properties: { year: { type: 'integer', minimum: 1600, maximum: 2400 }, annual: localizedTimelinePillar, tenGodCode: { enum: tenGodCodes }, tenGod: { type: 'string', minLength: 1 }, activeLuck: { oneOf: [{ type: 'null' }, { type: 'object', additionalProperties: false, required: ['order', 'pillar'], properties: { order: { type: 'integer', minimum: 1, maximum: 8 }, pillar: localizedTimelinePillar } }] } } } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/localized-annual-timeline-1.0.json",
+    title: "Viet Bazi Localized Annual Timeline 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: ["schemaVersion", "locale", "fromYear", "toYear", "entries"],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        locale: { enum: ["vi", "en"] },
+        fromYear: { type: "integer", minimum: 1600, maximum: 2400 },
+        toYear: { type: "integer", minimum: 1600, maximum: 2400 },
+        entries: {
+            type: "array",
+            minItems: 1,
+            maxItems: 201,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["year", "annual", "tenGodCode", "tenGod", "activeLuck"],
+                properties: {
+                    year: { type: "integer", minimum: 1600, maximum: 2400 },
+                    annual: localizedTimelinePillar,
+                    tenGodCode: { enum: tenGodCodes },
+                    tenGod: { type: "string", minLength: 1 },
+                    activeLuck: {
+                        oneOf: [
+                            { type: "null" },
+                            {
+                                type: "object",
+                                additionalProperties: false,
+                                required: ["order", "pillar"],
+                                properties: {
+                                    order: { type: "integer", minimum: 1, maximum: 8 },
+                                    pillar: localizedTimelinePillar,
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+        },
+    },
 };
-const localizedChartPillar = { type: 'object', additionalProperties: false, required: ['stemCode', 'stem', 'branchCode', 'branch', 'text', 'labelCode', 'label', 'tenGodCode', 'tenGod'], properties: { ...localizedTimelinePillar.properties, labelCode: { enum: ['YEAR', 'MONTH', 'DAY', 'HOUR'] }, label: { type: 'string', minLength: 1 }, tenGodCode: { enum: [...tenGodCodes, 'DAY_MASTER'] }, tenGod: { type: 'string', minLength: 1 } } };
+const localizedChartPillar = {
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "stemCode",
+        "stem",
+        "branchCode",
+        "branch",
+        "text",
+        "labelCode",
+        "label",
+        "tenGodCode",
+        "tenGod",
+    ],
+    properties: {
+        ...localizedTimelinePillar.properties,
+        labelCode: { enum: ["YEAR", "MONTH", "DAY", "HOUR"] },
+        label: { type: "string", minLength: 1 },
+        tenGodCode: { enum: [...tenGodCodes, "DAY_MASTER"] },
+        tenGod: { type: "string", minLength: 1 },
+    },
+};
 export const LOCALIZED_CHART_SUMMARY_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/localized-chart-summary-1.0.json', title: 'Viet Bazi Localized Chart Summary 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'locale', 'engineVersion', 'pillars', 'dayMaster', 'elements', 'activeLuck', 'annual', 'pattern', 'warnings'], properties: { schemaVersion: { const: '1.0' }, locale: { enum: ['vi', 'en'] }, engineVersion: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' }, pillars: { type: 'object', additionalProperties: false, required: ['year', 'month', 'day', 'hour'], properties: { year: localizedChartPillar, month: localizedChartPillar, day: localizedChartPillar, hour: localizedChartPillar } }, dayMaster: { type: 'object', additionalProperties: false, required: ['stemCode', 'stem', 'elementCode', 'element', 'text'], properties: { stemCode: { enum: stemCodes }, stem: { type: 'string', minLength: 1 }, elementCode: { enum: elementCodes }, element: { type: 'string', minLength: 1 }, text: { type: 'string', minLength: 3 } } }, elements: { type: 'array', minItems: 5, maxItems: 5, items: { type: 'object', additionalProperties: false, required: ['elementCode', 'element', 'percent', 'strengthCode', 'strength'], properties: { elementCode: { enum: elementCodes }, element: { type: 'string', minLength: 1 }, percent: { type: 'number', minimum: 0, maximum: 100 }, strengthCode: { enum: ['MISSING', 'WEAK', 'BALANCED', 'STRONG'] }, strength: { type: 'string', minLength: 1 } } } }, activeLuck: { oneOf: [{ type: 'null' }, { type: 'object', additionalProperties: false, required: ['order', 'startYear', 'pillar'], properties: { order: { type: 'integer', minimum: 1, maximum: 8 }, startYear: { type: 'integer' }, pillar: localizedTimelinePillar } }] }, annual: { type: 'object', additionalProperties: false, required: ['year', 'pillar', 'tenGodCode', 'tenGod'], properties: { year: { type: 'integer', minimum: 1600, maximum: 2400 }, pillar: localizedTimelinePillar, tenGodCode: { enum: tenGodCodes }, tenGod: { type: 'string', minLength: 1 } } }, pattern: { type: 'object', additionalProperties: false, required: ['primaryTenGodCode', 'primary', 'dayMasterStrengthCode', 'dayMasterStrength', 'favorableElementCodes', 'favorableElements', 'unfavorableElementCodes', 'unfavorableElements'], properties: { primaryTenGodCode: { enum: tenGodCodes }, primary: { type: 'string', minLength: 1 }, dayMasterStrengthCode: { enum: ['WEAK', 'BALANCED', 'STRONG'] }, dayMasterStrength: { type: 'string', minLength: 1 }, favorableElementCodes: { type: 'array', uniqueItems: true, items: { enum: elementCodes } }, favorableElements: { type: 'array', uniqueItems: true, items: { type: 'string', minLength: 1 } }, unfavorableElementCodes: { type: 'array', uniqueItems: true, items: { enum: elementCodes } }, unfavorableElements: { type: 'array', uniqueItems: true, items: { type: 'string', minLength: 1 } } } }, warnings: { type: 'array', uniqueItems: true, items: { type: 'string', minLength: 1 } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/localized-chart-summary-1.0.json",
+    title: "Viet Bazi Localized Chart Summary 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "locale",
+        "engineVersion",
+        "pillars",
+        "dayMaster",
+        "elements",
+        "activeLuck",
+        "annual",
+        "pattern",
+        "warnings",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        locale: { enum: ["vi", "en"] },
+        engineVersion: { type: "string", pattern: semverPattern },
+        pillars: {
+            type: "object",
+            additionalProperties: false,
+            required: ["year", "month", "day", "hour"],
+            properties: {
+                year: localizedChartPillar,
+                month: localizedChartPillar,
+                day: localizedChartPillar,
+                hour: localizedChartPillar,
+            },
+        },
+        dayMaster: {
+            type: "object",
+            additionalProperties: false,
+            required: ["stemCode", "stem", "elementCode", "element", "text"],
+            properties: {
+                stemCode: { enum: stemCodes },
+                stem: { type: "string", minLength: 1 },
+                elementCode: { enum: elementCodes },
+                element: { type: "string", minLength: 1 },
+                text: { type: "string", minLength: 3 },
+            },
+        },
+        elements: {
+            type: "array",
+            minItems: 5,
+            maxItems: 5,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: [
+                    "elementCode",
+                    "element",
+                    "percent",
+                    "strengthCode",
+                    "strength",
+                ],
+                properties: {
+                    elementCode: { enum: elementCodes },
+                    element: { type: "string", minLength: 1 },
+                    percent: { type: "number", minimum: 0, maximum: 100 },
+                    strengthCode: { enum: ["MISSING", "WEAK", "BALANCED", "STRONG"] },
+                    strength: { type: "string", minLength: 1 },
+                },
+            },
+        },
+        activeLuck: {
+            oneOf: [
+                { type: "null" },
+                {
+                    type: "object",
+                    additionalProperties: false,
+                    required: ["order", "startYear", "pillar"],
+                    properties: {
+                        order: { type: "integer", minimum: 1, maximum: 8 },
+                        startYear: { type: "integer" },
+                        pillar: localizedTimelinePillar,
+                    },
+                },
+            ],
+        },
+        annual: {
+            type: "object",
+            additionalProperties: false,
+            required: ["year", "pillar", "tenGodCode", "tenGod"],
+            properties: {
+                year: { type: "integer", minimum: 1600, maximum: 2400 },
+                pillar: localizedTimelinePillar,
+                tenGodCode: { enum: tenGodCodes },
+                tenGod: { type: "string", minLength: 1 },
+            },
+        },
+        pattern: {
+            type: "object",
+            additionalProperties: false,
+            required: [
+                "primaryTenGodCode",
+                "primary",
+                "dayMasterStrengthCode",
+                "dayMasterStrength",
+                "favorableElementCodes",
+                "favorableElements",
+                "unfavorableElementCodes",
+                "unfavorableElements",
+            ],
+            properties: {
+                primaryTenGodCode: { enum: tenGodCodes },
+                primary: { type: "string", minLength: 1 },
+                dayMasterStrengthCode: { enum: ["WEAK", "BALANCED", "STRONG"] },
+                dayMasterStrength: { type: "string", minLength: 1 },
+                favorableElementCodes: {
+                    type: "array",
+                    uniqueItems: true,
+                    items: { enum: elementCodes },
+                },
+                favorableElements: {
+                    type: "array",
+                    uniqueItems: true,
+                    items: { type: "string", minLength: 1 },
+                },
+                unfavorableElementCodes: {
+                    type: "array",
+                    uniqueItems: true,
+                    items: { enum: elementCodes },
+                },
+                unfavorableElements: {
+                    type: "array",
+                    uniqueItems: true,
+                    items: { type: "string", minLength: 1 },
+                },
+            },
+        },
+        warnings: {
+            type: "array",
+            uniqueItems: true,
+            items: { type: "string", minLength: 1 },
+        },
+    },
 };
 export const INTERPRETATION_PROMPT_BUNDLE_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/interpretation-prompt-bundle-1.0.json', title: 'Viet Bazi Interpretation Prompt Bundle 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'templateCode', 'templateVersion', 'locale', 'focus', 'messages', 'grounding'], properties: {
-        schemaVersion: { const: '1.0' }, templateCode: { const: 'GROUNDED_BAZI_INTERPRETATION' }, templateVersion: { const: '1.0.0' }, locale: { enum: ['vi', 'en'] }, focus: { enum: ['overview', 'elements', 'career', 'relationships', 'timing'] },
-        messages: { type: 'array', minItems: 2, maxItems: 2, prefixItems: [{ type: 'object', additionalProperties: false, required: ['role', 'content'], properties: { role: { const: 'system' }, content: { type: 'string', minLength: 1 } } }, { type: 'object', additionalProperties: false, required: ['role', 'content'], properties: { role: { const: 'user' }, content: { type: 'string', minLength: 1 } } }], items: false },
-        grounding: { type: 'object', additionalProperties: false, required: ['summary', 'facts', 'methodology', 'audit'], properties: { summary: { $ref: LOCALIZED_CHART_SUMMARY_JSON_SCHEMA.$id }, facts: { $ref: LOCALIZED_FACTS_REPORT_JSON_SCHEMA.$id }, methodology: { $ref: LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA.$id }, audit: { $ref: LOCALIZED_AUDIT_REPORT_JSON_SCHEMA.$id } } }
-    }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/interpretation-prompt-bundle-1.0.json",
+    title: "Viet Bazi Interpretation Prompt Bundle 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "templateCode",
+        "templateVersion",
+        "locale",
+        "focus",
+        "messages",
+        "grounding",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        templateCode: { const: "GROUNDED_BAZI_INTERPRETATION" },
+        templateVersion: { const: "1.0.0" },
+        locale: { enum: ["vi", "en"] },
+        focus: {
+            enum: ["overview", "elements", "career", "relationships", "timing"],
+        },
+        messages: {
+            type: "array",
+            minItems: 2,
+            maxItems: 2,
+            prefixItems: [
+                {
+                    type: "object",
+                    additionalProperties: false,
+                    required: ["role", "content"],
+                    properties: {
+                        role: { const: "system" },
+                        content: { type: "string", minLength: 1 },
+                    },
+                },
+                {
+                    type: "object",
+                    additionalProperties: false,
+                    required: ["role", "content"],
+                    properties: {
+                        role: { const: "user" },
+                        content: { type: "string", minLength: 1 },
+                    },
+                },
+            ],
+            items: false,
+        },
+        grounding: {
+            type: "object",
+            additionalProperties: false,
+            required: ["summary", "facts", "methodology", "audit"],
+            properties: {
+                summary: { $ref: LOCALIZED_CHART_SUMMARY_JSON_SCHEMA.$id },
+                facts: { $ref: LOCALIZED_FACTS_REPORT_JSON_SCHEMA.$id },
+                methodology: { $ref: LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA.$id },
+                audit: { $ref: LOCALIZED_AUDIT_REPORT_JSON_SCHEMA.$id },
+            },
+        },
+    },
 };
 export const BAZI_BATCH_INPUT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/bazi-batch-input-1.0.json', title: 'Viet Bazi Batch Input 1.0', type: 'array', minItems: 0, maxItems: 1000, items: { $ref: BIRTH_INPUT_JSON_SCHEMA.$id }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/bazi-batch-input-1.0.json",
+    title: "Viet Bazi Batch Input 1.0",
+    type: "array",
+    minItems: 0,
+    maxItems: 1000,
+    items: { $ref: BIRTH_INPUT_JSON_SCHEMA.$id },
 };
 export const BAZI_BATCH_RESULT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/bazi-batch-result-1.1.json', title: 'Viet Bazi Batch Result 1.1', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'summary', 'items'], properties: {
-        schemaVersion: { const: '1.1' },
-        summary: { type: 'object', additionalProperties: false, required: ['total', 'succeeded', 'failed'], properties: { total: { type: 'integer', minimum: 0, maximum: 1000 }, succeeded: { type: 'integer', minimum: 0, maximum: 1000 }, failed: { type: 'integer', minimum: 0, maximum: 1000 } } },
-        items: { type: 'array', minItems: 0, maxItems: 1000, items: { oneOf: [
-                    { type: 'object', additionalProperties: false, required: ['index', 'ok', 'result'], properties: { index: { type: 'integer', minimum: 0, maximum: 999 }, ok: { const: true }, result: { $ref: BAZI_RESULT_JSON_SCHEMA.$id } } },
-                    { type: 'object', additionalProperties: false, required: ['index', 'ok', 'error'], properties: { index: { type: 'integer', minimum: 0, maximum: 999 }, ok: { const: false }, error: { type: 'object', additionalProperties: false, required: ['name', 'code', 'message'], properties: { name: { type: 'string', minLength: 1 }, code: { enum: BAZI_ERROR_CODES }, message: { type: 'string', minLength: 1 } } } } }
-                ] } }
-    }
-};
-const pillarSnapshotSchema = { type: 'object', additionalProperties: false, required: ['year', 'month', 'day', 'hour'], properties: { year: { $ref: '#/$defs/pillarCode' }, month: { $ref: '#/$defs/pillarCode' }, day: { $ref: '#/$defs/pillarCode' }, hour: { $ref: '#/$defs/pillarCode' } } };
-export const BIRTH_TIME_SENSITIVITY_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json', title: 'Viet Bazi Birth Time Sensitivity 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'windowMinutes', 'stepMinutes', 'sampleCount', 'stable', 'baseline', 'variants'], properties: {
-        schemaVersion: { const: '1.0' }, windowMinutes: { type: 'integer', minimum: 1, maximum: 720 }, stepMinutes: { type: 'integer', minimum: 1, maximum: 720 }, sampleCount: { type: 'integer', minimum: 3, maximum: 289 }, stable: { type: 'boolean' },
-        baseline: { type: 'object', additionalProperties: false, required: ['localDateTime', 'pillars'], properties: { localDateTime: { $ref: '#/$defs/localDateTime' }, pillars: pillarSnapshotSchema } },
-        variants: { type: 'array', minItems: 1, maxItems: 289, items: { type: 'object', additionalProperties: false, required: ['firstOffsetMinutes', 'lastOffsetMinutes', 'localDateTime', 'pillars', 'changedPillars'], properties: { firstOffsetMinutes: { type: 'integer', minimum: -720, maximum: 720 }, lastOffsetMinutes: { type: 'integer', minimum: -720, maximum: 720 }, localDateTime: { $ref: '#/$defs/localDateTime' }, pillars: pillarSnapshotSchema, changedPillars: { type: 'array', uniqueItems: true, maxItems: 4, items: { enum: ['YEAR', 'MONTH', 'DAY', 'HOUR'] } } } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/bazi-batch-result-1.1.json",
+    title: "Viet Bazi Batch Result 1.1",
+    type: "object",
+    additionalProperties: false,
+    required: ["schemaVersion", "summary", "items"],
+    properties: {
+        schemaVersion: { const: "1.1" },
+        summary: {
+            type: "object",
+            additionalProperties: false,
+            required: ["total", "succeeded", "failed"],
+            properties: {
+                total: { type: "integer", minimum: 0, maximum: 1000 },
+                succeeded: { type: "integer", minimum: 0, maximum: 1000 },
+                failed: { type: "integer", minimum: 0, maximum: 1000 },
+            },
+        },
+        items: {
+            type: "array",
+            minItems: 0,
+            maxItems: 1000,
+            items: {
+                oneOf: [
+                    {
+                        type: "object",
+                        additionalProperties: false,
+                        required: ["index", "ok", "result"],
+                        properties: {
+                            index: { type: "integer", minimum: 0, maximum: 999 },
+                            ok: { const: true },
+                            result: { $ref: BAZI_RESULT_JSON_SCHEMA.$id },
+                        },
+                    },
+                    {
+                        type: "object",
+                        additionalProperties: false,
+                        required: ["index", "ok", "error"],
+                        properties: {
+                            index: { type: "integer", minimum: 0, maximum: 999 },
+                            ok: { const: false },
+                            error: {
+                                type: "object",
+                                additionalProperties: false,
+                                required: ["name", "code", "message"],
+                                properties: {
+                                    name: { type: "string", minLength: 1 },
+                                    code: { enum: BAZI_ERROR_CODES },
+                                    message: { type: "string", minLength: 1 },
+                                },
+                            },
+                        },
+                    },
+                ],
+            },
+        },
     },
-    allOf: [{ if: { properties: { stable: { const: true } } }, then: { properties: { variants: { maxItems: 1 } } }, else: { properties: { variants: { minItems: 2 } } } }],
-    $defs: { localDateTime: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$' }, pillarCode: { type: 'string', pattern: `^(${stemCodes.join('|')})-(${branchCodes.join('|')})$` } }
+};
+const pillarSnapshotSchema = {
+    type: "object",
+    additionalProperties: false,
+    required: ["year", "month", "day", "hour"],
+    properties: {
+        year: { $ref: "#/$defs/pillarCode" },
+        month: { $ref: "#/$defs/pillarCode" },
+        day: { $ref: "#/$defs/pillarCode" },
+        hour: { $ref: "#/$defs/pillarCode" },
+    },
+};
+export const BIRTH_TIME_SENSITIVITY_JSON_SCHEMA = {
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json",
+    title: "Viet Bazi Birth Time Sensitivity 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "windowMinutes",
+        "stepMinutes",
+        "sampleCount",
+        "stable",
+        "baseline",
+        "variants",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        windowMinutes: { type: "integer", minimum: 1, maximum: 720 },
+        stepMinutes: { type: "integer", minimum: 1, maximum: 720 },
+        sampleCount: { type: "integer", minimum: 3, maximum: 289 },
+        stable: { type: "boolean" },
+        baseline: {
+            type: "object",
+            additionalProperties: false,
+            required: ["localDateTime", "pillars"],
+            properties: {
+                localDateTime: { $ref: "#/$defs/localDateTime" },
+                pillars: pillarSnapshotSchema,
+            },
+        },
+        variants: {
+            type: "array",
+            minItems: 1,
+            maxItems: 289,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: [
+                    "firstOffsetMinutes",
+                    "lastOffsetMinutes",
+                    "localDateTime",
+                    "pillars",
+                    "changedPillars",
+                ],
+                properties: {
+                    firstOffsetMinutes: { type: "integer", minimum: -720, maximum: 720 },
+                    lastOffsetMinutes: { type: "integer", minimum: -720, maximum: 720 },
+                    localDateTime: { $ref: "#/$defs/localDateTime" },
+                    pillars: pillarSnapshotSchema,
+                    changedPillars: {
+                        type: "array",
+                        uniqueItems: true,
+                        maxItems: 4,
+                        items: { enum: ["YEAR", "MONTH", "DAY", "HOUR"] },
+                    },
+                },
+            },
+        },
+    },
+    allOf: [
+        {
+            if: { properties: { stable: { const: true } } },
+            then: { properties: { variants: { maxItems: 1 } } },
+            else: { properties: { variants: { minItems: 2 } } },
+        },
+    ],
+    $defs: {
+        localDateTime: {
+            type: "string",
+            pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$",
+        },
+        pillarCode: {
+            type: "string",
+            pattern: `^(${stemCodes.join("|")})-(${branchCodes.join("|")})$`,
+        },
+    },
 };
 export const LOCALIZED_BIRTH_TIME_SENSITIVITY_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/localized-birth-time-sensitivity-1.0.json', title: 'Viet Bazi Localized Birth Time Sensitivity 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'locale', 'windowMinutes', 'stepMinutes', 'sampleCount', 'stable', 'summary', 'baseline', 'variants'], properties: { schemaVersion: { const: '1.0' }, locale: { enum: ['vi', 'en'] }, windowMinutes: { type: 'integer', minimum: 1, maximum: 720 }, stepMinutes: { type: 'integer', minimum: 1, maximum: 720 }, sampleCount: { type: 'integer', minimum: 3, maximum: 289 }, stable: { type: 'boolean' }, summary: { type: 'string', minLength: 1 }, baseline: { type: 'object', additionalProperties: false, required: ['localDateTime', 'pillars'], properties: { localDateTime: { $ref: '#/$defs/localDateTime' }, pillars: pillarSnapshotSchema } }, variants: { type: 'array', minItems: 1, maxItems: 289, items: { type: 'object', additionalProperties: false, required: ['firstOffsetMinutes', 'lastOffsetMinutes', 'localDateTime', 'pillars', 'changedPillarCodes', 'changedPillars'], properties: { firstOffsetMinutes: { type: 'integer', minimum: -720, maximum: 720 }, lastOffsetMinutes: { type: 'integer', minimum: -720, maximum: 720 }, localDateTime: { $ref: '#/$defs/localDateTime' }, pillars: pillarSnapshotSchema, changedPillarCodes: { type: 'array', uniqueItems: true, maxItems: 4, items: { enum: ['YEAR', 'MONTH', 'DAY', 'HOUR'] } }, changedPillars: { type: 'array', uniqueItems: true, maxItems: 4, items: { type: 'string', minLength: 1 } } } } } },
-    allOf: [{ if: { properties: { stable: { const: true } } }, then: { properties: { variants: { maxItems: 1 } } }, else: { properties: { variants: { minItems: 2 } } } }], $defs: { localDateTime: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$' }, pillarCode: { type: 'string', pattern: `^(${stemCodes.join('|')})-(${branchCodes.join('|')})$` } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/localized-birth-time-sensitivity-1.0.json",
+    title: "Viet Bazi Localized Birth Time Sensitivity 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "locale",
+        "windowMinutes",
+        "stepMinutes",
+        "sampleCount",
+        "stable",
+        "summary",
+        "baseline",
+        "variants",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        locale: { enum: ["vi", "en"] },
+        windowMinutes: { type: "integer", minimum: 1, maximum: 720 },
+        stepMinutes: { type: "integer", minimum: 1, maximum: 720 },
+        sampleCount: { type: "integer", minimum: 3, maximum: 289 },
+        stable: { type: "boolean" },
+        summary: { type: "string", minLength: 1 },
+        baseline: {
+            type: "object",
+            additionalProperties: false,
+            required: ["localDateTime", "pillars"],
+            properties: {
+                localDateTime: { $ref: "#/$defs/localDateTime" },
+                pillars: pillarSnapshotSchema,
+            },
+        },
+        variants: {
+            type: "array",
+            minItems: 1,
+            maxItems: 289,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: [
+                    "firstOffsetMinutes",
+                    "lastOffsetMinutes",
+                    "localDateTime",
+                    "pillars",
+                    "changedPillarCodes",
+                    "changedPillars",
+                ],
+                properties: {
+                    firstOffsetMinutes: {
+                        type: "integer",
+                        minimum: -720,
+                        maximum: 720,
+                    },
+                    lastOffsetMinutes: { type: "integer", minimum: -720, maximum: 720 },
+                    localDateTime: { $ref: "#/$defs/localDateTime" },
+                    pillars: pillarSnapshotSchema,
+                    changedPillarCodes: {
+                        type: "array",
+                        uniqueItems: true,
+                        maxItems: 4,
+                        items: { enum: ["YEAR", "MONTH", "DAY", "HOUR"] },
+                    },
+                    changedPillars: {
+                        type: "array",
+                        uniqueItems: true,
+                        maxItems: 4,
+                        items: { type: "string", minLength: 1 },
+                    },
+                },
+            },
+        },
+    },
+    allOf: [
+        {
+            if: { properties: { stable: { const: true } } },
+            then: { properties: { variants: { maxItems: 1 } } },
+            else: { properties: { variants: { minItems: 2 } } },
+        },
+    ],
+    $defs: {
+        localDateTime: {
+            type: "string",
+            pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?$",
+        },
+        pillarCode: {
+            type: "string",
+            pattern: `^(${stemCodes.join("|")})-(${branchCodes.join("|")})$`,
+        },
+    },
 };
 export const COMPATIBILITY_INPUT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/compatibility-input-1.0.json', title: 'Viet Bazi Compatibility Input 1.0', type: 'array', minItems: 2, maxItems: 2, items: { $ref: BIRTH_INPUT_JSON_SCHEMA.$id }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/compatibility-input-1.0.json",
+    title: "Viet Bazi Compatibility Input 1.0",
+    type: "array",
+    minItems: 2,
+    maxItems: 2,
+    items: { $ref: BIRTH_INPUT_JSON_SCHEMA.$id },
 };
 export const COMPATIBILITY_RESULT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/compatibility-result-1.0.json', title: 'Viet Bazi Compatibility Result 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'score', 'grade', 'factors', 'sharedElements', 'complementaryElements', 'metadata'], properties: { schemaVersion: { const: '1.0' }, score: { type: 'integer', minimum: 0, maximum: 100 }, grade: { enum: ['thấp', 'trung bình', 'khá', 'cao'] }, factors: { type: 'array', minItems: 4, maxItems: 4, items: { type: 'object', additionalProperties: false, required: ['code', 'score', 'maxScore', 'vi', 'evidence'], properties: { code: { enum: ['DAY_MASTER', 'ELEMENT_COMPLEMENT', 'BRANCH_INTERACTION', 'YIN_YANG'] }, score: { type: 'integer', minimum: 0, maximum: 35 }, maxScore: { type: 'integer', minimum: 1, maximum: 35 }, vi: { type: 'string', minLength: 1 }, evidence: { type: 'array', minItems: 1, items: { type: 'string' } } } } }, sharedElements: { type: 'array', uniqueItems: true, items: { enum: ['Mộc', 'Hỏa', 'Thổ', 'Kim', 'Thủy'] } }, complementaryElements: { type: 'array', uniqueItems: true, items: { enum: ['Mộc', 'Hỏa', 'Thổ', 'Kim', 'Thủy'] } }, metadata: { type: 'object', additionalProperties: false, required: ['methodology', 'warning'], properties: { methodology: { const: 'heuristic-v1' }, warning: { type: 'string', minLength: 1 } } } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/compatibility-result-1.0.json",
+    title: "Viet Bazi Compatibility Result 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "score",
+        "grade",
+        "factors",
+        "sharedElements",
+        "complementaryElements",
+        "metadata",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        score: { type: "integer", minimum: 0, maximum: 100 },
+        grade: { enum: ["thấp", "trung bình", "khá", "cao"] },
+        factors: {
+            type: "array",
+            minItems: 4,
+            maxItems: 4,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["code", "score", "maxScore", "vi", "evidence"],
+                properties: {
+                    code: {
+                        enum: [
+                            "DAY_MASTER",
+                            "ELEMENT_COMPLEMENT",
+                            "BRANCH_INTERACTION",
+                            "YIN_YANG",
+                        ],
+                    },
+                    score: { type: "integer", minimum: 0, maximum: 35 },
+                    maxScore: { type: "integer", minimum: 1, maximum: 35 },
+                    vi: { type: "string", minLength: 1 },
+                    evidence: { type: "array", minItems: 1, items: { type: "string" } },
+                },
+            },
+        },
+        sharedElements: {
+            type: "array",
+            uniqueItems: true,
+            items: { enum: ["Mộc", "Hỏa", "Thổ", "Kim", "Thủy"] },
+        },
+        complementaryElements: {
+            type: "array",
+            uniqueItems: true,
+            items: { enum: ["Mộc", "Hỏa", "Thổ", "Kim", "Thủy"] },
+        },
+        metadata: {
+            type: "object",
+            additionalProperties: false,
+            required: ["methodology", "warning"],
+            properties: {
+                methodology: { const: "heuristic-v1" },
+                warning: { type: "string", minLength: 1 },
+            },
+        },
+    },
 };
 export const LOCALIZED_COMPATIBILITY_REPORT_JSON_SCHEMA = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'https://viet-bazi.dev/schema/localized-compatibility-report-1.0.json', title: 'Viet Bazi Localized Compatibility Report 1.0', type: 'object', additionalProperties: false,
-    required: ['schemaVersion', 'locale', 'score', 'gradeCode', 'grade', 'factors', 'sharedElements', 'complementaryElements', 'warning'], properties: { schemaVersion: { const: '1.0' }, locale: { enum: ['vi', 'en'] }, score: { type: 'integer', minimum: 0, maximum: 100 }, gradeCode: { enum: ['LOW', 'MEDIUM', 'GOOD', 'HIGH'] }, grade: { type: 'string', minLength: 1 }, factors: { type: 'array', minItems: 4, maxItems: 4, items: { type: 'object', additionalProperties: false, required: ['code', 'score', 'maxScore', 'text', 'evidence'], properties: { code: { enum: ['DAY_MASTER', 'ELEMENT_COMPLEMENT', 'BRANCH_INTERACTION', 'YIN_YANG'] }, score: { type: 'integer', minimum: 0, maximum: 35 }, maxScore: { type: 'integer', minimum: 1, maximum: 35 }, text: { type: 'string', minLength: 1 }, evidence: { type: 'array', minItems: 1, items: { type: 'string', minLength: 1 } } } } }, sharedElements: { type: 'array', uniqueItems: true, items: { type: 'string', minLength: 1 } }, complementaryElements: { type: 'array', uniqueItems: true, items: { type: 'string', minLength: 1 } }, warning: { type: 'string', minLength: 1 } }
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://viet-bazi.dev/schema/localized-compatibility-report-1.0.json",
+    title: "Viet Bazi Localized Compatibility Report 1.0",
+    type: "object",
+    additionalProperties: false,
+    required: [
+        "schemaVersion",
+        "locale",
+        "score",
+        "gradeCode",
+        "grade",
+        "factors",
+        "sharedElements",
+        "complementaryElements",
+        "warning",
+    ],
+    properties: {
+        schemaVersion: { const: "1.0" },
+        locale: { enum: ["vi", "en"] },
+        score: { type: "integer", minimum: 0, maximum: 100 },
+        gradeCode: { enum: ["LOW", "MEDIUM", "GOOD", "HIGH"] },
+        grade: { type: "string", minLength: 1 },
+        factors: {
+            type: "array",
+            minItems: 4,
+            maxItems: 4,
+            items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["code", "score", "maxScore", "text", "evidence"],
+                properties: {
+                    code: {
+                        enum: [
+                            "DAY_MASTER",
+                            "ELEMENT_COMPLEMENT",
+                            "BRANCH_INTERACTION",
+                            "YIN_YANG",
+                        ],
+                    },
+                    score: { type: "integer", minimum: 0, maximum: 35 },
+                    maxScore: { type: "integer", minimum: 1, maximum: 35 },
+                    text: { type: "string", minLength: 1 },
+                    evidence: {
+                        type: "array",
+                        minItems: 1,
+                        items: { type: "string", minLength: 1 },
+                    },
+                },
+            },
+        },
+        sharedElements: {
+            type: "array",
+            uniqueItems: true,
+            items: { type: "string", minLength: 1 },
+        },
+        complementaryElements: {
+            type: "array",
+            uniqueItems: true,
+            items: { type: "string", minLength: 1 },
+        },
+        warning: { type: "string", minLength: 1 },
+    },
 };

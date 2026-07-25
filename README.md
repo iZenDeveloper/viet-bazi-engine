@@ -9,7 +9,7 @@ Engine Bát Tự/Tứ Trụ dành cho ứng dụng, automation và AI tools. Cal
 toàn offline, deterministic, không có runtime dependency và trả về JSON có type, stable
 machine codes, evidence, metadata phương pháp cùng JSON Schema.
 
-> Trạng thái: `0.54.0` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
+> Trạng thái: `1.0.0-rc.1` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
 **[Thử live demo](https://izendeveloper.github.io/viet-bazi-engine/)** ·
 **[Bắt đầu trong 5 phút](docs/getting-started.md)** ·

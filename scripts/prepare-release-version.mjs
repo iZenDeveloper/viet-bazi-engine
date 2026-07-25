@@ -15,7 +15,7 @@ const replacements=[
   {path:'README.md',count:1},
   {path:'bindings/python/pyproject.toml',count:1},
   {path:'bindings/python/tests/test_client.py',count:2},
-  {path:'docs/releasing.md',count:3},
+  {path:'docs/releasing.md',count:7},
   {path:'scripts/test-benchmark.mjs',count:1},
   {path:'src/capabilities.test.ts',count:1},
   {path:'src/engine.test.ts',count:1},

@@ -14,8 +14,8 @@ npm test
 npm run test:python-wheel
 npm run release:check
 git status --short
-git tag -a v0.54.0 -m "Viet Bazi Engine v0.54.0"
-git push origin v0.54.0
+git tag -a v1.0.0-rc.1 -m "Viet Bazi Engine v1.0.0-rc.1"
+git push origin v1.0.0-rc.1
 ```
 
 Nếu tag không khớp version package, workflow dừng trước khi tạo release. Workflow không tự publish lên npm/PyPI; hai registry đó cần token và phê duyệt riêng.
@@ -32,7 +32,7 @@ Output JSON phân biệt release preflight, public API snapshot, worktree, hoste
 và registry credentials. `readyForRcTag` chỉ là gate kỹ thuật; owner vẫn phải phê duyệt
 việc tạo tag và publish.
 
-Xem trước 10 file và 14 vị trí version cần đổi mà không sửa workspace:
+Xem trước 10 file và 18 vị trí version cần đổi mà không sửa workspace:
 
 ```bash
 npm run release:prepare -- --to 1.0.0-rc.1
