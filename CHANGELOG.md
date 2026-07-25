@@ -9,6 +9,7 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 - Công bố kết quả audit cùng checklist và các blocker còn lại trước release candidate.
 - Thêm reference benchmark runner, history có provenance và baseline năm mẫu; CI khóa correctness/schema nhưng không áp performance threshold.
 - Chạy Playwright trên hosted Chromium/Firefox/WebKit CI và cung cấp manual Node 20/Linux reference benchmark artifact.
+- Hỗ trợ SemVer prerelease trong release preflight và thêm machine-readable RC readiness check không tự tag/publish.
 
 ## 0.52.0
 
