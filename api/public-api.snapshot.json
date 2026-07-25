@@ -1,0 +1,97 @@
+{
+  "formatVersion": 1,
+  "package": {
+    "name": "viet-bazi-engine",
+    "entrypoints": {
+      ".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"},
+      "./schemas/*": "./schemas/*",
+      "./fixtures/v1/manifest.json": "./fixtures/v1/manifest.json",
+      "./fixtures/v1/jie-2026.json": "./fixtures/v1/jie-2026.json",
+      "./fixtures/v1/jie-multi-year.json": "./fixtures/v1/jie-multi-year.json",
+      "./fixtures/v1/jpl-lichun-multi-century.json": "./fixtures/v1/jpl-lichun-multi-century.json",
+      "./fixtures/v1/sexagenary-days.json": "./fixtures/v1/sexagenary-days.json",
+      "./fixtures/v1/timezone-boundaries.json": "./fixtures/v1/timezone-boundaries.json"
+    },
+    "binaries": {"viet-bazi": "./dist/cli.js", "viet-bazi-mcp": "./dist/mcp-server.js"}
+  },
+  "typescript": {
+    "runtimeExports": [
+      "analyzeBirthTimeSensitivity", "analyzeBirthTimeSensitivityFromJson", "ANNUAL_TIMELINE_JSON_SCHEMA",
+      "BAZI_AUDIT_REPORT_JSON_SCHEMA", "BAZI_BATCH_INPUT_JSON_SCHEMA", "BAZI_BATCH_RESULT_JSON_SCHEMA",
+      "BAZI_ERROR_CODES", "BAZI_RESULT_JSON_SCHEMA", "BaziError", "BIRTH_INPUT_JSON_SCHEMA",
+      "BIRTH_TIME_SENSITIVITY_JSON_SCHEMA", "BRANCHES", "calculateAnnualTimeline",
+      "calculateAnnualTimelineFromJson", "calculateBazi", "calculateBaziBatch", "calculateBaziBatchFromJson",
+      "calculateBaziFromJson", "compareBaziCharts", "compareBirthInputs", "compareBirthInputsFromJson",
+      "COMPATIBILITY_INPUT_JSON_SCHEMA", "COMPATIBILITY_RESULT_JSON_SCHEMA", "CONFORMANCE_VERSION",
+      "createBaziAuditReport", "createBaziAuditReportFromJson", "createInterpretationPrompt",
+      "createInterpretationPromptFromJson", "createWasmBaziEngine", "ELEMENTS", "ENGINE_VERSION",
+      "equationOfTime", "findCity", "getCoreLabels", "getEngineCapabilities", "getMethodologyManifest",
+      "INTERPRETATION_PROMPT_BUNDLE_JSON_SCHEMA", "INTERPRETATION_PROMPT_VERSION", "JIE_2026_FIXTURES",
+      "JIE_MULTI_YEAR_FIXTURES", "JPL_LICHUN_MULTI_CENTURY_FIXTURES", "loadWasmCalendar",
+      "localizeAnnualTimeline", "localizeAnnualTimelineFromJson", "localizeBaziAuditReport",
+      "localizeBaziAuditReportFromJson", "localizeBirthTimeSensitivity",
+      "localizeBirthTimeSensitivityFromJson", "localizeChartSummary", "localizeChartSummaryFromJson",
+      "localizeCompatibility", "localizeCompatibilityFromJson", "LOCALIZED_ANNUAL_TIMELINE_JSON_SCHEMA",
+      "LOCALIZED_AUDIT_REPORT_JSON_SCHEMA", "LOCALIZED_BIRTH_TIME_SENSITIVITY_JSON_SCHEMA",
+      "LOCALIZED_CHART_SUMMARY_JSON_SCHEMA", "LOCALIZED_COMPATIBILITY_REPORT_JSON_SCHEMA",
+      "LOCALIZED_FACTS_REPORT_JSON_SCHEMA", "LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA", "localizeFacts",
+      "localizeFactsFromJson", "localizeMethodology", "localizeMethodologyFromJson", "renderBaziSvg",
+      "renderBaziSvgFromJson", "resolveLocation", "SEXAGENARY_DAY_FIXTURES", "SHEN_SHA_CATALOG",
+      "SHEN_SHA_CODES", "solarCorrectionMinutes", "solarLongitude", "solarTermBoundary", "STEMS",
+      "TIMEZONE_BOUNDARY_FIXTURES", "toBaziErrorPayload", "validateBirthInput", "VIETNAM_CITIES"
+    ],
+    "typeDeclarations": [
+      "ActiveLuck", "AnnualAnalysis", "AnnualInteraction", "AnnualTimelineEntry", "BatchFailure",
+      "BatchSuccess", "BaziAuditReport", "BaziBatchResult", "BaziError", "BaziErrorCode",
+      "BaziErrorLocale", "BaziErrorPayload", "BaziResult", "BirthInput", "BirthTimeSensitivity",
+      "BirthTimeVariant", "Branch", "BranchCode", "BranchName", "CalculationRuleTrace", "CityLocation",
+      "CompatibilityFactor", "CompatibilityFactorCode", "CompatibilityResult", "CoreLabels", "CoreLocale",
+      "DayBoundaryConvention", "Element", "ElementCode", "ElementScore", "EngineCapabilities",
+      "EngineFeatureCode", "HiddenStem", "InterpretationFocus", "InterpretationPromptBundle",
+      "InterpretationPromptOptions", "LocalizedAnnualTimelineEntry", "LocalizedAnnualTimelineReport",
+      "LocalizedAuditReport", "LocalizedAuditRule", "LocalizedBirthTimeSensitivityReport",
+      "LocalizedBirthTimeVariant", "LocalizedChartPillar", "LocalizedChartSummary",
+      "LocalizedCompatibilityReport", "LocalizedFact", "LocalizedFactsReport", "LocalizedMethodologyItem",
+      "LocalizedMethodologyReport", "LocalizedTimelinePillar", "LuckPillar", "MetadataFact",
+      "MethodologyManifest", "PatternAnalysis", "Pillar", "PillarSnapshot", "Polarity", "PolarityCode",
+      "Relation", "RelationTypeCode", "ShenSha", "ShenShaCode", "Stem", "StemCode", "StemName",
+      "SvgOptions", "TenGod", "TenGodCode", "WasmBaziEngine", "WasmCalendarKernel", "WasmCalendarSource"
+    ]
+  },
+  "schemas": {
+    "count": 17,
+    "ids": {
+      "ANNUAL_TIMELINE_JSON_SCHEMA": "https://viet-bazi.dev/schema/annual-timeline-1.0.json",
+      "BAZI_AUDIT_REPORT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-audit-report-1.0.json",
+      "BAZI_BATCH_INPUT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-batch-input-1.0.json",
+      "BAZI_BATCH_RESULT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-batch-result-1.1.json",
+      "BAZI_RESULT_JSON_SCHEMA": "https://viet-bazi.dev/schema/bazi-result-1.7.json",
+      "BIRTH_INPUT_JSON_SCHEMA": "https://viet-bazi.dev/schema/birth-input-1.0.json",
+      "BIRTH_TIME_SENSITIVITY_JSON_SCHEMA": "https://viet-bazi.dev/schema/birth-time-sensitivity-1.0.json",
+      "COMPATIBILITY_INPUT_JSON_SCHEMA": "https://viet-bazi.dev/schema/compatibility-input-1.0.json",
+      "COMPATIBILITY_RESULT_JSON_SCHEMA": "https://viet-bazi.dev/schema/compatibility-result-1.0.json",
+      "INTERPRETATION_PROMPT_BUNDLE_JSON_SCHEMA": "https://viet-bazi.dev/schema/interpretation-prompt-bundle-1.0.json",
+      "LOCALIZED_ANNUAL_TIMELINE_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-annual-timeline-1.0.json",
+      "LOCALIZED_AUDIT_REPORT_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-audit-report-1.0.json",
+      "LOCALIZED_BIRTH_TIME_SENSITIVITY_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-birth-time-sensitivity-1.0.json",
+      "LOCALIZED_CHART_SUMMARY_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-chart-summary-1.0.json",
+      "LOCALIZED_COMPATIBILITY_REPORT_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-compatibility-report-1.0.json",
+      "LOCALIZED_FACTS_REPORT_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-facts-report-1.0.json",
+      "LOCALIZED_METHODOLOGY_REPORT_JSON_SCHEMA": "https://viet-bazi.dev/schema/localized-methodology-report-1.0.json"
+    }
+  },
+  "mcp": {
+    "protocolVersion": "2025-06-18",
+    "tools": ["analyze_birth_time_sensitivity", "calculate_bazi", "compare_bazi", "create_grounded_interpretation_prompt", "get_engine_capabilities"]
+  },
+  "python": {
+    "exports": [
+      "analyze_birth_time_sensitivity", "BirthInput", "calculate_annual_timeline", "calculate_bazi",
+      "calculate_bazi_batch", "compare_birth_inputs", "create_bazi_audit_report",
+      "create_interpretation_prompt", "get_capabilities", "localize_annual_timeline",
+      "localize_bazi_audit_report", "localize_birth_time_sensitivity", "localize_chart_summary",
+      "localize_compatibility", "localize_facts", "localize_methodology", "render_bazi_svg",
+      "verify_bundled_engine", "VietBaziError"
+    ]
+  }
+}

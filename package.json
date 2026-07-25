@@ -1,6 +1,6 @@
 {
   "name": "viet-bazi-engine",
-  "version": "0.52.0",
+  "version": "0.53.0",
   "description": "Offline-first, deterministic Bazi/Four Pillars calculation engine for Vietnamese applications.",
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "./fixtures/v1/timezone-boundaries.json": "./fixtures/v1/timezone-boundaries.json"
   },
   "files": [
+    "api",
     "dist",
     "schemas",
     "fixtures",
@@ -48,8 +49,9 @@
     "pages:build": "npm run build && node scripts/prepare-pages.mjs && node scripts/test-pages-artifact.mjs",
     "benchmark": "node scripts/benchmark-batch.mjs",
     "release:check": "npm test && npm run test:python-wheel && node scripts/release-preflight.mjs",
-    "test": "vitest run && npm run build && node scripts/test-schema-artifacts.mjs && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-mcp.mjs && node scripts/test-interpretation-pipeline.mjs && node scripts/test-compatibility-policy.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && node scripts/test-pages-workflow.mjs && node scripts/test-benchmark.mjs && node scripts/test-readme.mjs && npm run test:conformance",
+    "test": "vitest run && npm run build && npm run test:api && node scripts/test-schema-artifacts.mjs && node scripts/test-wasm.mjs && node scripts/test-cli.mjs && node scripts/test-mcp.mjs && node scripts/test-interpretation-pipeline.mjs && node scripts/test-compatibility-policy.mjs && node scripts/test-demo.mjs && node scripts/serve-demo.mjs --check && node scripts/test-demo-server.mjs && node scripts/test-release-workflow.mjs && node scripts/test-pages-workflow.mjs && node scripts/test-benchmark.mjs && node scripts/test-readme.mjs && npm run test:conformance",
     "test:unit": "vitest run",
+    "test:api": "node scripts/audit-public-api.mjs",
     "test:wasm": "npm run build && node scripts/test-wasm.mjs",
     "test:conformance": "node scripts/verify-conformance.mjs",
     "test:mcp": "npm run build && node scripts/test-mcp.mjs",

@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.53.0
+
+- Khóa public API bằng snapshot máy đọc cho JavaScript runtime, TypeScript declarations, package entrypoints/binaries, schema IDs, MCP tools và Python exports.
+- Chạy audit trong `npm test`, đóng gói baseline vào npm tarball và xác minh bằng release preflight.
+- Công bố kết quả audit cùng checklist và các blocker còn lại trước release candidate.
+
 ## 0.52.0
 
 - Thêm Playwright Browser E2E projects cho Chromium, Firefox và WebKit.
