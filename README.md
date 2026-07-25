@@ -83,9 +83,12 @@ npm install
 npm test
 ```
 
-Package npm đã được publish ở dist-tag `next`. Cài release candidate hiện tại bằng
-`npm install viet-bazi-engine@next`. Python package sẽ được công bố sau khi hoàn tất
-liên kết PyPI Trusted Publisher.
+Release candidate đã có trên npm và PyPI:
+
+```bash
+npm install viet-bazi-engine@next
+pip install viet-bazi-engine==1.0.0rc2
+```
 
 ```ts
 import { calculateBazi } from 'viet-bazi-engine';

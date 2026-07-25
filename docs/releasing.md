@@ -31,7 +31,7 @@ Owner cần cấu hình trước:
 
 - npm Trusted Publisher: owner `iZenDeveloper`, repository `viet-bazi-engine`, workflow
   `publish.yml`, environment `registry-publish`, cho phép `npm publish`;
-- PyPI pending publisher: project `viet-bazi-engine`, owner `iZenDeveloper`, repository
+- PyPI Trusted Publisher: project `viet-bazi-engine`, owner `iZenDeveloper`, repository
   `viet-bazi-engine`, workflow `publish.yml`, environment `registry-publish`;
 - GitHub Environment `registry-publish` với required reviewer.
 
@@ -66,5 +66,6 @@ Release tooling chấp nhận SemVer prerelease như `1.0.0-rc.2`. Python packag
 giá trị đó thành PEP 440 `1.0.0rc2`; source version trong npm, Python binding và engine
 vẫn phải giống nhau trước khi build.
 
-Release candidate đầu tiên của `viet-bazi-engine` đã được publish lên npm ngày 2026-07-26.
-Tên dự án PyPI chỉ được tạo khi pending trusted publisher phát hành wheel lần đầu.
+Release candidate đầu tiên của `viet-bazi-engine` đã được publish lên npm và PyPI ngày
+2026-07-26. PyPI pending publisher đã tự chuyển thành trusted publisher sau lần upload
+OIDC thành công.

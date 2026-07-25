@@ -52,7 +52,7 @@
 
 - [x] Benchmark batch deterministic, machine-readable và không áp ngưỡng CI dễ flaky.
 - [x] Badge CI/release/license và kiểm tra metadata README chống lỗi thời.
-- [ ] Publish package chính thức lên npm và PyPI sau khi có token/phê duyệt owner.
+- [x] Publish release candidate lên npm và PyPI bằng owner approval/OIDC.
 - [x] Thêm benchmark history có provenance, nhiều mẫu và min/median/max cùng baseline macOS/x64.
 - [x] Bổ sung baseline Node.js 20 trên Linux từ manual GitHub-hosted benchmark artifact.
 
