@@ -16,6 +16,7 @@ PYTHONPATH=bindings/python python3 -m unittest discover -s bindings/python/tests
 3. Thay đổi JSON contract phải cập nhật TypeScript type, JSON Schema, README/docs và version.
 4. Không dùng nhãn Việt/Anh làm identifier nghiệp vụ; dùng machine code.
 5. Ca sát ranh thời gian phải có test ở hai phía của boundary.
+6. Tuân thủ [compatibility policy](docs/compatibility-policy.md); PR phải phân loại thay đổi là `patch`, `additive`, `deprecated` hoặc `breaking`.
 
 ## Pull request
 

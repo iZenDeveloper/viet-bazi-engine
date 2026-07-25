@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "status": "pre-1.0",
+  "semver": true,
+  "minimumNodeMajor": 20,
+  "deprecation": {
+    "minimumMinorReleases": 2,
+    "requiresReplacement": true,
+    "requiresChangelog": true,
+    "requiresMigrationGuideBeforeRemoval": true
+  },
+  "contracts": {
+    "packageRootExports": "public",
+    "cli": "public",
+    "python": "public",
+    "mcp": "public",
+    "jsonSchemaIds": "immutable",
+    "stableCodes": "immutable-meaning",
+    "localizedLabels": "non-identifying",
+    "conformanceVersion": "independent"
+  },
+  "breakingChangeRequirements": [
+    "minor-version-bump-before-1.0",
+    "breaking-changelog-entry",
+    "migration-guide",
+    "binding-impact-statement"
+  ],
+  "accuracyFixes": {
+    "mayChangeOutput": true,
+    "requiresAffectedRange": true,
+    "requiresFixtureOrSource": true
+  }
+}

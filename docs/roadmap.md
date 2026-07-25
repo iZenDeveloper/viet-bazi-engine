@@ -72,7 +72,7 @@
 
 ### P4.4 Pre-1.0 stabilization
 
-- [ ] Công bố compatibility, deprecation và breaking-change policy.
+- [x] Công bố compatibility, deprecation và breaking-change policy dạng tài liệu + machine-readable CI contract.
 - [ ] Browser E2E cho demo trên Chromium/WebKit/Firefox.
 - [ ] Release candidate và audit public API trước `1.0.0`.
 

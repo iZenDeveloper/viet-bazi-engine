@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.51.0
+
+- Công bố public contract, additive/breaking classification và chính sách accuracy fixes trong giai đoạn pre-1.0.
+- Yêu cầu deprecation giữ tối thiểu hai minor releases, có replacement, changelog và migration guide.
+- Thêm machine-readable compatibility policy cùng CI check khóa Node floor, stable-code/schema rules và documentation links.
+
 ## 0.50.0
 
 - Thêm interpretation pipeline provider-neutral, chạy offline bằng mock provider và không thêm runtime dependency.
