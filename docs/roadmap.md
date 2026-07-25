@@ -80,6 +80,13 @@
 - [x] Audit public API bằng snapshot máy đọc cho TypeScript, package, schema, MCP và Python.
 - [x] Tạo/tag `v1.0.0-rc.1` sau khi release gates xanh; registry publish được theo dõi bằng gate độc lập.
 
+### P4.5 Stable 1.0
+
+- [ ] Hoàn tất thời gian soak RC và xử lý mọi regression calculation/schema/binding đã biết.
+- [x] Chạy install smoke test từ package npm/PyPI đã publish.
+- [ ] Review lần cuối public API snapshot, changelog và artifact release.
+- [ ] Tạo `v1.0.0`, publish stable và xác nhận npm `latest`, PyPI cùng GitHub Release.
+
 ## Nguyên tắc phát hành
 
 - Mỗi thay đổi public API phải có test TypeScript, JSON boundary và Python parity khi phù hợp.

@@ -26,6 +26,16 @@ Workflow `Publish registries` chỉ chạy qua manual dispatch với một tag �
 job dùng GitHub Environment `registry-publish` và OIDC, không đọc token registry dài hạn.
 RC được publish lên npm dist-tag `next`; stable release dùng `latest`. Nếu một version npm
 đã tồn tại, job npm bỏ qua version đó để workflow có thể được chạy lại an toàn cho PyPI.
+Sau mỗi lần publish, kiểm tra dist-tag:
+
+```bash
+npm dist-tag ls viet-bazi-engine
+```
+
+Với package mới chưa có stable version, npm có thể giữ `latest` trên version đầu tiên dù
+lệnh publish dùng `--tag next`; registry không cho xóa `latest` khi đó. README và lệnh cài
+đặt phải tiếp tục chỉ rõ `@next`. Khi publish `1.0.0`, workflow sẽ chuyển `latest` sang
+stable version và giữ `next` làm kênh prerelease.
 
 Owner cần cấu hình trước:
 
@@ -69,3 +79,16 @@ vẫn phải giống nhau trước khi build.
 Release candidate đầu tiên của `viet-bazi-engine` đã được publish lên npm và PyPI ngày
 2026-07-26. PyPI pending publisher đã tự chuyển thành trusted publisher sau lần upload
 OIDC thành công.
+
+## Promote lên 1.0.0
+
+Chỉ chuẩn bị `1.0.0` khi:
+
+1. RC đã có thời gian soak và không còn regression calculation, schema hoặc binding đã biết;
+2. public API snapshot được review lần cuối, không còn breaking change chưa ghi tài liệu;
+3. CI, `npm run release:check` và Playwright E2E đều xanh trên commit định tag;
+4. npm/PyPI install smoke test chạy từ package đã publish, không dựa vào workspace;
+5. changelog có mục `## 1.0.0` và owner phê duyệt artifact, tag và registry publish.
+
+Sau khi publish stable, xác nhận npm `latest` trỏ đúng `1.0.0`, `next` không làm thay đổi
+cài đặt mặc định, PyPI trả về `1.0.0`, và GitHub Release không được đánh dấu prerelease.

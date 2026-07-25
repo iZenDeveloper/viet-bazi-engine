@@ -10,7 +10,7 @@ npm run test:api
 
 ## Phạm vi đã audit
 
-- 77 JavaScript runtime exports và 71 TypeScript type declarations từ package root.
+- 78 JavaScript runtime exports và 73 TypeScript type declarations từ package root.
 - Package exports, hai binaries `viet-bazi`/`viet-bazi-mcp` và các fixture subpaths.
 - 17 JSON Schema IDs cùng schema manifest.
 - MCP protocol revision và 5 tool names.
@@ -31,7 +31,7 @@ Không phát hiện tên public bị trùng, entrypoint ngoài ý muốn hoặc 
 tại với baseline. Runtime engine vẫn không có dependency; Playwright và TypeScript chỉ là
 dev dependencies.
 
-## Release candidate readiness
+## Trạng thái release candidate
 
 Các cổng kỹ thuật trong workspace đã có:
 
@@ -39,11 +39,9 @@ Các cổng kỹ thuật trong workspace đã có:
 - Chromium, Firefox và WebKit E2E chạy bằng `npm run test:e2e`;
 - isolated Python wheel, npm tarball preflight và version consistency check.
 
-Chưa tạo tag release candidate. Trước `1.0.0-rc.1` còn cần:
-
-1. token/quyền owner để xác minh publish npm và PyPI;
-2. chạy `npm run release:check` và browser E2E trên commit định tag;
-3. review artifact reference benchmark gần nhất, không coi throughput là SLA.
+`v1.0.0-rc.2` đã được tạo GitHub prerelease và publish lên npm/PyPI ngày
+2026-07-26. CI, release gates và Trusted Publishing bằng OIDC đều hoàn tất trên
+candidate này.
 
 Không cập nhật snapshot chỉ để làm test xanh: mọi drift phải được review như một thay đổi
 hợp đồng.
