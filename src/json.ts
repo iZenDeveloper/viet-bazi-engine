@@ -7,6 +7,8 @@ import { createBaziAuditReport, localizeBaziAuditReport } from './traceability.j
 import { localizeAnnualTimeline, localizeChartSummary, localizeFacts, localizeMethodology } from './localization-report.js';
 import type { AnnualTimelineEntry, BaziAuditReport, BaziBatchResult, BaziResult, BirthInput, BirthTimeSensitivity, CompatibilityResult, LocalizedAnnualTimelineReport, LocalizedAuditReport, LocalizedBirthTimeSensitivityReport, SvgOptions } from './types.js';
 import { baziError, toBaziErrorPayload } from './errors.js';
+import { createInterpretationPrompt } from './prompts.js';
+import type { InterpretationFocus } from './types.js';
 
 const assertKnownKeys=(value:Record<string,unknown>,allowed:readonly string[],path:string)=>{const unknown=Object.keys(value).filter(key=>!allowed.includes(key));if(unknown.length)throw baziError('UNKNOWN_PROPERTY','TypeError',`${path} chứa property không hỗ trợ: ${unknown.join(', ')}`,`${path} contains unsupported properties: ${unknown.join(', ')}`);};
 
@@ -67,3 +69,4 @@ export function localizeAnnualTimelineFromJson(json:string,fromYear:number,toYea
 export function localizeFactsFromJson(json:string,locale:'vi'|'en'='vi',asOfYear?:number) { return localizeFacts(calculateBaziFromJson(json,asOfYear),locale); }
 export function localizeMethodologyFromJson(json:string,locale:'vi'|'en'='vi',asOfYear?:number) { return localizeMethodology(calculateBaziFromJson(json,asOfYear).metadata.methodology,locale); }
 export function localizeChartSummaryFromJson(json:string,locale:'vi'|'en'='vi',asOfYear?:number) {return localizeChartSummary(calculateBaziFromJson(json,asOfYear),locale);}
+export function createInterpretationPromptFromJson(json:string,locale:'vi'|'en'='vi',focus:InterpretationFocus='overview',asOfYear?:number) {return createInterpretationPrompt(calculateBaziFromJson(json,asOfYear),{locale,focus});}

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viet-bazi.dev/schema/interpretation-prompt-bundle-1.0.json",
+  "title": "Viet Bazi Interpretation Prompt Bundle 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "templateCode",
+    "templateVersion",
+    "locale",
+    "focus",
+    "messages",
+    "grounding"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "templateCode": {
+      "const": "GROUNDED_BAZI_INTERPRETATION"
+    },
+    "templateVersion": {
+      "const": "1.0.0"
+    },
+    "locale": {
+      "enum": [
+        "vi",
+        "en"
+      ]
+    },
+    "focus": {
+      "enum": [
+        "overview",
+        "elements",
+        "career",
+        "relationships",
+        "timing"
+      ]
+    },
+    "messages": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "role",
+            "content"
+          ],
+          "properties": {
+            "role": {
+              "const": "system"
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "role",
+            "content"
+          ],
+          "properties": {
+            "role": {
+              "const": "user"
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ],
+      "items": false
+    },
+    "grounding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "facts",
+        "methodology",
+        "audit"
+      ],
+      "properties": {
+        "summary": {
+          "$ref": "https://viet-bazi.dev/schema/localized-chart-summary-1.0.json"
+        },
+        "facts": {
+          "$ref": "https://viet-bazi.dev/schema/localized-facts-report-1.0.json"
+        },
+        "methodology": {
+          "$ref": "https://viet-bazi.dev/schema/localized-methodology-report-1.0.json"
+        },
+        "audit": {
+          "$ref": "https://viet-bazi.dev/schema/localized-audit-report-1.0.json"
+        }
+      }
+    }
+  }
+}

@@ -128,6 +128,18 @@ def localize_chart_summary(value: BirthInput, *, locale: Literal["vi", "en"] = "
     return result
 
 
+def create_interpretation_prompt(value: BirthInput, *, locale: Literal["vi", "en"] = "vi", focus: Literal["overview", "elements", "career", "relationships", "timing"] = "overview") -> dict[str, Any]:
+    command = [*_command(), "--compact", "--prompt", "--locale", locale, "--focus", focus, "--stdin"]
+    completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise VietBaziError(completed.stderr.strip() or f"Engine thoát với mã {completed.returncode}")
+    try:
+        result: dict[str, Any] = json.loads(completed.stdout)
+    except json.JSONDecodeError as error:
+        raise VietBaziError("Engine không trả JSON prompt bundle hợp lệ") from error
+    return result
+
+
 def create_bazi_audit_report(value: BirthInput) -> dict[str, Any]:
     command = [*_command(), "--compact", "--audit", "--stdin"]
     completed = subprocess.run(command, input=json.dumps(value.to_payload(), ensure_ascii=False, separators=(",", ":")), text=True, capture_output=True, check=False)

@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.48.0
+
+- Thêm prompt template `GROUNDED_BAZI_INTERPRETATION` song ngữ với năm focus và messages trung lập nhà cung cấp.
+- Bundle summary, facts, methodology và audit làm grounding; bắt buộc dẫn stable codes/evidence và giữ guardrails.
+- Thêm JSON bridge, type-safe API, capability `PROMPT_GROUNDING`, JSON Schema và tài liệu integration.
+
 ## 0.47.0
 
 - Nâng conformance fixtures lên `1.3.0` với 9 checkpoint Lập Xuân NASA/JPL Horizons từ năm 1600 đến 2400.

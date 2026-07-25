@@ -25,6 +25,7 @@ from viet_bazi import (
     localize_birth_time_sensitivity,
     localize_chart_summary,
     localize_facts,
+    create_interpretation_prompt,
     localize_compatibility,
     localize_methodology,
     get_capabilities,
@@ -48,6 +49,7 @@ compatibility_en = localize_compatibility(birth, another_birth, locale="en")
 audit = create_bazi_audit_report(birth)
 audit_en = localize_bazi_audit_report(birth, locale="en")
 facts_en = localize_facts(birth, locale="en")
+prompt = create_interpretation_prompt(birth, locale="en", focus="elements")
 methodology_en = localize_methodology(birth, locale="en")
 sensitivity = analyze_birth_time_sensitivity(birth, 120, 5)
 sensitivity_en = localize_birth_time_sensitivity(birth, 120, 5, locale="en")

@@ -24,6 +24,8 @@ Sinh tối đa 201 Lưu Niên từ một lá số có sẵn. Năm phải là s�
 
 `localizeMethodology(manifest, locale)` / `localizeMethodologyFromJson(json, locale?)` trả 13 mô tả quy ước bằng `vi` hoặc `en`. `code` và `value` luôn ổn định giữa các locale để ứng dụng và LLM có thể vừa hiển thị tự nhiên vừa audit chính xác.
 
+`createInterpretationPrompt(chart, options?)` / `createInterpretationPromptFromJson(json, locale?, focus?)` tạo bundle messages deterministic cho LLM, kèm summary, facts, methodology và audit grounding. `focus` nhận `overview`, `elements`, `career`, `relationships` hoặc `timing`; hàm không gọi model hay mạng.
+
 `localizeChartSummary(chart, locale)` / `localizeChartSummaryFromJson(json, locale?)` trả view AI-friendly gồm bốn trụ, Nhật Chủ, Ngũ Hành, Đại Vận hiện hành, Lưu Niên và cách cục. Mọi thành phần giữ stable codes song song với nhãn `vi/en`; output tuân theo `localized-chart-summary-1.0`.
 
 ### `analyzeBirthTimeSensitivity(input, windowMinutes?, stepMinutes?)`
@@ -116,7 +118,7 @@ Error taxonomy bao phủ birth input, JSON parsing, batch, compatibility, timeli
 - `getMethodologyManifest(dayBoundary, trueSolarTime)`
 - `STEMS`, `BRANCHES`, `ELEMENTS`
 - `SHEN_SHA_CATALOG`, `SHEN_SHA_CODES`
-- `CONFORMANCE_VERSION`, `JIE_2026_FIXTURES`, `JIE_MULTI_YEAR_FIXTURES`, `JPL_LICHUN_MULTI_CENTURY_FIXTURES`, `SEXAGENARY_DAY_FIXTURES`, `TIMEZONE_BOUNDARY_FIXTURES`
+- `CONFORMANCE_VERSION`, `INTERPRETATION_PROMPT_VERSION`, `JIE_2026_FIXTURES`, `JIE_MULTI_YEAR_FIXTURES`, `JPL_LICHUN_MULTI_CENTURY_FIXTURES`, `SEXAGENARY_DAY_FIXTURES`, `TIMEZONE_BOUNDARY_FIXTURES`
 
 ## JSON Schema exports
 

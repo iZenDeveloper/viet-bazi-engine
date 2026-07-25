@@ -6,6 +6,7 @@ import { renderBaziSvg } from './svg.js';
 import { createBaziAuditReport, localizeBaziAuditReport } from './traceability.js';
 import { localizeAnnualTimeline, localizeChartSummary, localizeFacts, localizeMethodology } from './localization-report.js';
 import { baziError, toBaziErrorPayload } from './errors.js';
+import { createInterpretationPrompt } from './prompts.js';
 const assertKnownKeys = (value, allowed, path) => { const unknown = Object.keys(value).filter(key => !allowed.includes(key)); if (unknown.length)
     throw baziError('UNKNOWN_PROPERTY', 'TypeError', `${path} chứa property không hỗ trợ: ${unknown.join(', ')}`, `${path} contains unsupported properties: ${unknown.join(', ')}`); };
 export function validateBirthInput(value, legacyAsOfYear) {
@@ -122,3 +123,4 @@ export function localizeAnnualTimelineFromJson(json, fromYear, toYear, locale = 
 export function localizeFactsFromJson(json, locale = 'vi', asOfYear) { return localizeFacts(calculateBaziFromJson(json, asOfYear), locale); }
 export function localizeMethodologyFromJson(json, locale = 'vi', asOfYear) { return localizeMethodology(calculateBaziFromJson(json, asOfYear).metadata.methodology, locale); }
 export function localizeChartSummaryFromJson(json, locale = 'vi', asOfYear) { return localizeChartSummary(calculateBaziFromJson(json, asOfYear), locale); }
+export function createInterpretationPromptFromJson(json, locale = 'vi', focus = 'overview', asOfYear) { return createInterpretationPrompt(calculateBaziFromJson(json, asOfYear), { locale, focus }); }

@@ -66,7 +66,7 @@
 
 ### P4.3 AI integration
 
-- [ ] Prompt templates có grounding theo stable codes/evidence.
+- [x] Prompt templates `vi`/`en` có grounding theo stable codes/evidence và JSON Schema.
 - [ ] MCP server offline gọi engine bằng structured tools.
 - [ ] Ví dụ interpretation pipeline tách calculation khỏi nội dung luận giải.
 

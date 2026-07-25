@@ -110,6 +110,14 @@ printf '%s' '[{...},{...}]' | viet-bazi --stdin --compatibility --locale en --co
 
 Trả facts/warnings đã bản địa hóa nhưng giữ nguyên `code` và `evidence` để downstream không phụ thuộc ngôn ngữ.
 
+## Grounded interpretation prompt
+
+```bash
+printf '%s' '{...}' | viet-bazi --stdin --prompt --locale en --focus elements --compact
+```
+
+`--focus` nhận `overview`, `elements`, `career`, `relationships` hoặc `timing`. Output chứa hai messages cùng summary/facts/methodology/audit grounding; CLI không gọi model hoặc mạng.
+
 ## Capability discovery
 
 ```bash

@@ -20,6 +20,7 @@
 | Compatibility input | 1.0 | `https://viet-bazi.dev/schema/compatibility-input-1.0.json` |
 | Compatibility result | 1.0 | `https://viet-bazi.dev/schema/compatibility-result-1.0.json` |
 | Localized compatibility report | 1.0 | `https://viet-bazi.dev/schema/localized-compatibility-report-1.0.json` |
+| Interpretation prompt bundle | 1.0 | `https://viet-bazi.dev/schema/interpretation-prompt-bundle-1.0.json` |
 
 Schema vừa là object export trong package, vừa có file JSON vật lý trong thư mục `schemas/` của npm tarball. `$id` là định danh contract; consumer offline không cần tải URL:
 
