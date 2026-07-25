@@ -2,6 +2,12 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## 0.49.0
+
+- Thêm binary `viet-bazi-mcp`, stdio JSON-RPC theo MCP revision `2025-06-18` và không có runtime dependency.
+- Expose 5 structured tools cho capabilities, calculation, sensitivity, compatibility và grounded prompt.
+- Trả đồng thời `structuredContent`/JSON text, stable tool errors; thêm protocol unit test, process smoke test và tài liệu cấu hình.
+
 ## 0.48.0
 
 - Thêm prompt template `GROUNDED_BAZI_INTERPRETATION` song ngữ với năm focus và messages trung lập nhà cung cấp.

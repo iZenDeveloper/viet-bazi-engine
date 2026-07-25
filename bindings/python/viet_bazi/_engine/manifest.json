@@ -1,14 +1,14 @@
 {
   "formatVersion": 1,
-  "engineVersion": "0.48.0",
+  "engineVersion": "0.49.0",
   "files": {
     "calendar.js": {
       "bytes": 5227,
       "sha256": "b78e92f4810ece758c2a6ed1b7694c7c8e948ebeea17e2c04e3c8885d91dfed7"
     },
     "capabilities.js": {
-      "bytes": 2500,
-      "sha256": "b60e3b244e7e83321ac075a75feb62fe93be45b33812af56c2b73cce3ef232b7"
+      "bytes": 2521,
+      "sha256": "1f73f28f3375af3923ecd11405b5dde68d44976dec5d4d95fb7a8118f96c3080"
     },
     "cities.js": {
       "bytes": 3006,
@@ -32,7 +32,7 @@
     },
     "engine.js": {
       "bytes": 13472,
-      "sha256": "81c23f7f0b4ab857ae800a677afcc38ce208aca1a137c79a90f8b1c9c517b2ee"
+      "sha256": "6477e0942bda3d58e241bc0eccdf9c9ca170f1d25de0c21f2c5792b3a2680de6"
     },
     "errors.js": {
       "bytes": 1350,
@@ -53,6 +53,14 @@
     "localization.js": {
       "bytes": 3257,
       "sha256": "49a9dad6f60b117a8a0ae79c18ea5249bc35b9d9cedc493b91bddebdb7b27d68"
+    },
+    "mcp-server.js": {
+      "bytes": 757,
+      "sha256": "e1c65862921ddbbe2c4a1b28af2cbe7756efa39c87c5f76a8eebe037d29ae18a"
+    },
+    "mcp.js": {
+      "bytes": 6551,
+      "sha256": "ded9a477427a075ac2c82b8dca02b43c84b35b44b8818c3b9c0979bba973d143"
     },
     "pattern.js": {
       "bytes": 1605,

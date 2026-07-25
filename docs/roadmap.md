@@ -67,7 +67,7 @@
 ### P4.3 AI integration
 
 - [x] Prompt templates `vi`/`en` có grounding theo stable codes/evidence và JSON Schema.
-- [ ] MCP server offline gọi engine bằng structured tools.
+- [x] MCP `2025-06-18` server offline gọi engine bằng structured tools qua stdio.
 - [ ] Ví dụ interpretation pipeline tách calculation khỏi nội dung luận giải.
 
 ### P4.4 Pre-1.0 stabilization
