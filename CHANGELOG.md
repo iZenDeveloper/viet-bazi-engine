@@ -13,6 +13,7 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 - Thêm release version preparer dry-run mặc định, khóa worktree/changelog/occurrence trước khi cho phép ghi đồng bộ RC version.
 - Tái cấu trúc README theo adoption funnel với live demo CTA, lý do tồn tại, use cases, contract khác biệt và trạng thái registry minh bạch.
 - Nâng cấp demo hero/responsive UI và thêm ba preset một chạm, vẫn dùng cùng offline calculation pipeline và browser E2E ba engine.
+- Chuyển PWA navigation sang network-first và tự reload khi service worker mới takeover để tránh HTML/JS cache cũ làm live demo không chạy sau deploy.
 
 ## 0.52.0
 

@@ -33,4 +33,4 @@ document.querySelector('#useCustomCoordinates').addEventListener('change',()=>sy
 document.querySelector('#secondUseCustomCoordinates').addEventListener('change',()=>syncCoordinateMode('second'));
 document.querySelector('#locale').addEventListener('change',event=>{applyUiLocale(event.target.value);form.requestSubmit();});
 applyUiLocale(document.querySelector('#locale').value);form.requestSubmit();
-if('serviceWorker' in navigator)navigator.serviceWorker.register('../service-worker.js',{scope:'../'}).catch(error=>{console.warn('Không thể bật offline cache:',error);});
+if('serviceWorker' in navigator){const hadController=Boolean(navigator.serviceWorker.controller);let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!hadController||refreshing)return;refreshing=true;location.reload();});navigator.serviceWorker.register('../service-worker.js',{scope:'../'}).then(registration=>registration.update()).catch(error=>{console.warn('Không thể bật offline cache:',error);});}

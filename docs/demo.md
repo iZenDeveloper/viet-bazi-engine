@@ -36,7 +36,10 @@ Playwright chạy cùng hai luồng trên Chromium, Firefox và WebKit:
 Chromium/Firefox thực hiện thêm offline reload. Playwright WebKit không hỗ trợ ổn định navigation khi `context.setOffline(true)`, nên test WebKit xác minh cache đầy rồi tắt mạng và tính lại trên document hiện tại. Trên CI Linux, cài browser cùng system dependencies bằng `npx playwright install --with-deps chromium firefox webkit` trước khi chạy test.
 Ngay dưới biểu đồ là timeline 5 năm quanh `asOfYear`, gồm Can Chi, Thập Thần và Đại Vận theo locale đang chọn; năm đang xem được làm nổi bật.
 
-Service worker dùng chiến lược cache-first cho các file cùng origin. Sau lần tải thành công đầu tiên, demo có thể reload khi offline. Khi sửa asset cache, tăng version `CACHE` trong `service-worker.js` để activation xóa cache cũ.
+Service worker dùng network-first cho navigation để deploy mới không bị HTML cũ giữ lại,
+và cache-first cho static assets cùng origin. Khi worker mới takeover, client reload đúng
+một lần; sau lần tải thành công đầu tiên, demo vẫn có thể reload khi offline. Khi sửa asset
+cache, tăng version `CACHE` trong `service-worker.js` để activation xóa cache cũ.
 
 `manifest.webmanifest` và icon SVG nội bộ cho phép cài demo dạng standalone trên trình duyệt hỗ trợ. Việc cài đặt cần secure context; `localhost` được trình duyệt xem là secure cho mục đích phát triển.
 
