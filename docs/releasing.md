@@ -32,6 +32,17 @@ Output JSON phân biệt release preflight, public API snapshot, worktree, hoste
 và registry credentials. `readyForRcTag` chỉ là gate kỹ thuật; owner vẫn phải phê duyệt
 việc tạo tag và publish.
 
+Xem trước 10 file và 14 vị trí version cần đổi mà không sửa workspace:
+
+```bash
+npm run release:prepare -- --to 1.0.0-rc.1
+```
+
+Sau khi thêm mục `## 1.0.0-rc.1` vào changelog và owner phê duyệt, chạy lại với `--write`.
+Công cụ từ chối ghi nếu worktree bẩn, changelog chưa có candidate hoặc số vị trí version
+khác baseline. Sau đó bắt buộc chạy `npm run sync:python`, `npm run release:check` và
+`npm run test:e2e` trước khi commit/tag.
+
 Release tooling chấp nhận SemVer prerelease như `1.0.0-rc.1`. Python packaging chuẩn hóa
 giá trị đó thành PEP 440 `1.0.0rc1`; source version trong npm, Python binding và engine
 vẫn phải giống nhau trước khi build.
