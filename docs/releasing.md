@@ -20,6 +20,23 @@ git push origin v1.0.0-rc.1
 
 Nếu tag không khớp version package, workflow dừng trước khi tạo release. Workflow không tự publish lên npm/PyPI; hai registry đó cần token và phê duyệt riêng.
 
+## Publish npm và PyPI bằng Trusted Publishing
+
+Workflow `Publish registries` chỉ chạy qua manual dispatch với một tag đã tồn tại. Cả hai
+job dùng GitHub Environment `registry-publish` và OIDC, không đọc token registry dài hạn.
+RC được publish lên npm dist-tag `next`; stable release dùng `latest`.
+
+Owner cần cấu hình trước:
+
+- npm Trusted Publisher: owner `iZenDeveloper`, repository `viet-bazi-engine`, workflow
+  `publish.yml`, environment `registry-publish`, cho phép `npm publish`;
+- PyPI pending publisher: project `viet-bazi-engine`, owner `iZenDeveloper`, repository
+  `viet-bazi-engine`, workflow `publish.yml`, environment `registry-publish`;
+- GitHub Environment `registry-publish` với required reviewer.
+
+Sau khi ba liên kết trên tồn tại, chạy workflow thủ công với tag `v1.0.0-rc.1`. Workflow
+kiểm tra tag khớp package version và chạy lại release gates trước mỗi publish.
+
 ## Release candidate
 
 Kiểm tra các gate mà không sửa version, tạo tag hoặc publish:
@@ -33,7 +50,7 @@ và registry credentials. `readyForRcTag` chỉ phụ thuộc các gate kỹ thu
 Release; `readyForRegistryPublish` yêu cầu thêm xác thực npm/PyPI. Owner vẫn phải phê
 duyệt riêng việc tạo tag và publish.
 
-Xem trước 10 file và 18 vị trí version cần đổi mà không sửa workspace:
+Xem trước 10 file và 19 vị trí version cần đổi mà không sửa workspace:
 
 ```bash
 npm run release:prepare -- --to 1.0.0-rc.1

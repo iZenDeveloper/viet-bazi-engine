@@ -10,6 +10,7 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 - Hoàn thiện release gates, wheel integrity, offline PWA và hosted E2E trên Chromium, Firefox, WebKit.
 - Tách readiness của GitHub RC tag khỏi readiness publish npm/PyPI để phản ánh đúng ranh giới workflow.
 - Tự đánh dấu GitHub Release là prerelease khi tag SemVer chứa prerelease suffix.
+- Thêm manual Trusted Publishing workflow cho npm/PyPI bằng OIDC, environment approval và npm dist-tag `next` cho RC.
 - Không thay đổi các cảnh báo sử dụng văn hóa/tham khảo; cách cục và dụng/hỷ/kỵ vẫn được công bố là heuristic.
 
 ## 0.54.0

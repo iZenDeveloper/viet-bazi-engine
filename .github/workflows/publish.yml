@@ -1,0 +1,66 @@
+name: Publish registries
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing signed release tag to publish
+        required: true
+        default: v1.0.0-rc.1
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    environment: registry-publish
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm run release:check
+      - name: Verify requested tag
+        run: test "${{ inputs.tag }}" = "v$(node -p "require('./package.json').version")"
+      - name: Publish npm package with OIDC
+        run: |
+          version=$(node -p "require('./package.json').version")
+          dist_tag=latest
+          if [[ "$version" == *-* ]]; then dist_tag=next; fi
+          npm publish --access public --tag "$dist_tag"
+
+  pypi:
+    runs-on: ubuntu-latest
+    environment: registry-publish
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run release:check
+      - name: Verify requested tag
+        run: test "${{ inputs.tag }}" = "v$(node -p "require('./package.json').version")"
+      - name: Build Python wheel
+        run: python -m pip wheel ./bindings/python --no-deps --wheel-dir dist-pypi
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist-pypi/
