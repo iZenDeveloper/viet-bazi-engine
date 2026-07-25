@@ -24,7 +24,8 @@ Nếu tag không khớp version package, workflow dừng trước khi tạo rele
 
 Workflow `Publish registries` chỉ chạy qua manual dispatch với một tag đã tồn tại. Cả hai
 job dùng GitHub Environment `registry-publish` và OIDC, không đọc token registry dài hạn.
-RC được publish lên npm dist-tag `next`; stable release dùng `latest`.
+RC được publish lên npm dist-tag `next`; stable release dùng `latest`. Nếu một version npm
+đã tồn tại, job npm bỏ qua version đó để workflow có thể được chạy lại an toàn cho PyPI.
 
 Owner cần cấu hình trước:
 
@@ -62,8 +63,8 @@ khác baseline. Sau đó bắt buộc chạy `npm run sync:python`, `npm run rel
 `npm run test:e2e` trước khi commit/tag.
 
 Release tooling chấp nhận SemVer prerelease như `1.0.0-rc.2`. Python packaging chuẩn hóa
-giá trị đó thành PEP 440 `1.0.0rc1`; source version trong npm, Python binding và engine
+giá trị đó thành PEP 440 `1.0.0rc2`; source version trong npm, Python binding và engine
 vẫn phải giống nhau trước khi build.
 
-Tên `viet-bazi-engine` chưa tồn tại trên npm/PyPI tại lần kiểm tra ngày 2026-07-25, nhưng
-tính khả dụng có thể thay đổi. Luôn kiểm tra lại ngay trước first publish.
+Release candidate đầu tiên của `viet-bazi-engine` đã được publish lên npm ngày 2026-07-26.
+Tên dự án PyPI chỉ được tạo khi pending trusted publisher phát hành wheel lần đầu.

@@ -83,8 +83,9 @@ npm install
 npm test
 ```
 
-Package npm/PyPI chưa được publish ở version pre-1.0 hiện tại. Ví dụ import dưới đây dùng
-package root sau khi clone/build hoặc dùng trực tiếp trong workspace:
+Package npm đã được publish ở dist-tag `next`. Cài release candidate hiện tại bằng
+`npm install viet-bazi-engine@next`. Python package sẽ được công bố sau khi hoàn tất
+liên kết PyPI Trusted Publisher.
 
 ```ts
 import { calculateBazi } from 'viet-bazi-engine';

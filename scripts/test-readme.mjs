@@ -12,7 +12,7 @@ for (const token of [
   'Vì sao dự án này tồn tại?',
   'Phù hợp cho',
   'Thử trong 30 giây',
-  'Package npm/PyPI chưa được publish',
+  'npm install viet-bazi-engine@next',
   'npm run benchmark',
   'docs/benchmarks.md'
 ]) {
