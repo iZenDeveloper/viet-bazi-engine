@@ -6,6 +6,7 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
 - Chốt public API audit cho TypeScript, JSON Schema, CLI, MCP, Python và WASM trước giai đoạn ổn định 1.0.
 - Đưa model hoàng kinh Mặt Trời biểu kiến opt-in vào toàn bộ calculation pipeline, giữ `legacy` làm mặc định tương thích.
+- Cho phép chọn model `legacy`/`apparent` trực tiếp trong live demo và giữ cùng lựa chọn khi so sánh hai lá số.
 - Hoàn thiện release gates, wheel integrity, offline PWA và hosted E2E trên Chromium, Firefox, WebKit.
 - Không thay đổi các cảnh báo sử dụng văn hóa/tham khảo; cách cục và dụng/hỷ/kỵ vẫn được công bố là heuristic.
 
