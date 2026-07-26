@@ -113,6 +113,16 @@ node dist/cli.js --capabilities --compact
 node dist/cli.js --compact '{"localDateTime":"1990-05-17T14:30:00","timezoneOffsetMinutes":420,"asOfYear":2026,"gender":"female"}'
 ```
 
+Chạy quality gauntlet đa tầng:
+
+```bash
+npm run test:gauntlet
+npm run test:gauntlet -- --profile full
+```
+
+Xem [hướng dẫn testing](docs/testing.md) để cấu hình seed, số ca property/torture,
+machine-readable report và browser acceptance.
+
 Chạy demo web/PWA offline sau khi build:
 
 ```bash

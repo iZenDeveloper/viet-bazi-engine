@@ -4,6 +4,9 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
 ## Unreleased
 
+- Thêm quality gauntlet CLI phối hợp unit, acceptance, property, torture, mutation và
+  QA gates; hỗ trợ profile nhanh/đầy đủ, seed tái lập và JSON report cho CI.
+- Đưa deterministic property tests và in-memory calendar mutation tests vào `npm test`.
 - Đặt bảng ephemeris `Jie` sinh từ Astronomy Engine/VSOP87 làm mặc định trong
   1600–2100; tự fallback sang model `apparent` ngoài miền đã xác minh.
 - Giảm sai số lớn nhất quan sát xuống 0,99 phút trên 36 mốc NAOJ và 2,31 phút trên
