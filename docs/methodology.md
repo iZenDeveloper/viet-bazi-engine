@@ -40,8 +40,18 @@ API calendar có model `apparent` opt-in, dùng Julian centuries từ J2000, geo
 longitude/anomaly, equation of center ba harmonic và apparent-longitude correction. Trên
 cùng fixtures, sai số lớn nhất quan sát là 13 phút với 24 mốc NAOJ 2013/2020 và 5,92
 phút với 9 checkpoint JPL 1600–2400. Model mặc định vẫn là `legacy` trong giai đoạn
-pre-1.0 để không âm thầm đổi lá số; hiện opt-in áp dụng cho `solarLongitude()` và
-`solarTermBoundary()`, chưa đổi orchestration `calculateBazi()`.
+pre-1.0 để không âm thầm đổi lá số; model opt-in cũng đi qua orchestration
+`calculateBazi()`.
+
+Ngoài fixture thiên văn, test differential dùng implementation MIT độc lập
+`lunar-typescript` làm oracle thứ hai. Corpus deterministic phủ 14.732 trường hợp từ
+1900 đến 2100, gồm mẫu ngày cách đều và đủ 12 thời thần. Hai bên được cấu hình cùng
+UTC+8, ranh đổi ngày 00:00 và model `apparent`; CI yêu cầu bốn trụ Năm/Tháng/Ngày/Giờ
+khớp hoàn toàn ngoài cửa sổ 40 phút quanh Tiết khí. Trong cửa sổ đó differential test vẫn
+khóa trụ Ngày/Giờ, còn trụ Năm/Tháng dùng fixture NAOJ/JPL vì hai model có thể đặt thời
+điểm ranh lệch vài phút. Corpus này giúp bắt regression lịch pháp trên diện rộng nhưng
+không thay thế NAOJ/JPL, vì hai implementation vẫn có thể chia sẻ cùng quy ước hoặc cùng
+sai sót.
 
 Nếu sinh gần ranh:
 
