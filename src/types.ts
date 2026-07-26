@@ -11,7 +11,7 @@ export type TenGodCode = 'BI_JIAN'|'JIE_CAI'|'SHI_SHEN'|'SHANG_GUAN'|'PIAN_CAI'|
 export type RelationTypeCode = 'LIU_HE'|'LIU_CHONG'|'LIU_HAI'|'LIU_PO'|'ZI_XING'|'SAN_XING'|'SAN_HE'|'SAN_HUI';
 export type ShenShaCode = 'TIAN_YI_GUI_REN'|'TAI_JI_GUI_REN'|'WEN_CHANG'|'LU_SHEN'|'YANG_REN'|'JIN_YU'|'GUO_YIN'|'XUE_TANG'|'TAO_HUA'|'HONG_LUAN'|'TIAN_XI'|'YI_MA'|'HUA_GAI'|'JIANG_XING'|'JIE_SHA'|'WANG_SHEN'|'ZAI_SHA'|'GU_SHEN'|'GUA_SU'|'TIAN_YI'|'TIAN_LUO'|'DI_WANG'|'TIAN_SHE';
 export type DayBoundaryConvention = 'early-zi'|'midnight';
-export type SolarTermModel = 'legacy'|'apparent';
+export type SolarTermModel = 'legacy'|'apparent'|'ephemeris';
 
 export interface BirthInput {
   /** Local civil time in ISO format without a trailing Z, e.g. 1990-05-17T14:30:00. */
@@ -26,7 +26,7 @@ export interface BirthInput {
   trueSolarTime?: boolean;
   /** Defaults to early-zi: the sexagenary day changes at 23:00. */
   dayBoundary?: DayBoundaryConvention;
-  /** Defaults to apparent; pass legacy only to reproduce pre-1.0 RC calculations. */
+  /** Defaults to ephemeris; apparent is the fallback outside the verified table range. */
   solarTermModel?: SolarTermModel;
 }
 export interface Stem { index:number; code:StemCode; name:StemName; elementCode:ElementCode; element:Element; polarityCode:PolarityCode; polarity:Polarity }
@@ -53,7 +53,7 @@ export interface LocalizedChartPillar extends LocalizedTimelinePillar {labelCode
 export interface LocalizedChartSummary {schemaVersion:'1.0';locale:'vi'|'en';engineVersion:string;pillars:{year:LocalizedChartPillar;month:LocalizedChartPillar;day:LocalizedChartPillar;hour:LocalizedChartPillar};dayMaster:{stemCode:StemCode;stem:string;elementCode:ElementCode;element:string;text:string};elements:{elementCode:ElementCode;element:string;percent:number;strengthCode:'MISSING'|'WEAK'|'BALANCED'|'STRONG';strength:string}[];activeLuck:{order:number;startYear:number;pillar:LocalizedTimelinePillar}|null;annual:{year:number;pillar:LocalizedTimelinePillar;tenGodCode:TenGodCode;tenGod:string};pattern:{primaryTenGodCode:TenGodCode;primary:string;dayMasterStrengthCode:'WEAK'|'BALANCED'|'STRONG';dayMasterStrength:string;favorableElementCodes:ElementCode[];favorableElements:string[];unfavorableElementCodes:ElementCode[];unfavorableElements:string[]};warnings:string[]}
 export interface MethodologyManifest {
   engineVersion:string; profileCode:'VIET_BAZI_STANDARD_V1';
-  calendar:{ yearBoundary:'LI_CHUN'; monthBoundary:'TWELVE_JIE'; dayBoundary:'EARLY_ZI'|'MIDNIGHT'; hourBoundary:'ZI_CENTERED_TWO_HOUR'; solarTermModel:'APPROXIMATE_SOLAR_LONGITUDE'|'APPARENT_SOLAR_LONGITUDE_V1' };
+  calendar:{ yearBoundary:'LI_CHUN'; monthBoundary:'TWELVE_JIE'; dayBoundary:'EARLY_ZI'|'MIDNIGHT'; hourBoundary:'ZI_CENTERED_TWO_HOUR'; solarTermModel:'APPROXIMATE_SOLAR_LONGITUDE'|'APPARENT_SOLAR_LONGITUDE_V1'|'JIE_EPHEMERIS_TABLE_V1' };
   trueSolarTime:{ enabled:boolean; model:'LONGITUDE_PLUS_EQUATION_OF_TIME'|'DISABLED' };
   luckCycle:{ directionRule:'GENDER_AND_YEAR_STEM_POLARITY'; startBoundary:'DIRECTIONAL_JIE'; ageConversion:'THREE_DAYS_PER_YEAR' };
   analysis:{ elementBalance:'WEIGHTED_HEURISTIC_V1'; pattern:'MONTH_QI_HEURISTIC_V1'; shenSha:'CATALOG_V1' };

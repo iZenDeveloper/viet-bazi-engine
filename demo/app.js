@@ -109,7 +109,11 @@ const ui = {
     submit: "Lập lá số",
     gender: ["Nữ", "Nam"],
     boundary: ["23:00 — đầu giờ Tý", "00:00 — nửa đêm"],
-    solarModel: ["Biểu kiến — chính xác cao", "Legacy — tương thích RC cũ"],
+    solarModel: [
+      "Ephemeris — chính xác cao nhất",
+      "Biểu kiến — fallback 1600–2400",
+      "Legacy — tương thích RC cũ",
+    ],
     audit: "Audit trace",
     sensitivity: [
       "Khoảng lệch",
@@ -169,7 +173,11 @@ const ui = {
     submit: "Calculate chart",
     gender: ["Female", "Male"],
     boundary: ["23:00 — early Zi hour", "00:00 — midnight"],
-    solarModel: ["Apparent — higher precision", "Legacy — reproduce old RC"],
+    solarModel: [
+      "Ephemeris — highest precision",
+      "Apparent — 1600–2400 fallback",
+      "Legacy — reproduce old RC",
+    ],
     audit: "Audit trace",
     sensitivity: [
       "Offset range",

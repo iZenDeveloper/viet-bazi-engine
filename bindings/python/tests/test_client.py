@@ -11,8 +11,8 @@ class ClientTest(unittest.TestCase):
     def test_calculates_through_local_engine(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
         self.assertEqual(result["schemaVersion"], "1.7")
-        self.assertEqual(result["input"]["solarTermModel"], "apparent")
-        self.assertEqual(result["normalized"]["solarTerms"]["modelUncertaintyMinutes"], 15)
+        self.assertEqual(result["input"]["solarTermModel"], "ephemeris")
+        self.assertEqual(result["normalized"]["solarTerms"]["modelUncertaintyMinutes"], 3)
         self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "1.0.0-rc.2")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 

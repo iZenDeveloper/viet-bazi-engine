@@ -101,7 +101,7 @@ const chart = calculateBazi({
   trueSolarTime: true,
   location: { city: 'Hà Nội' },
   dayBoundary: 'early-zi',
-  solarTermModel: 'apparent'
+  solarTermModel: 'ephemeris'
 });
 
 console.log(chart.pillars, chart.elements, chart.metadata.methodology);

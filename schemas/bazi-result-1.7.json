@@ -69,7 +69,8 @@
         "solarTermModel": {
           "enum": [
             "legacy",
-            "apparent"
+            "apparent",
+            "ephemeris"
           ]
         },
         "location": {
@@ -2090,7 +2091,8 @@
                 "solarTermModel": {
                   "enum": [
                     "APPROXIMATE_SOLAR_LONGITUDE",
-                    "APPARENT_SOLAR_LONGITUDE_V1"
+                    "APPARENT_SOLAR_LONGITUDE_V1",
+                    "JIE_EPHEMERIS_TABLE_V1"
                   ]
                 }
               }

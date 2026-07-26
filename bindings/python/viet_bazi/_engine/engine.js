@@ -1,12 +1,13 @@
 import { BRANCH_CODES, BRANCHES, CONTROLS, ELEMENT_CODES, ELEMENTS, GENERATES, STEMS, TEN_GOD_CODES } from './constants.js';
-import { findJieBoundary, mod, parseLocalIso, sexagenaryDayIndex, solarCorrectionMinutes, solarLongitude, toUtc } from './calendar.js';
+import { baziYear, findNextJie, isJieEphemerisVerified, mod, parseLocalIso, sexagenaryDayIndex, solarCorrectionMinutes, solarMonthIndex, toUtc } from './calendar.js';
 import { analyzePattern } from './pattern.js';
 import { calculateShenSha, SHEN_SHA_CATALOG } from './shen-sha.js';
 import { resolveLocation } from './cities.js';
 import { baziError } from './errors.js';
 export const ENGINE_VERSION = '1.0.0-rc.2';
-export function getMethodologyManifest(dayBoundary, trueSolarTime, solarTermModel = 'apparent') {
-    return { engineVersion: ENGINE_VERSION, profileCode: 'VIET_BAZI_STANDARD_V1', calendar: { yearBoundary: 'LI_CHUN', monthBoundary: 'TWELVE_JIE', dayBoundary: dayBoundary === 'early-zi' ? 'EARLY_ZI' : 'MIDNIGHT', hourBoundary: 'ZI_CENTERED_TWO_HOUR', solarTermModel: solarTermModel === 'apparent' ? 'APPARENT_SOLAR_LONGITUDE_V1' : 'APPROXIMATE_SOLAR_LONGITUDE' }, trueSolarTime: { enabled: trueSolarTime, model: trueSolarTime ? 'LONGITUDE_PLUS_EQUATION_OF_TIME' : 'DISABLED' }, luckCycle: { directionRule: 'GENDER_AND_YEAR_STEM_POLARITY', startBoundary: 'DIRECTIONAL_JIE', ageConversion: 'THREE_DAYS_PER_YEAR' }, analysis: { elementBalance: 'WEIGHTED_HEURISTIC_V1', pattern: 'MONTH_QI_HEURISTIC_V1', shenSha: 'CATALOG_V1' } };
+export function getMethodologyManifest(dayBoundary, trueSolarTime, solarTermModel = 'ephemeris') {
+    const modelCode = solarTermModel === 'ephemeris' ? 'JIE_EPHEMERIS_TABLE_V1' : solarTermModel === 'apparent' ? 'APPARENT_SOLAR_LONGITUDE_V1' : 'APPROXIMATE_SOLAR_LONGITUDE';
+    return { engineVersion: ENGINE_VERSION, profileCode: 'VIET_BAZI_STANDARD_V1', calendar: { yearBoundary: 'LI_CHUN', monthBoundary: 'TWELVE_JIE', dayBoundary: dayBoundary === 'early-zi' ? 'EARLY_ZI' : 'MIDNIGHT', hourBoundary: 'ZI_CENTERED_TWO_HOUR', solarTermModel: modelCode }, trueSolarTime: { enabled: trueSolarTime, model: trueSolarTime ? 'LONGITUDE_PLUS_EQUATION_OF_TIME' : 'DISABLED' }, luckCycle: { directionRule: 'GENDER_AND_YEAR_STEM_POLARITY', startBoundary: 'DIRECTIONAL_JIE', ageConversion: 'THREE_DAYS_PER_YEAR' }, analysis: { elementBalance: 'WEIGHTED_HEURISTIC_V1', pattern: 'MONTH_QI_HEURISTIC_V1', shenSha: 'CATALOG_V1' } };
 }
 const stem = (i) => ({ index: mod(i, 10), ...STEMS[mod(i, 10)] });
 function tenGod(day, other) {
@@ -74,9 +75,7 @@ export function calculateAnnualTimeline(chart, fromYear, toYear) { if (!Number.i
     throw baziError('TIMELINE_RANGE', 'RangeError', 'Khoảng Lưu Niên phải là năm nguyên, tăng dần, trong 1600..2400', 'Annual timeline years must be increasing integers in 1600..2400'); if (toYear - fromYear > 200)
     throw baziError('TIMELINE_LIMIT', 'RangeError', 'Một timeline hỗ trợ tối đa 201 năm', 'An annual timeline supports at most 201 years'); const natal = Object.values(chart.pillars); return Array.from({ length: toYear - fromYear + 1 }, (_, i) => { const year = fromYear + i; return { year, activeLuck: activeLuck(chart.luck.pillars, year), analysis: analyzeAnnual(chart.dayMaster, natal, chart.luck.pillars, year) }; }); }
 const JS_CALENDAR = {
-    baziYear(utc, model) { const y = utc.getUTCFullYear(), longitude = solarLongitude(utc, model); return utc.getUTCMonth() < 2 && longitude < 315 ? y - 1 : y; },
-    solarMonthIndex(utc, model) { return mod(Math.floor(mod(solarLongitude(utc, model) - 315, 360) / 30), 12); },
-    findNextJie(utc, direction, model) { return findJieBoundary(utc, direction, date => solarLongitude(date, model)); },
+    baziYear, solarMonthIndex, findNextJie,
     sexagenaryDayIndex, solarCorrectionMinutes
 };
 export function calculateBazi(input, legacyAsOfYear) {
@@ -89,7 +88,7 @@ function calculateCore(input, legacyAsOfYear, calendar) {
     const asOfYear = 'asOfYear' in input ? input.asOfYear : legacyAsOfYear;
     if (!Number.isInteger(asOfYear) || asOfYear < 1600 || asOfYear > 2400)
         throw new RangeError('asOfYear phải là số nguyên trong 1600..2400');
-    const dayBoundary = input.dayBoundary ?? 'early-zi', solarTermModel = input.solarTermModel ?? 'apparent', normalizedInput = { ...input, asOfYear: asOfYear, dayBoundary, solarTermModel };
+    const dayBoundary = input.dayBoundary ?? 'early-zi', solarTermModel = input.solarTermModel ?? 'ephemeris', normalizedInput = { ...input, asOfYear: asOfYear, dayBoundary, solarTermModel };
     if (!Number.isInteger(input.timezoneOffsetMinutes) || Math.abs(input.timezoneOffsetMinutes) > 14 * 60)
         throw new RangeError('timezoneOffsetMinutes không hợp lệ');
     const civil = parseLocalIso(input.localDateTime), utc = toUtc(civil, input.timezoneOffsetMinutes);
@@ -104,7 +103,7 @@ function calculateCore(input, legacyAsOfYear, calendar) {
     const isYangYear = yearP.stem.polarity === 'Dương', forward = (input.gender === 'male') === isYangYear, direction = forward ? 1 : -1;
     const previousJie = calendar.findNextJie(utc, -1, solarTermModel), nextJie = calendar.findNextJie(utc, 1, solarTermModel), boundary = direction === 1 ? nextJie : previousJie;
     const nearestDistanceMinutes = Math.round(Math.min(utc.getTime() - previousJie.getTime(), nextJie.getTime() - utc.getTime()) / 60000), nearBoundary = nearestDistanceMinutes <= 120;
-    const modelUncertaintyMinutes = solarTermModel === 'apparent' ? 15 : 40, boundaryRisk = nearestDistanceMinutes <= modelUncertaintyMinutes ? 'model-sensitive' : nearBoundary ? 'input-sensitive' : 'none';
+    const modelUncertaintyMinutes = solarTermModel === 'ephemeris' && isJieEphemerisVerified(utc) ? 3 : solarTermModel === 'legacy' ? 40 : 15, boundaryRisk = nearestDistanceMinutes <= modelUncertaintyMinutes ? 'model-sensitive' : nearBoundary ? 'input-sensitive' : 'none';
     const startAge = Math.round(Math.abs(boundary.getTime() - utc.getTime()) / 86400000 / 3 * 10) / 10;
     const elements = elementScores(ps), strongest = [...elements].sort((a, b) => b.percent - a.percent)[0];
     const dm = elements.find(e => e.element === day.element);

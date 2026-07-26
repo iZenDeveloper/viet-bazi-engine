@@ -4,8 +4,12 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
 ## Unreleased
 
-- Đặt model hoàng kinh biểu kiến làm mặc định; giữ `legacy` để tái tạo output RC cũ.
-- Công bố bất định 15/40 phút và risk level quanh ranh Tiết khí trong structured output.
+- Đặt bảng ephemeris `Jie` sinh từ Astronomy Engine/VSOP87 làm mặc định trong
+  1600–2100; tự fallback sang model `apparent` ngoài miền đã xác minh.
+- Giảm sai số lớn nhất quan sát xuống 0,99 phút trên 36 mốc NAOJ và 2,31 phút trên
+  các checkpoint JPL 1600–2100.
+- Công bố bất định 3/15/40 phút cho `ephemeris`/`apparent`/`legacy` và risk level
+  quanh ranh Tiết khí trong structured output.
 - Thay đổi có thể làm trụ Năm/Tháng khác RC.2 khi giờ sinh nằm sát ranh Tiết khí.
 - Cho phép cấu hình port Playwright E2E để tránh xung đột với server local khác.
 

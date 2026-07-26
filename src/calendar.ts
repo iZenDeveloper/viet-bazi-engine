@@ -1,6 +1,14 @@
+import {
+  JIE_EPHEMERIS_DATA_START_YEAR,
+  JIE_EPHEMERIS_LONGITUDES,
+  JIE_EPHEMERIS_UNIX_MINUTES,
+  JIE_EPHEMERIS_VERIFIED_END_YEAR,
+  JIE_EPHEMERIS_VERIFIED_START_YEAR,
+} from "./jie-ephemeris.generated.js";
+
 const RAD = Math.PI / 180;
 const mod = (n:number,m:number) => ((n%m)+m)%m;
-export type SolarLongitudeModel='legacy'|'apparent';
+export type SolarLongitudeModel='legacy'|'apparent'|'ephemeris';
 
 export function parseLocalIso(value:string): Date {
   const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(value);
@@ -12,8 +20,9 @@ export function parseLocalIso(value:string): Date {
 }
 export function toUtc(local:Date,offsetMinutes:number):Date { return new Date(local.getTime()-offsetMinutes*60000); }
 export function julianDay(date:Date):number { return date.getTime()/86400000+2440587.5; }
-export function solarLongitude(date:Date,model:SolarLongitudeModel='apparent'):number {
+export function solarLongitude(date:Date,model:SolarLongitudeModel='ephemeris'):number {
   if(model==='apparent')return solarLongitudeApparent(date);
+  if(model==='ephemeris')return solarLongitudeApparent(date);
   const n=julianDay(date)-2451545.0;
   const L=mod(280.460+0.9856474*n,360), g=mod(357.528+0.9856003*n,360)*RAD;
   return mod(L+1.915*Math.sin(g)+0.020*Math.sin(2*g),360);
@@ -47,18 +56,59 @@ export function sexagenaryDayIndex(localSolar:Date,dayBoundary:DayBoundaryConven
   const jdn=d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;
   return mod(jdn+49,60);
 }
-export function solarMonthIndex(utc:Date):number {
-  // 0=Dần (Lập Xuân), boundaries every 30° from longitude 315°.
-  return mod(Math.floor(mod(solarLongitude(utc)-315,360)/30),12);
+export function isJieEphemerisVerified(utc:Date):boolean {
+  const year=utc.getUTCFullYear();
+  return year>=JIE_EPHEMERIS_VERIFIED_START_YEAR&&year<=JIE_EPHEMERIS_VERIFIED_END_YEAR;
 }
-export function baziYear(utc:Date):number {
+export function jieEphemerisBoundary(year:number,slot:number):Date|undefined {
+  if(!Number.isInteger(year)||!Number.isInteger(slot)||slot<0||slot>=12)return undefined;
+  const index=(year-JIE_EPHEMERIS_DATA_START_YEAR)*12+slot;
+  const minutes=JIE_EPHEMERIS_UNIX_MINUTES[index];
+  return minutes===undefined?undefined:new Date(minutes*60000);
+}
+export function findJieEphemerisBoundary(utc:Date,direction:1|-1):Date|undefined {
+  if(!isJieEphemerisVerified(utc))return undefined;
+  const values:Date[]=[];
+  for(let year=utc.getUTCFullYear()-1;year<=utc.getUTCFullYear()+1;year++) {
+    for(let slot=0;slot<12;slot++) {
+      const boundary=jieEphemerisBoundary(year,slot);
+      if(boundary)values.push(boundary);
+    }
+  }
+  const time=utc.getTime();
+  return direction===1
+    ? values.find(value=>value.getTime()>time)
+    : values.reverse().find(value=>value.getTime()<time);
+}
+export function solarMonthIndex(utc:Date,model:SolarLongitudeModel='ephemeris'):number {
+  if(model==='ephemeris'&&isJieEphemerisVerified(utc)) {
+    const year=utc.getUTCFullYear(),time=utc.getTime();
+    let slot=11;
+    for(let index=0;index<12;index++) {
+      const boundary=jieEphemerisBoundary(year,index);
+      if(boundary&&boundary.getTime()<=time)slot=index;
+    }
+    return mod(slot-1,12);
+  }
+  // 0=Dần (Lập Xuân), boundaries every 30° from longitude 315°.
+  return mod(Math.floor(mod(solarLongitude(utc,model)-315,360)/30),12);
+}
+export function baziYear(utc:Date,model:SolarLongitudeModel='ephemeris'):number {
   const y=utc.getUTCFullYear();
+  if(model==='ephemeris'&&isJieEphemerisVerified(utc)) {
+    const lichun=jieEphemerisBoundary(y,1);
+    return lichun&&utc.getTime()<lichun.getTime()?y-1:y;
+  }
   // Longitude >=315 and <~360 is after Lập Xuân; Jan/early Feb belongs to prior year.
-  const lon=solarLongitude(utc);
+  const lon=solarLongitude(utc,model);
   return utc.getUTCMonth()<2 && lon<315 ? y-1 : y;
 }
-export function findNextJie(utc:Date,direction:1|-1):Date {
-  return findJieBoundary(utc,direction,solarLongitude);
+export function findNextJie(utc:Date,direction:1|-1,model:SolarLongitudeModel='ephemeris'):Date {
+  if(model==='ephemeris') {
+    const boundary=findJieEphemerisBoundary(utc,direction);
+    if(boundary)return boundary;
+  }
+  return findJieBoundary(utc,direction,date=>solarLongitude(date,model==='ephemeris'?'apparent':model));
 }
 export function findJieBoundary(utc:Date,direction:1|-1,longitude:(date:Date)=>number):Date {
   const bucket=(date:Date)=>Math.floor(mod(longitude(date)-315,360)/30);
@@ -70,15 +120,21 @@ export function findJieBoundary(utc:Date,direction:1|-1,longitude:(date:Date)=>n
   throw new Error('Không tìm thấy tiết khí lân cận');
 }
 /** Finds a solar-longitude crossing with minute precision. Target is in degrees. */
-export function solarTermBoundary(year:number,targetLongitude:number,model:SolarLongitudeModel='apparent'):Date {
+export function solarTermBoundary(year:number,targetLongitude:number,model:SolarLongitudeModel='ephemeris'):Date {
   if(!Number.isInteger(year)||year<1600||year>2400)throw new RangeError('year phải nằm trong 1600..2400');
   if(!Number.isFinite(targetLongitude)||targetLongitude<0||targetLongitude>=360)throw new RangeError('targetLongitude phải nằm trong [0, 360)');
+  if(model==='ephemeris'&&year>=JIE_EPHEMERIS_VERIFIED_START_YEAR&&year<=JIE_EPHEMERIS_VERIFIED_END_YEAR) {
+    const slot=(JIE_EPHEMERIS_LONGITUDES as readonly number[]).indexOf(targetLongitude);
+    const boundary=jieEphemerisBoundary(year,slot);
+    if(boundary)return boundary;
+  }
+  const effectiveModel=model==='ephemeris'?'apparent':model;
   const estimatedDay=mod(targetLongitude-280,360)/.9856474;
   const center=Date.UTC(year,0,1)+estimatedDay*86400000;
   let best=new Date(center),bestError=Infinity;
-  for(let minutes=-5*1440;minutes<=5*1440;minutes+=10){const candidate=new Date(center+minutes*60000);const error=Math.abs(mod(solarLongitude(candidate,model)-targetLongitude+180,360)-180);if(error<bestError){bestError=error;best=candidate;}}
+  for(let minutes=-5*1440;minutes<=5*1440;minutes+=10){const candidate=new Date(center+minutes*60000);const error=Math.abs(mod(solarLongitude(candidate,effectiveModel)-targetLongitude+180,360)-180);if(error<bestError){bestError=error;best=candidate;}}
   let lo=best.getTime()-20*60000,hi=best.getTime()+20*60000;
-  for(let i=0;i<24;i++){const m1=lo+(hi-lo)/3,m2=hi-(hi-lo)/3;const e1=Math.abs(mod(solarLongitude(new Date(m1),model)-targetLongitude+180,360)-180),e2=Math.abs(mod(solarLongitude(new Date(m2),model)-targetLongitude+180,360)-180);if(e1<e2)hi=m2;else lo=m1;}
+  for(let i=0;i<24;i++){const m1=lo+(hi-lo)/3,m2=hi-(hi-lo)/3;const e1=Math.abs(mod(solarLongitude(new Date(m1),effectiveModel)-targetLongitude+180,360)-180),e2=Math.abs(mod(solarLongitude(new Date(m2),effectiveModel)-targetLongitude+180,360)-180);if(e1<e2)hi=m2;else lo=m1;}
   return new Date(Math.round((lo+hi)/2/60000)*60000);
 }
 export { mod };

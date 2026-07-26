@@ -37,14 +37,22 @@ Model `legacy` là công thức xấp xỉ đơn giản. Đối chiếu 36 ranh 
 
 Đối chiếu độc lập thứ hai dùng NASA/JPL Horizons quantity `31` (`ObsEcLon`) của Mặt Trời nhìn từ địa tâm. Chín checkpoint Lập Xuân theo từng thế kỷ từ 1600 đến 2400 cho sai số tuyệt đối lần lượt là 36,84; 22,98; 12,21; 17,41; 7,40; 5,16; 6,80; 19,43 và 0,08 phút. Ngưỡng regression 40 phút bao phủ toàn miền hỗ trợ, không phải cam kết mọi ngày đều đạt sai số đó. Query profile và hai mẫu 5 phút kẹp 315° được lưu trong fixture để audit.
 
-API calendar mặc định dùng model `apparent`, dựa trên Julian centuries từ J2000, geometric mean
-longitude/anomaly, equation of center ba harmonic và apparent-longitude correction. Trên
-cùng fixtures, sai số lớn nhất quan sát là 13 phút với 24 mốc NAOJ 2013/2020 và 5,92
-phút với 9 checkpoint JPL 1600–2400. Model `legacy` chỉ còn để tái tạo output của release
-candidate cũ; model mặc định đi qua toàn bộ orchestration `calculateBazi()`.
+API calendar và `calculateBazi()` mặc định dùng model `ephemeris`. Bảng chứa 6.036 ranh
+`Jie` theo phút cho các năm dữ liệu 1599–2101, được sinh ở dev time bằng Astronomy Engine
+2.1.19 (`SearchSunLongitude`, apparent geocentric ecliptic longitude, VSOP87-based).
+Miền được xác minh và công bố là 1600–2100; hai năm padding chỉ phục vụ tìm ranh lân cận.
+Trong miền này, sai số lớn nhất quan sát là 0,99 phút trên 36 mốc NAOJ và 2,31 phút trên
+6 checkpoint JPL. Artifact được khóa drift trong test và runtime không thêm dependency.
 
-Output `normalized.solarTerms` công bố `modelUncertaintyMinutes` (15 phút cho `apparent`,
-40 phút cho `legacy`) và `boundaryRisk`. `model-sensitive` nghĩa là thời điểm nằm ngay
+Ngoài 1600–2100, hoặc khi tìm longitude không thuộc 12 ranh `Jie`, `ephemeris` tự fallback
+sang model `apparent`. Model này dựa trên Julian centuries từ J2000, geometric mean
+longitude/anomaly, equation of center ba harmonic và apparent-longitude correction; sai
+số lớn nhất quan sát là 13 phút với NAOJ và 5,92 phút với JPL 1600–2400. `legacy` chỉ
+còn để tái tạo output của release candidate cũ.
+
+Output `normalized.solarTerms` công bố `modelUncertaintyMinutes` (3 phút cho ephemeris
+trong miền xác minh, 15 phút cho `apparent`/fallback, 40 phút cho `legacy`) và
+`boundaryRisk`. `model-sensitive` nghĩa là thời điểm nằm ngay
 trong cửa sổ sai số model; `input-sensitive` nghĩa là ngoài sai số model nhưng vẫn cách
 ranh không quá 120 phút; `none` nghĩa là không có rủi ro ranh gần.
 

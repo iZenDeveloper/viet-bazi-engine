@@ -33,8 +33,8 @@ export function validateBirthInput(value, legacyAsOfYear) {
         throw baziError('TRUE_SOLAR_TIME_TYPE', 'TypeError', 'trueSolarTime phải là boolean', 'trueSolarTime must be a boolean');
     if (x.dayBoundary !== undefined && x.dayBoundary !== 'early-zi' && x.dayBoundary !== 'midnight')
         throw baziError('DAY_BOUNDARY', 'TypeError', 'dayBoundary phải là early-zi hoặc midnight', 'dayBoundary must be early-zi or midnight');
-    if (x.solarTermModel !== undefined && x.solarTermModel !== 'legacy' && x.solarTermModel !== 'apparent')
-        throw baziError('SOLAR_TERM_MODEL', 'TypeError', 'solarTermModel phải là legacy hoặc apparent', 'solarTermModel must be legacy or apparent');
+    if (x.solarTermModel !== undefined && x.solarTermModel !== 'legacy' && x.solarTermModel !== 'apparent' && x.solarTermModel !== 'ephemeris')
+        throw baziError('SOLAR_TERM_MODEL', 'TypeError', 'solarTermModel phải là legacy, apparent hoặc ephemeris', 'solarTermModel must be legacy, apparent, or ephemeris');
     let location;
     if (x.location !== undefined) {
         if (!x.location || typeof x.location !== 'object' || Array.isArray(x.location))

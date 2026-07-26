@@ -43,7 +43,8 @@
     "solarTermModel": {
       "enum": [
         "legacy",
-        "apparent"
+        "apparent",
+        "ephemeris"
       ]
     },
     "location": {

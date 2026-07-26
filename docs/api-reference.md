@@ -100,12 +100,16 @@ Error taxonomy bao phủ birth input, JSON parsing, batch, compatibility, timeli
 
 ## Calendar primitives
 
-- `solarLongitude(date, model?)` — hoàng kinh Mặt Trời, mặc định model `apparent`.
+- `solarLongitude(date, model?)` — hoàng kinh Mặt Trời; `ephemeris` dùng công thức
+  `apparent` cho góc tùy ý vì bảng chỉ chứa 12 ranh `Jie`.
 - `solarLongitudeApparent(date)` — model biểu kiến dùng Julian-century terms.
 - `equationOfTime(date)` — equation of time xấp xỉ, phút.
 - `solarCorrectionMinutes(date, longitude, offsetMinutes)`.
-- `solarTermBoundary(year, targetLongitude, model?)` — crossing với độ phân giải phút;
-  truyền `legacy` chỉ khi cần tái tạo output của release candidate cũ.
+- `solarTermBoundary(year, targetLongitude, model?)` — crossing với độ phân giải phút,
+  mặc định `ephemeris`; dùng bảng `Jie` trong 1600–2100 và tự fallback sang `apparent`
+  ngoài miền đó hoặc với longitude không thuộc 12 ranh.
+- `isJieEphemerisVerified(date)` — cho biết instant có nằm trong miền bảng đã xác minh.
+- `jieEphemerisBoundary(year, slot)` — đọc trực tiếp một ranh `Jie` theo slot 0–11.
 
 ## Location
 

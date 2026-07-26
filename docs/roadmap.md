@@ -66,6 +66,8 @@
 - [x] Mở rộng error taxonomy chuyên biệt cho timeline, sensitivity, SVG và WASM.
 - [x] Thêm model hoàng kinh biểu kiến, đặt làm mặc định và regression NAOJ/JPL trên miền 1600–2400.
 - [x] Đưa lựa chọn model biểu kiến vào `calculateBazi`, JSON Schema, WASM và Python parity.
+- [x] Thêm bảng ephemeris 12 ranh `Jie` 1600–2100 sinh từ Astronomy Engine/VSOP87,
+  đặt làm mặc định và fallback về model biểu kiến ngoài miền đã xác minh.
 
 ### P4.3 AI integration
 

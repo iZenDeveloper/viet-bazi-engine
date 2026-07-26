@@ -1,5 +1,5 @@
 import { calculateBaziWithCalendar } from './engine.js';
-import { findJieBoundary,mod,solarLongitudeApparent } from './calendar.js';
+import { baziYear,findJieBoundary,findNextJie,mod,solarLongitudeApparent,solarMonthIndex } from './calendar.js';
 import type { BaziResult,BirthInput } from './types.js';
 import type { CalendarOperations } from './engine.js';
 import { baziError } from './errors.js';
@@ -45,11 +45,11 @@ export interface WasmBaziEngine {
 function operations(kernel:WasmCalendarKernel):CalendarOperations {
   const longitude=(date:Date,model:'legacy'|'apparent')=>model==='apparent'?solarLongitudeApparent(date):kernel.solarLongitude(date.getTime());
   return {
-    baziYear(utc,model){const y=utc.getUTCFullYear(),lon=longitude(utc,model);return utc.getUTCMonth()<2&&lon<315?y-1:y;},
-    solarMonthIndex(utc,model){return mod(Math.floor(mod(longitude(utc,model)-315,360)/30),12);},
+    baziYear(utc,model){if(model==='ephemeris')return baziYear(utc,model);const y=utc.getUTCFullYear(),lon=longitude(utc,model);return utc.getUTCMonth()<2&&lon<315?y-1:y;},
+    solarMonthIndex(utc,model){return model==='ephemeris'?solarMonthIndex(utc,model):mod(Math.floor(mod(longitude(utc,model)-315,360)/30),12);},
     sexagenaryDayIndex(localSolar,dayBoundary){return kernel.sexagenaryDayIndex(localSolar.getUTCFullYear(),localSolar.getUTCMonth()+1,localSolar.getUTCDate(),dayBoundary==='early-zi'?localSolar.getUTCHours():0);},
     solarCorrectionMinutes(utc,locationLongitude,offsetMinutes){const start=Date.UTC(utc.getUTCFullYear(),0,0),day=(utc.getTime()-start)/86400000;return 4*(locationLongitude-offsetMinutes/4)+kernel.equationOfTime(day);},
-    findNextJie(utc,direction,model){return findJieBoundary(utc,direction,date=>longitude(date,model));}
+    findNextJie(utc,direction,model){return model==='ephemeris'?findNextJie(utc,direction,model):findJieBoundary(utc,direction,date=>longitude(date,model));}
   };
 }
 

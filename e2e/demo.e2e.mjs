@@ -10,7 +10,8 @@ test("calculates, localizes, compares and exports structured data", async ({
   const chart = JSON.parse(await page.locator("#output").textContent());
   expect(chart).toMatchObject({
     schemaVersion: "1.7",
-    input: { solarTermModel: "apparent" },
+    input: { solarTermModel: "ephemeris" },
+    metadata: { methodology: { calendar: { solarTermModel: "JIE_EPHEMERIS_TABLE_V1" } } },
     pillars: { day: { stem: { code: "REN" } } },
   });
   await page.locator("#solarTermModel").selectOption("legacy");

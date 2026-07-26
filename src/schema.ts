@@ -76,7 +76,7 @@ export const BIRTH_INPUT_JSON_SCHEMA: JsonSchemaDocument = {
     gender: { enum: ["male", "female"] },
     trueSolarTime: { type: "boolean" },
     dayBoundary: { enum: ["early-zi", "midnight"] },
-    solarTermModel: { enum: ["legacy", "apparent"] },
+    solarTermModel: { enum: ["legacy", "apparent", "ephemeris"] },
     location: { $ref: "#/$defs/location" },
   },
   allOf: [
@@ -382,6 +382,7 @@ export const BAZI_RESULT_JSON_SCHEMA: JsonSchemaDocument = {
                   enum: [
                     "APPROXIMATE_SOLAR_LONGITUDE",
                     "APPARENT_SOLAR_LONGITUDE_V1",
+                    "JIE_EPHEMERIS_TABLE_V1",
                   ],
                 },
               },
