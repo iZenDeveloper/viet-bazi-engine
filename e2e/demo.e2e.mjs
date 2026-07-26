@@ -14,6 +14,7 @@ test("calculates, localizes, compares and exports structured data", async ({
     metadata: { methodology: { calendar: { solarTermModel: "JIE_EPHEMERIS_TABLE_V1" } } },
     pillars: { day: { stem: { code: "REN" } } },
   });
+  await page.locator("#birth-form > .advanced-settings > summary").click();
   await page.locator("#solarTermModel").selectOption("legacy");
   await page.locator("#birth-form").evaluate((form) => form.requestSubmit());
   await expect(page.locator("#output")).toContainText(
@@ -42,6 +43,36 @@ test("calculates, localizes, compares and exports structured data", async ({
   expect(download.suggestedFilename()).toBe("viet-bazi-result.json");
 });
 
+test("keeps the primary mobile workflow inside the first viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/demo/");
+  await expect(page.locator("#status")).toHaveClass("success");
+
+  const layout = await page.evaluate(() => {
+    const submit = document
+      .querySelector("#birth-form > button")
+      .getBoundingClientRect();
+    return {
+      submitBottom: submit.bottom,
+      viewportHeight: window.innerHeight,
+      scrollWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    };
+  });
+  expect(layout.submitBottom).toBeLessThanOrEqual(layout.viewportHeight);
+  expect(layout.scrollWidth).toBe(layout.viewportWidth);
+  await expect(page.locator("#solarTermModel")).not.toBeVisible();
+  await page.locator("#birth-form > .advanced-settings > summary").click();
+  await expect(page.locator("#solarTermModel")).toBeVisible();
+  await expect(page.locator(".timeline-section thead")).not.toBeVisible();
+  await expect(page.locator(".timeline-section td").first()).toHaveAttribute(
+    "data-label",
+    "Năm",
+  );
+});
+
 test("uses the cached demo and calculates without network", async ({
   page,
   context,
@@ -53,7 +84,7 @@ test("uses the cached demo and calculates without network", async ({
   await page.reload();
   await expect(page.locator("#status")).toHaveClass("success");
   const cached = await page.evaluate(async () => {
-    const cache = await caches.open("viet-bazi-demo-v21");
+    const cache = await caches.open("viet-bazi-demo-v22");
     return Promise.all(
       ["../demo/", "../demo/app.js", "../dist/index.js"].map(async (path) =>
         Boolean(await cache.match(path)),

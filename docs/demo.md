@@ -7,13 +7,20 @@ npm install
 npm run demo
 ```
 
-Mở `http://127.0.0.1:8080/demo/`. Đổi cổng bằng biến `VIET_BAZI_DEMO_PORT`. Server chỉ dùng Node.js built-ins, phục vụ workspace trên loopback và chặn path vượt khỏi project root.
+Mở `http://127.0.0.1:8081/demo/`. Đổi cổng bằng biến `VIET_BAZI_DEMO_PORT`. Server chỉ dùng Node.js built-ins, phục vụ workspace trên loopback và chặn path vượt khỏi project root.
 
 Trình duyệt thực hiện toàn bộ calculation, True Solar Time và SVG rendering tại chỗ. Demo dùng catalog thành phố của engine hoặc cặp latitude/longitude tùy chỉnh cho từng người, hỗ trợ hai quy ước đổi ngày và báo cáo Việt/Anh. Khi đổi locale, toàn bộ form, options, headings, table headers, actions, aria labels, trạng thái và disclaimer cũng đổi ngay trên máy. Có thể tải kết quả dạng SVG/JSON hoặc methodology JSON đúng schema; input gần ranh Tiết khí sẽ hiện cảnh báo.
 
 Hero nêu rõ privacy/offline contract và ba preset Hà Nội, Hồ Chí Minh, Đà Nẵng cho phép
 người mới tạo một lá số mẫu bằng một lần bấm. Preset chỉ cập nhật form local rồi gọi cùng
 submit pipeline; không có calculation path riêng.
+
+Trên viewport mobile, form giữ ngày giờ, UTC offset, năm xem, giới tính, thành phố và
+True Solar Time trong luồng chính. Tọa độ tùy chỉnh, quy ước đổi ngày, model Tiết khí và
+locale nằm trong disclosure `Thiết lập nâng cao`; CTA vẫn nằm trọn viewport 390×844.
+Methodology đóng mặc định, bảng độ nhạy/timeline chuyển thành record layout có nhãn,
+nhóm tải file dùng horizontal scroll và thanh điều hướng nhanh bám đầu viewport. Giao diện
+theo `prefers-color-scheme` và tắt transition khi người dùng chọn reduced motion.
 
 Sau mỗi lần tính, phần tóm tắt hiển thị Nhật Chủ, Lưu Niên, Đại Vận đang hoạt động và Cách cục theo locale bằng cùng contract `localized-chart-summary-1.0`; structured JSON vẫn là nguồn dữ liệu đầy đủ.
 Phần giải thích hiển thị localized facts và 13 quy ước methodology. Đổi ngôn ngữ sẽ tính/render lại toàn bộ SVG và hai vùng giải thích mà không gửi dữ liệu ra ngoài.
@@ -28,9 +35,10 @@ npx playwright install chromium firefox webkit
 npm run test:e2e
 ```
 
-Playwright chạy cùng hai luồng trên Chromium, Firefox và WebKit:
+Playwright chạy cùng ba luồng trên Chromium, Firefox và WebKit:
 
 - calculation, localized UI, compatibility, structured JSON và download;
+- mobile 390×844 không overflow, CTA trong viewport, disclosure và record table;
 - service-worker cache và calculation khi network bị tắt.
 
 Chromium/Firefox thực hiện thêm offline reload. Playwright WebKit không hỗ trợ ổn định navigation khi `context.setOffline(true)`, nên test WebKit xác minh cache đầy rồi tắt mạng và tính lại trên document hiện tại. Trên CI Linux, cài browser cùng system dependencies bằng `npx playwright install --with-deps chromium firefox webkit` trước khi chạy test.
@@ -40,6 +48,7 @@ Service worker dùng network-first cho navigation để deploy mới không bị
 và cache-first cho static assets cùng origin. Khi worker mới takeover, client reload đúng
 một lần; sau lần tải thành công đầu tiên, demo vẫn có thể reload khi offline. Khi sửa asset
 cache, tăng version `CACHE` trong `service-worker.js` để activation xóa cache cũ.
+Mobile redesign hiện dùng cache `viet-bazi-demo-v22`.
 
 `manifest.webmanifest` và icon SVG nội bộ cho phép cài demo dạng standalone trên trình duyệt hỗ trợ. Việc cài đặt cần secure context; `localhost` được trình duyệt xem là secure cho mục đích phát triển.
 

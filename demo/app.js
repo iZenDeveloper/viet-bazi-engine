@@ -90,6 +90,8 @@ const ui = {
   vi: {
     intro:
       "Tính Tứ Trụ ngay trong trình duyệt. Dữ liệu không rời khỏi thiết bị.",
+    mobileNav: ["Nhập liệu", "Lá số", "So sánh"],
+    advanced: ["Thiết lập nâng cao", "Tọa độ nâng cao"],
     presets: "Thử dữ liệu mẫu",
     heroAria: "Đặc điểm demo",
     labels: [
@@ -108,20 +110,20 @@ const ui = {
     ],
     submit: "Lập lá số",
     gender: ["Nữ", "Nam"],
-    boundary: ["23:00 — đầu giờ Tý", "00:00 — nửa đêm"],
+    boundary: ["23:00 - đầu giờ Tý", "00:00 - nửa đêm"],
     solarModel: [
-      "Ephemeris — chính xác cao nhất",
-      "Biểu kiến — fallback 1600–2400",
-      "Legacy — tương thích RC cũ",
+      "Ephemeris, chính xác cao nhất",
+      "Biểu kiến, fallback 1600-2400",
+      "Legacy, tương thích RC cũ",
     ],
     audit: "Audit trace",
     sensitivity: [
       "Khoảng lệch",
       "Thời điểm đại diện",
       "Trụ thay đổi",
-      "Bốn trụ (Năm · Tháng · Ngày · Giờ)",
+      "Bốn trụ (Năm / Tháng / Ngày / Giờ)",
     ],
-    compatibilityTitle: "Compatibility hai lá số",
+    compatibilityTitle: "So sánh hai lá số",
     compatibilityIntro:
       "Người B có múi giờ và địa điểm riêng; chỉ dùng chung năm xem và quy ước đổi ngày với người A.",
     secondLabels: [
@@ -154,6 +156,8 @@ const ui = {
   en: {
     intro:
       "Calculate Four Pillars directly in your browser. Your data never leaves this device.",
+    mobileNav: ["Input", "Chart", "Compare"],
+    advanced: ["Advanced settings", "Advanced coordinates"],
     presets: "Try sample data",
     heroAria: "Demo features",
     labels: [
@@ -172,18 +176,18 @@ const ui = {
     ],
     submit: "Calculate chart",
     gender: ["Female", "Male"],
-    boundary: ["23:00 — early Zi hour", "00:00 — midnight"],
+    boundary: ["23:00 - early Zi hour", "00:00 - midnight"],
     solarModel: [
-      "Ephemeris — highest precision",
-      "Apparent — 1600–2400 fallback",
-      "Legacy — reproduce old RC",
+      "Ephemeris, highest precision",
+      "Apparent, 1600-2400 fallback",
+      "Legacy, reproduce old RC",
     ],
     audit: "Audit trace",
     sensitivity: [
       "Offset range",
       "Representative time",
       "Changed pillars",
-      "Four pillars (Year · Month · Day · Hour)",
+      "Four pillars (Year / Month / Day / Hour)",
     ],
     compatibilityTitle: "Two-chart compatibility",
     compatibilityIntro:
@@ -232,6 +236,8 @@ const applyUiLocale = (locale) => {
   document.documentElement.lang = locale;
   document.querySelector(".hero-copy>p:nth-of-type(2)").textContent = t.intro;
   document.querySelector("#presets-heading").textContent = t.presets;
+  setTexts(".mobile-nav a", t.mobileNav);
+  setTexts(".advanced-settings>summary", t.advanced);
   document.querySelector(".hero-points").setAttribute("aria-label", t.heroAria);
   [
     "localDateTime",
@@ -294,7 +300,7 @@ const renderSummary = (result) => {
       [
         labels[2],
         active
-          ? `${active.pillar.text} · ${active.startYear}–${active.startYear + 9}`
+          ? `${active.pillar.text}, ${active.startYear}-${active.startYear + 9}`
           : locale === "en"
             ? "Not yet in a luck cycle"
             : "Chưa vào Đại Vận",
@@ -331,10 +337,13 @@ const renderTimeline = (result) => {
         entry.year,
         entry.annual.text,
         entry.tenGod,
-        entry.activeLuck?.pillar.text ?? "—",
+        entry.activeLuck?.pillar.text ?? "-",
       ]) {
         const cell = document.createElement("td");
         cell.textContent = String(value);
+        cell.dataset.label =
+          document.querySelectorAll(".timeline-section th")[row.children.length]
+            ?.textContent ?? "";
         row.append(cell);
       }
       if (entry.year === year) row.className = "current-year";
@@ -388,7 +397,7 @@ const renderSensitivity = (input, locale) => {
   sensitivityBody.replaceChildren(
     ...report.variants.map((variant) => {
       const row = document.createElement("tr"),
-        pillars = Object.values(variant.pillars).join(" · "),
+        pillars = Object.values(variant.pillars).join(" / "),
         changed = variant.changedPillars.length
           ? variant.changedPillars.join(", ")
           : locale === "en"
@@ -406,6 +415,10 @@ const renderSensitivity = (input, locale) => {
       ]) {
         const cell = document.createElement("td");
         cell.textContent = value;
+        cell.dataset.label =
+          document.querySelectorAll(".sensitivity-section th")[
+            row.children.length
+          ]?.textContent ?? "";
         row.append(cell);
       }
       return row;
@@ -415,14 +428,14 @@ const renderSensitivity = (input, locale) => {
 };
 const renderAudit = (result, locale) => {
   const report = localizeBaziAuditReport(createBaziAuditReport(result), locale);
-  auditSummary.textContent = `Engine ${report.engineVersion} · chart ${report.chartSchemaVersion} · ${report.rules.length} ${locale === "en" ? "rules" : "quy tắc"} · ${report.warnings.length} ${locale === "en" ? "warnings" : "cảnh báo"}`;
+  auditSummary.textContent = `Engine ${report.engineVersion}, chart ${report.chartSchemaVersion}, ${report.rules.length} ${locale === "en" ? "rules" : "quy tắc"}, ${report.warnings.length} ${locale === "en" ? "warnings" : "cảnh báo"}`;
   auditRules.replaceChildren(
     ...report.rules.map((rule) => {
       const card = document.createElement("article"),
         heading = document.createElement("strong"),
         description = document.createElement("span"),
         paths = document.createElement("small");
-      heading.textContent = `${rule.ruleCode} v${rule.ruleVersion} · ${rule.category}`;
+      heading.textContent = `${rule.ruleCode} v${rule.ruleVersion}, ${rule.category}`;
       description.textContent = rule.text;
       paths.textContent = `Input: ${rule.inputPaths.join(", ")} → Output: ${rule.outputPaths.join(", ")}`;
       card.append(heading, description, paths);
@@ -465,14 +478,14 @@ const renderCompatibility = () => {
         document.querySelector("#locale").value,
       );
     compatibilityResult.className = "compatibility-score";
-    compatibilityResult.textContent = `${report.score}/100 · ${report.grade}`;
+    compatibilityResult.textContent = `${report.score}/100, ${report.grade}`;
     compatibilityFactors.replaceChildren(
       ...report.factors.map((factor) => {
         const card = document.createElement("article"),
           heading = document.createElement("strong"),
           description = document.createElement("span"),
           evidence = document.createElement("small");
-        heading.textContent = `${factor.code} · ${factor.score}/${factor.maxScore}`;
+        heading.textContent = `${factor.code}, ${factor.score}/${factor.maxScore}`;
         description.textContent = factor.text;
         evidence.textContent = `Evidence: ${factor.evidence.join(", ")}`;
         card.append(heading, description, evidence);

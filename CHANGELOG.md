@@ -4,6 +4,10 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
 ## Unreleased
 
+- Thiết kế lại demo mobile với primary form trong viewport đầu, progressive disclosure
+  cho thiết lập nâng cao, record tables, sticky quick navigation và action scroller.
+- Thêm system dark mode, reduced-motion handling, cache v22 và browser acceptance cho
+  viewport 390×844 trên Chromium, Firefox, WebKit.
 - Thêm quality gauntlet CLI phối hợp unit, acceptance, property, torture, mutation và
   QA gates; hỗ trợ profile nhanh/đầy đủ, seed tái lập và JSON report cho CI.
 - Đưa deterministic property tests và in-memory calendar mutation tests vào `npm test`.
