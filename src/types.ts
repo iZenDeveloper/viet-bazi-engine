@@ -26,7 +26,7 @@ export interface BirthInput {
   trueSolarTime?: boolean;
   /** Defaults to early-zi: the sexagenary day changes at 23:00. */
   dayBoundary?: DayBoundaryConvention;
-  /** Defaults to legacy for backwards-compatible solar-term boundaries. */
+  /** Defaults to apparent; pass legacy only to reproduce pre-1.0 RC calculations. */
   solarTermModel?: SolarTermModel;
 }
 export interface Stem { index:number; code:StemCode; name:StemName; elementCode:ElementCode; element:Element; polarityCode:PolarityCode; polarity:Polarity }
@@ -63,7 +63,7 @@ export interface PatternAnalysis {
   favorableElements:Element[]; unfavorableElements:Element[]; summary:string; evidence:string[];
 }
 export interface BaziResult {
-  schemaVersion:'1.7'; input:BirthInput; normalized:{ civilTime:string; solarTime:string; utcTime:string; correctionMinutes:number; dayBoundary:DayBoundaryConvention; location?:{city?:string;latitude:number;longitude:number}; solarTerms:{previousJie:string;nextJie:string;nearestDistanceMinutes:number;nearBoundary:boolean} };
+  schemaVersion:'1.7'; input:BirthInput; normalized:{ civilTime:string; solarTime:string; utcTime:string; correctionMinutes:number; dayBoundary:DayBoundaryConvention; location?:{city?:string;latitude:number;longitude:number}; solarTerms:{previousJie:string;nextJie:string;nearestDistanceMinutes:number;nearBoundary:boolean;modelUncertaintyMinutes?:number;boundaryRisk?:'none'|'input-sensitive'|'model-sensitive'} };
   pillars:{ year:Pillar; month:Pillar; day:Pillar; hour:Pillar };
   dayMaster:Stem; elements:ElementScore[]; relations:Relation[]; tenGods:Record<string,TenGod|'Nhật Chủ'>;
   luck:{ direction:'thuận'|'nghịch'; startAge:number; pillars:LuckPillar[]; active:ActiveLuck };

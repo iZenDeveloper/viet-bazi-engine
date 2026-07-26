@@ -14,7 +14,7 @@ if(kernel.sexagenaryDayIndex(2000,1,7,12)!==0)throw new Error('Sexagenary refere
 if(kernel.sexagenaryDayIndex(2000,1,7,23)!==1)throw new Error('Early-Zi boundary mismatch');
 for(const [year,month,day,index] of [[1900,1,1,10],[1950,6,15,17],[1984,2,2,2],[2000,1,7,0],[2026,7,21,32],[2099,12,31,38]])if(kernel.sexagenaryDayIndex(year,month,day,12)!==index)throw new Error(`WASM Eto mismatch at ${year}-${month}-${day}`);
 for(const iso of ['1900-01-01T00:00:00Z','2000-06-21T12:00:00Z','2026-02-03T20:02:00Z','2099-12-31T23:59:00Z']){
-  const ms=Date.parse(iso),difference=Math.abs(kernel.solarLongitude(ms)-solarLongitude(new Date(ms)));
+  const ms=Date.parse(iso),difference=Math.abs(kernel.solarLongitude(ms)-solarLongitude(new Date(ms),'legacy'));
   if(difference>1e-9)throw new Error(`Solar-longitude parity mismatch at ${iso}: ${difference}`);
 }
 for(const day of [1,81,172,266,365]){const date=new Date(Date.UTC(2026,0,day));const difference=Math.abs(kernel.equationOfTime(day)-equationOfTime(date));if(difference>1e-9)throw new Error(`Equation-of-time parity mismatch on day ${day}: ${difference}`);}

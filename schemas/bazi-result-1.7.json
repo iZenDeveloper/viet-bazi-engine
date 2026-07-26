@@ -195,6 +195,17 @@
             },
             "nearBoundary": {
               "type": "boolean"
+            },
+            "modelUncertaintyMinutes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "boundaryRisk": {
+              "enum": [
+                "none",
+                "input-sensitive",
+                "model-sensitive"
+              ]
             }
           }
         }

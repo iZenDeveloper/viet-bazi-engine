@@ -10,13 +10,13 @@ test("calculates, localizes, compares and exports structured data", async ({
   const chart = JSON.parse(await page.locator("#output").textContent());
   expect(chart).toMatchObject({
     schemaVersion: "1.7",
-    input: { solarTermModel: "legacy" },
+    input: { solarTermModel: "apparent" },
     pillars: { day: { stem: { code: "REN" } } },
   });
-  await page.locator("#solarTermModel").selectOption("apparent");
+  await page.locator("#solarTermModel").selectOption("legacy");
   await page.locator("#birth-form").evaluate((form) => form.requestSubmit());
   await expect(page.locator("#output")).toContainText(
-    '"solarTermModel": "APPARENT_SOLAR_LONGITUDE_V1"',
+    '"solarTermModel": "APPROXIMATE_SOLAR_LONGITUDE"',
   );
   await page.locator(".preset").nth(2).click();
   await expect(page.locator("#localDateTime")).toHaveValue("2000-01-07T12:00");
@@ -52,7 +52,7 @@ test("uses the cached demo and calculates without network", async ({
   await page.reload();
   await expect(page.locator("#status")).toHaveClass("success");
   const cached = await page.evaluate(async () => {
-    const cache = await caches.open("viet-bazi-demo-v20");
+    const cache = await caches.open("viet-bazi-demo-v21");
     return Promise.all(
       ["../demo/", "../demo/app.js", "../dist/index.js"].map(async (path) =>
         Boolean(await cache.match(path)),

@@ -229,6 +229,10 @@ export const BAZI_RESULT_JSON_SCHEMA: JsonSchemaDocument = {
             nextJie: { type: "string", format: "date-time" },
             nearestDistanceMinutes: { type: "integer", minimum: 0 },
             nearBoundary: { type: "boolean" },
+            modelUncertaintyMinutes: { type: "integer", minimum: 0 },
+            boundaryRisk: {
+              enum: ["none", "input-sensitive", "model-sensitive"],
+            },
           },
         },
       },

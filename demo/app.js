@@ -109,7 +109,7 @@ const ui = {
     submit: "Lập lá số",
     gender: ["Nữ", "Nam"],
     boundary: ["23:00 — đầu giờ Tý", "00:00 — nửa đêm"],
-    solarModel: ["Legacy — tương thích", "Biểu kiến — chính xác cao"],
+    solarModel: ["Biểu kiến — chính xác cao", "Legacy — tương thích RC cũ"],
     audit: "Audit trace",
     sensitivity: [
       "Khoảng lệch",
@@ -169,7 +169,7 @@ const ui = {
     submit: "Calculate chart",
     gender: ["Female", "Male"],
     boundary: ["23:00 — early Zi hour", "00:00 — midnight"],
-    solarModel: ["Legacy — compatible", "Apparent — higher precision"],
+    solarModel: ["Apparent — higher precision", "Legacy — reproduce old RC"],
     audit: "Audit trace",
     sensitivity: [
       "Offset range",
@@ -517,9 +517,12 @@ form.addEventListener("submit", (event) => {
     renderTimeline(result);
     const boundary = result.normalized.solarTerms;
     status.className = boundary.nearBoundary ? "warning" : "success";
-    status.textContent = boundary.nearBoundary
-      ? `Cảnh báo: giờ sinh cách ranh Tiết khí khoảng ${boundary.nearestDistanceMinutes} phút.`
-      : "Đã tính xong hoàn toàn offline.";
+    status.textContent =
+      boundary.boundaryRisk === "model-sensitive"
+        ? `Cảnh báo cao: thời điểm nằm trong bất định model ${boundary.modelUncertaintyMinutes} phút quanh ranh Tiết khí.`
+        : boundary.nearBoundary
+          ? `Cảnh báo: cách ranh Tiết khí khoảng ${boundary.nearestDistanceMinutes} phút; bất định model ${boundary.modelUncertaintyMinutes} phút.`
+          : "Đã tính xong hoàn toàn offline.";
     svgButton.disabled =
       jsonButton.disabled =
       methodologyButton.disabled =

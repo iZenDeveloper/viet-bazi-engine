@@ -65,7 +65,7 @@ class BirthInput:
     location: dict[str, str | float] | None = None
     trueSolarTime: bool = False
     dayBoundary: Literal["early-zi", "midnight"] = "early-zi"
-    solarTermModel: Literal["legacy", "apparent"] = "legacy"
+    solarTermModel: Literal["legacy", "apparent"] = "apparent"
 
     def to_payload(self) -> dict[str, Any]:
         value = asdict(self)
@@ -75,7 +75,7 @@ class BirthInput:
             value.pop("trueSolarTime")
         if self.dayBoundary == "early-zi":
             value.pop("dayBoundary")
-        if self.solarTermModel == "legacy":
+        if self.solarTermModel == "apparent":
             value.pop("solarTermModel")
         return value
 

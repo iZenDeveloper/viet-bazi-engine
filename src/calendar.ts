@@ -12,7 +12,7 @@ export function parseLocalIso(value:string): Date {
 }
 export function toUtc(local:Date,offsetMinutes:number):Date { return new Date(local.getTime()-offsetMinutes*60000); }
 export function julianDay(date:Date):number { return date.getTime()/86400000+2440587.5; }
-export function solarLongitude(date:Date,model:SolarLongitudeModel='legacy'):number {
+export function solarLongitude(date:Date,model:SolarLongitudeModel='apparent'):number {
   if(model==='apparent')return solarLongitudeApparent(date);
   const n=julianDay(date)-2451545.0;
   const L=mod(280.460+0.9856474*n,360), g=mod(357.528+0.9856003*n,360)*RAD;
@@ -70,7 +70,7 @@ export function findJieBoundary(utc:Date,direction:1|-1,longitude:(date:Date)=>n
   throw new Error('Không tìm thấy tiết khí lân cận');
 }
 /** Finds a solar-longitude crossing with minute precision. Target is in degrees. */
-export function solarTermBoundary(year:number,targetLongitude:number,model:SolarLongitudeModel='legacy'):Date {
+export function solarTermBoundary(year:number,targetLongitude:number,model:SolarLongitudeModel='apparent'):Date {
   if(!Number.isInteger(year)||year<1600||year>2400)throw new RangeError('year phải nằm trong 1600..2400');
   if(!Number.isFinite(targetLongitude)||targetLongitude<0||targetLongitude>=360)throw new RangeError('targetLongitude phải nằm trong [0, 360)');
   const estimatedDay=mod(targetLongitude-280,360)/.9856474;

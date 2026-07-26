@@ -2,6 +2,13 @@
 
 Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 
+## Unreleased
+
+- Đặt model hoàng kinh biểu kiến làm mặc định; giữ `legacy` để tái tạo output RC cũ.
+- Công bố bất định 15/40 phút và risk level quanh ranh Tiết khí trong structured output.
+- Thay đổi có thể làm trụ Năm/Tháng khác RC.2 khi giờ sinh nằm sát ranh Tiết khí.
+- Cho phép cấu hình port Playwright E2E để tránh xung đột với server local khác.
+
 ## 1.0.0-rc.2
 
 - Chuẩn hóa npm `bin` paths bằng `npm pkg fix` để first publish không cần auto-correction.

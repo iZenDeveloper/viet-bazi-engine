@@ -32,16 +32,21 @@ Catalog hiện có 23 Thần Sát phổ biến. Output chỉ chứa sao kích ho
 
 ## Độ chính xác thiên văn
 
-Solar longitude là công thức xấp xỉ. Đối chiếu 36 ranh Tiết các năm 2013, 2020 và 2026 với NAOJ cho sai số lớn nhất 11 phút, threshold test 15 phút.
+Model `legacy` là công thức xấp xỉ đơn giản. Đối chiếu 36 ranh Tiết các năm 2013,
+2020 và 2026 với NAOJ cho sai số lớn nhất 11 phút, threshold test 15 phút.
 
 Đối chiếu độc lập thứ hai dùng NASA/JPL Horizons quantity `31` (`ObsEcLon`) của Mặt Trời nhìn từ địa tâm. Chín checkpoint Lập Xuân theo từng thế kỷ từ 1600 đến 2400 cho sai số tuyệt đối lần lượt là 36,84; 22,98; 12,21; 17,41; 7,40; 5,16; 6,80; 19,43 và 0,08 phút. Ngưỡng regression 40 phút bao phủ toàn miền hỗ trợ, không phải cam kết mọi ngày đều đạt sai số đó. Query profile và hai mẫu 5 phút kẹp 315° được lưu trong fixture để audit.
 
-API calendar có model `apparent` opt-in, dùng Julian centuries từ J2000, geometric mean
+API calendar mặc định dùng model `apparent`, dựa trên Julian centuries từ J2000, geometric mean
 longitude/anomaly, equation of center ba harmonic và apparent-longitude correction. Trên
 cùng fixtures, sai số lớn nhất quan sát là 13 phút với 24 mốc NAOJ 2013/2020 và 5,92
-phút với 9 checkpoint JPL 1600–2400. Model mặc định vẫn là `legacy` trong giai đoạn
-pre-1.0 để không âm thầm đổi lá số; model opt-in cũng đi qua orchestration
-`calculateBazi()`.
+phút với 9 checkpoint JPL 1600–2400. Model `legacy` chỉ còn để tái tạo output của release
+candidate cũ; model mặc định đi qua toàn bộ orchestration `calculateBazi()`.
+
+Output `normalized.solarTerms` công bố `modelUncertaintyMinutes` (15 phút cho `apparent`,
+40 phút cho `legacy`) và `boundaryRisk`. `model-sensitive` nghĩa là thời điểm nằm ngay
+trong cửa sổ sai số model; `input-sensitive` nghĩa là ngoài sai số model nhưng vẫn cách
+ranh không quá 120 phút; `none` nghĩa là không có rủi ro ranh gần.
 
 Ngoài fixture thiên văn, test differential dùng implementation MIT độc lập
 `lunar-typescript` làm oracle thứ hai. Corpus deterministic phủ 14.732 trường hợp từ

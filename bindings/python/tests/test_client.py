@@ -11,6 +11,8 @@ class ClientTest(unittest.TestCase):
     def test_calculates_through_local_engine(self) -> None:
         result = calculate_bazi(BirthInput("2000-01-07T12:00:00", 420, "male", 2026))
         self.assertEqual(result["schemaVersion"], "1.7")
+        self.assertEqual(result["input"]["solarTermModel"], "apparent")
+        self.assertEqual(result["normalized"]["solarTerms"]["modelUncertaintyMinutes"], 15)
         self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "1.0.0-rc.2")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 
@@ -56,11 +58,11 @@ class ClientTest(unittest.TestCase):
         self.assertEqual(result["pillars"]["day"]["stem"]["code"], "JIA")
         self.assertEqual(result["normalized"]["dayBoundary"], "midnight")
 
-    def test_selects_apparent_solar_term_model(self) -> None:
-        result = calculate_bazi(BirthInput("1600-02-04T10:30:00", 0, "male", 1600, solarTermModel="apparent"))
-        self.assertEqual(result["input"]["solarTermModel"], "apparent")
-        self.assertEqual(result["pillars"]["year"]["branch"]["code"], "ZI")
-        self.assertEqual(result["metadata"]["methodology"]["calendar"]["solarTermModel"], "APPARENT_SOLAR_LONGITUDE_V1")
+    def test_retains_explicit_legacy_solar_term_model(self) -> None:
+        result = calculate_bazi(BirthInput("1600-02-04T10:30:00", 0, "male", 1600, solarTermModel="legacy"))
+        self.assertEqual(result["input"]["solarTermModel"], "legacy")
+        self.assertEqual(result["pillars"]["year"]["branch"]["code"], "HAI")
+        self.assertEqual(result["normalized"]["solarTerms"]["modelUncertaintyMinutes"], 40)
 
     def test_calculates_batch_in_input_order(self) -> None:
         values = [BirthInput("2000-01-07T12:00:00", 420, "male", 2026), BirthInput("not-a-date", 420, "male", 2026)]

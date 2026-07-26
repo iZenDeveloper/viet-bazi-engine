@@ -22,7 +22,7 @@ describe('calculateBazi',()=>{
     expect(a.luck.active.pillar?.order).toBe(a.luck.active.order);expect(a.annualAnalysis.activeLuckInteraction?.order).toBe(a.luck.active.order);
   });
   it('records selected methodology conventions',()=>{const r=calculateBazi({localDateTime:'2000-01-07T23:30:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male',dayBoundary:'midnight',trueSolarTime:true,location:{city:'Hà Nội'}});expect(r.metadata.methodology.calendar.dayBoundary).toBe('MIDNIGHT');expect(r.metadata.methodology.trueSolarTime).toEqual({enabled:true,model:'LONGITUDE_PLUS_EQUATION_OF_TIME'});});
-  it('applies the opt-in apparent solar-term model through the complete calculation',()=>{const base={localDateTime:'1600-02-04T10:30:00',timezoneOffsetMinutes:0,asOfYear:1600,gender:'male' as const},legacy=calculateBazi(base),apparent=calculateBazi({...base,solarTermModel:'apparent'});expect(legacy.input.solarTermModel).toBe('legacy');expect(legacy.pillars.year.branch.code).toBe('HAI');expect(apparent.input.solarTermModel).toBe('apparent');expect(apparent.pillars.year.branch.code).toBe('ZI');expect(apparent.metadata.methodology.calendar.solarTermModel).toBe('APPARENT_SOLAR_LONGITUDE_V1');});
+  it('uses apparent solar terms by default and retains explicit legacy output',()=>{const base={localDateTime:'1600-02-04T10:30:00',timezoneOffsetMinutes:0,asOfYear:1600,gender:'male' as const},apparent=calculateBazi(base),legacy=calculateBazi({...base,solarTermModel:'legacy'});expect(apparent.input.solarTermModel).toBe('apparent');expect(apparent.pillars.year.branch.code).toBe('ZI');expect(legacy.input.solarTermModel).toBe('legacy');expect(legacy.pillars.year.branch.code).toBe('HAI');expect(apparent.metadata.methodology.calendar.solarTermModel).toBe('APPARENT_SOLAR_LONGITUDE_V1');});
   it('applies longitude and equation-of-time correction',()=>{
     const r=calculateBazi({localDateTime:'1990-05-17T14:30:00',timezoneOffsetMinutes:420,gender:'female',trueSolarTime:true,location:{city:'Hà Nội',latitude:21.0285,longitude:105.8542}},2026);
     expect(Math.abs(r.normalized.correctionMinutes)).toBeGreaterThan(0);expect(r.luck.pillars).toHaveLength(8);
@@ -43,6 +43,7 @@ describe('calculateBazi',()=>{
   it('exposes precise neighboring Jie and flags a near-boundary birth',()=>{
     const r=calculateBazi({localDateTime:'2026-02-04T03:00:00',timezoneOffsetMinutes:420,asOfYear:2026,gender:'male'});
     expect(r.normalized.solarTerms.nearBoundary).toBe(true);expect(r.normalized.solarTerms.nearestDistanceMinutes).toBeLessThan(10);
+    expect(r.normalized.solarTerms).toMatchObject({modelUncertaintyMinutes:15,boundaryRisk:'model-sensitive'});
     expect(r.metadata.facts.some(f=>f.code==='NEAR_SOLAR_TERM')).toBe(true);
   });
   it('validates untyped JSON at the public boundary',()=>{
