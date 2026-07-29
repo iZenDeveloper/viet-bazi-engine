@@ -6,7 +6,7 @@ import { resolveLocation } from './cities.js';
 import { baziError } from './errors.js';
 import type { ActiveLuck, AnnualAnalysis, AnnualTimelineEntry, BaziResult, BirthInput, Branch, BranchName, DayBoundaryConvention, Element, ElementScore, LuckPillar, MetadataFact, MethodologyManifest, Pillar, Relation, RelationTypeCode, SolarTermModel, Stem, TenGod } from './types.js';
 
-export const ENGINE_VERSION='1.0.0-rc.3' as const;
+export const ENGINE_VERSION='1.0.0-rc.4' as const;
 export function getMethodologyManifest(dayBoundary:DayBoundaryConvention,trueSolarTime:boolean,solarTermModel:SolarTermModel='ephemeris'):MethodologyManifest {
   const modelCode=solarTermModel==='ephemeris'?'JIE_EPHEMERIS_TABLE_V1':solarTermModel==='apparent'?'APPARENT_SOLAR_LONGITUDE_V1':'APPROXIMATE_SOLAR_LONGITUDE';
   return {engineVersion:ENGINE_VERSION,profileCode:'VIET_BAZI_STANDARD_V1',calendar:{yearBoundary:'LI_CHUN',monthBoundary:'TWELVE_JIE',dayBoundary:dayBoundary==='early-zi'?'EARLY_ZI':'MIDNIGHT',hourBoundary:'ZI_CENTERED_TWO_HOUR',solarTermModel:modelCode},trueSolarTime:{enabled:trueSolarTime,model:trueSolarTime?'LONGITUDE_PLUS_EQUATION_OF_TIME':'DISABLED'},luckCycle:{directionRule:'GENDER_AND_YEAR_STEM_POLARITY',startBoundary:'DIRECTIONAL_JIE',ageConversion:'THREE_DAYS_PER_YEAR'},analysis:{elementBalance:'WEIGHTED_HEURISTIC_V1',pattern:'MONTH_QI_HEURISTIC_V1',shenSha:'CATALOG_V1'}};

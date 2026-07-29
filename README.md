@@ -10,14 +10,14 @@
 **[Thử live demo →](https://izendeveloper.github.io/viet-bazi-engine/)**
 
 ```bash
-npm install viet-bazi-engine@next
+npm install viet-bazi-engine
 ```
 
 Engine Bát Tự/Tứ Trụ dành cho ứng dụng, automation và AI tools. Calculation chạy hoàn
 toàn offline, deterministic, không có runtime dependency và trả về JSON có type, stable
 machine codes, evidence, metadata phương pháp cùng JSON Schema.
 
-> Trạng thái: `1.0.0-rc.3` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
+> Trạng thái: `1.0.0-rc.4` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
 **[Thử live demo](https://izendeveloper.github.io/viet-bazi-engine/)** ·
 **[Chọn quick-start](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/getting-started.md)** ·
@@ -105,8 +105,8 @@ npm test
 Release candidate đã có trên npm và PyPI:
 
 ```bash
-npm install viet-bazi-engine@next
-pip install viet-bazi-engine==1.0.0rc2
+npm install viet-bazi-engine
+pip install viet-bazi-engine==1.0.0rc4
 ```
 
 ```ts

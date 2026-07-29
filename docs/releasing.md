@@ -14,8 +14,8 @@ npm test
 npm run test:python-wheel
 npm run release:check
 git status --short
-git tag -a v1.0.0-rc.3 -m "Viet Bazi Engine v1.0.0-rc.3"
-git push origin v1.0.0-rc.3
+git tag -a v1.0.0-rc.4 -m "Viet Bazi Engine v1.0.0-rc.4"
+git push origin v1.0.0-rc.4
 ```
 
 Nếu tag không khớp version package, workflow dừng trước khi tạo release. Workflow không tự publish lên npm/PyPI; hai registry đó cần token và phê duyệt riêng.
@@ -24,18 +24,17 @@ Nếu tag không khớp version package, workflow dừng trước khi tạo rele
 
 Workflow `Publish registries` chỉ chạy qua manual dispatch với một tag đã tồn tại. Cả hai
 job dùng GitHub Environment `registry-publish` và OIDC, không đọc token registry dài hạn.
-RC được publish lên npm dist-tag `next`; stable release dùng `latest`. Nếu một version npm
-đã tồn tại, job npm bỏ qua version đó để workflow có thể được chạy lại an toàn cho PyPI.
+RC và stable release đều được publish lên npm dist-tag `latest`, để trang package mặc định
+luôn hiển thị artifact và README mới nhất. Nếu một version npm đã tồn tại, job npm bỏ qua
+version đó để workflow có thể được chạy lại an toàn cho PyPI.
 Sau mỗi lần publish, kiểm tra dist-tag:
 
 ```bash
 npm dist-tag ls viet-bazi-engine
 ```
 
-Với package mới chưa có stable version, npm có thể giữ `latest` trên version đầu tiên dù
-lệnh publish dùng `--tag next`; registry không cho xóa `latest` khi đó. README và lệnh cài
-đặt phải tiếp tục chỉ rõ `@next`. Khi publish `1.0.0`, workflow sẽ chuyển `latest` sang
-stable version và giữ `next` làm kênh prerelease.
+Kênh `next` không được cập nhật tự động. Khi cần thử một prerelease mà không đổi default,
+owner có thể thêm dist-tag này sau khi publish; README công khai luôn dùng cài đặt mặc định.
 
 Owner cần cấu hình trước:
 
@@ -45,7 +44,7 @@ Owner cần cấu hình trước:
   `viet-bazi-engine`, workflow `publish.yml`, environment `registry-publish`;
 - GitHub Environment `registry-publish` với required reviewer.
 
-Sau khi ba liên kết trên tồn tại, chạy workflow thủ công với tag `v1.0.0-rc.3`. Workflow
+Sau khi ba liên kết trên tồn tại, chạy workflow thủ công với tag `v1.0.0-rc.4`. Workflow
 kiểm tra tag khớp package version và chạy lại release gates trước mỗi publish.
 
 ## Release candidate
@@ -53,7 +52,7 @@ kiểm tra tag khớp package version và chạy lại release gates trước m�
 Kiểm tra các gate mà không sửa version, tạo tag hoặc publish:
 
 ```bash
-npm run release:readiness -- --candidate 1.0.0-rc.3
+npm run release:readiness -- --candidate 1.0.0-rc.4
 ```
 
 Output JSON phân biệt release preflight, public API snapshot, worktree, hosted browser CI
@@ -64,16 +63,16 @@ duyệt riêng việc tạo tag và publish.
 Xem trước 10 file và 19 vị trí version cần đổi mà không sửa workspace:
 
 ```bash
-npm run release:prepare -- --to 1.0.0-rc.3
+npm run release:prepare -- --to 1.0.0-rc.4
 ```
 
-Sau khi thêm mục `## 1.0.0-rc.3` vào changelog và owner phê duyệt, chạy lại với `--write`.
+Sau khi thêm mục `## 1.0.0-rc.4` vào changelog và owner phê duyệt, chạy lại với `--write`.
 Công cụ từ chối ghi nếu worktree bẩn, changelog chưa có candidate hoặc số vị trí version
 khác baseline. Sau đó bắt buộc chạy `npm run sync:python`, `npm run release:check` và
 `npm run test:e2e` trước khi commit/tag.
 
-Release tooling chấp nhận SemVer prerelease như `1.0.0-rc.3`. Python packaging chuẩn hóa
-giá trị đó thành PEP 440 `1.0.0rc2`; source version trong npm, Python binding và engine
+Release tooling chấp nhận SemVer prerelease như `1.0.0-rc.4`. Python packaging chuẩn hóa
+giá trị đó thành PEP 440 `1.0.0rc4`; source version trong npm, Python binding và engine
 vẫn phải giống nhau trước khi build.
 
 Release candidate đầu tiên của `viet-bazi-engine` đã được publish lên npm và PyPI ngày

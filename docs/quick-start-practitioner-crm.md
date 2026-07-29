@@ -6,7 +6,7 @@ Việt và audit trace, thay vì lưu văn bản luận giải không thể đ�
 ## 1. Cài package
 
 ```bash
-npm install viet-bazi-engine@next
+npm install viet-bazi-engine
 ```
 
 ## 2. Chuyển input thành record CRM

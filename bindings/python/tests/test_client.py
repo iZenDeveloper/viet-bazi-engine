@@ -13,7 +13,7 @@ class ClientTest(unittest.TestCase):
         self.assertEqual(result["schemaVersion"], "1.7")
         self.assertEqual(result["input"]["solarTermModel"], "ephemeris")
         self.assertEqual(result["normalized"]["solarTerms"]["modelUncertaintyMinutes"], 3)
-        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "1.0.0-rc.3")
+        self.assertEqual(result["metadata"]["methodology"]["engineVersion"], "1.0.0-rc.4")
         self.assertEqual(result["pillars"]["day"]["stem"]["name"], "Giáp")
 
     def test_surfaces_engine_errors(self) -> None:
@@ -131,7 +131,7 @@ class ClientTest(unittest.TestCase):
 
     def test_verifies_bundled_engine_integrity(self) -> None:
         result = verify_bundled_engine()
-        self.assertEqual(result, {"engineVersion": "1.0.0-rc.3", "files": 26, "verified": True})
+        self.assertEqual(result, {"engineVersion": "1.0.0-rc.4", "files": 26, "verified": True})
 
     def test_rejects_a_tampered_bundled_engine(self) -> None:
         source = Path(__file__).resolve().parents[1] / "viet_bazi" / "_engine"

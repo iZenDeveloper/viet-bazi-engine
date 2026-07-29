@@ -15,7 +15,7 @@ Thêm server sau vào cấu hình MCP client:
       "args": [
         "--yes",
         "--package",
-        "viet-bazi-engine@next",
+        "viet-bazi-engine",
         "viet-bazi-mcp"
       ]
     }
@@ -37,7 +37,7 @@ MCP server dùng stdio, không mở cổng mạng, không telemetry và không t
 ## 2. Tạo grounded prompt trong code
 
 ```bash
-npm install viet-bazi-engine@next
+npm install viet-bazi-engine
 ```
 
 ```js

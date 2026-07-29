@@ -6,7 +6,7 @@ network call hoặc telemetry; ngày sinh chỉ rời thiết bị nếu chính 
 ## 1. Cài package
 
 ```bash
-npm install viet-bazi-engine@next
+npm install viet-bazi-engine
 ```
 
 Package là ESM, có TypeScript declarations và không có runtime dependency.

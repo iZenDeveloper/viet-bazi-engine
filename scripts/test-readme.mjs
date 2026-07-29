@@ -20,7 +20,7 @@ for (const token of [
   'Vì sao dự án này tồn tại?',
   'Phù hợp cho',
   'Thử trong 30 giây',
-  'npm install viet-bazi-engine@next',
+  'npm install viet-bazi-engine',
   'npm run benchmark',
   'docs/benchmarks.md',
   'docs/quick-start-ai-mcp-agent.md',
