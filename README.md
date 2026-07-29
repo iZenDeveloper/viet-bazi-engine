@@ -1,9 +1,17 @@
 # viet-bazi-engine
 
 [![CI](https://github.com/iZenDeveloper/viet-bazi-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/iZenDeveloper/viet-bazi-engine/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/viet-bazi-engine?label=npm)](https://www.npmjs.com/package/viet-bazi-engine)
+[![PyPI](https://img.shields.io/pypi/v/viet-bazi-engine?label=PyPI)](https://pypi.org/project/viet-bazi-engine/)
 [![Live Demo](https://img.shields.io/badge/demo-try%20offline-267143)](https://izendeveloper.github.io/viet-bazi-engine/)
 [![Release](https://img.shields.io/github/v/release/iZenDeveloper/viet-bazi-engine)](https://github.com/iZenDeveloper/viet-bazi-engine/releases/latest)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/LICENSE)
+
+**[Thử live demo →](https://izendeveloper.github.io/viet-bazi-engine/)**
+
+```bash
+npm install viet-bazi-engine@next
+```
 
 Engine Bát Tự/Tứ Trụ dành cho ứng dụng, automation và AI tools. Calculation chạy hoàn
 toàn offline, deterministic, không có runtime dependency và trả về JSON có type, stable
@@ -12,9 +20,9 @@ machine codes, evidence, metadata phương pháp cùng JSON Schema.
 > Trạng thái: `1.0.0-rc.2` — API đang ở giai đoạn pre-1.0. Không dùng kết quả làm cơ sở duy nhất cho quyết định y tế, pháp lý hoặc tài chính.
 
 **[Thử live demo](https://izendeveloper.github.io/viet-bazi-engine/)** ·
-**[Bắt đầu trong 5 phút](docs/getting-started.md)** ·
-**[Xem API](docs/api-reference.md)** ·
-**[Dùng với AI/MCP](docs/ai-integration.md)**
+**[Chọn quick-start](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/getting-started.md)** ·
+**[Xem API](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/api-reference.md)** ·
+**[Dùng với AI/MCP](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/ai-integration.md)**
 
 ## Vì sao dự án này tồn tại?
 
@@ -34,6 +42,17 @@ web, CLI, Python hoặc agent. `viet-bazi-engine` tách calculation khỏi phầ
 - AI agent cần MCP tools, grounded prompts và audit envelope.
 - Nghiên cứu cần fixtures, provenance và lựa chọn quy ước đổi ngày rõ ràng.
 - Báo cáo cần SVG accessible, localized facts và methodology Việt/Anh.
+
+## Chọn quick-start theo use case
+
+| Tôi đang xây | Kết quả sau khoảng 5 phút | Quick-start |
+|---|---|---|
+| AI assistant hoặc agent | Kết nối 5 MCP tools và tạo prompt có grounding | [AI/MCP agent](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/quick-start-ai-mcp-agent.md) |
+| CRM cho chuyên gia | Lưu summary, stable codes và audit trace theo hồ sơ | [CRM chuyên gia](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/quick-start-practitioner-crm.md) |
+| Web app privacy-first | Tính và export lá số ngay trên thiết bị | [Web app privacy-first](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/quick-start-privacy-web-app.md) |
+
+Các quick-start dùng package đã publish. Nếu cần build monorepo hoặc chỉnh engine, xem
+[hướng dẫn bắt đầu từ source](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/getting-started.md).
 
 ## Điểm khác biệt
 
@@ -120,7 +139,7 @@ npm run test:gauntlet
 npm run test:gauntlet -- --profile full
 ```
 
-Xem [hướng dẫn testing](docs/testing.md) để cấu hình seed, số ca property/torture,
+Xem [hướng dẫn testing](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/testing.md) để cấu hình seed, số ca property/torture,
 machine-readable report và browser acceptance.
 
 Chạy demo web/PWA offline sau khi build:
@@ -132,28 +151,28 @@ npm run demo
 
 ## Tài liệu
 
-- [Hướng dẫn bắt đầu](docs/getting-started.md)
-- [API TypeScript](docs/api-reference.md)
-- [CLI](docs/cli.md)
-- [Python và WASM](docs/bindings.md)
-- [Phương pháp tính và độ chính xác](docs/methodology.md)
-- [JSON Schema và conformance fixtures](docs/schemas-and-conformance.md)
-- [Kiến trúc](docs/architecture.md)
-- [Lộ trình phát triển](docs/roadmap.md)
-- [Demo web offline](docs/demo.md)
-- [Quy trình phát hành](docs/releasing.md)
-- [Benchmark batch](docs/benchmarks.md)
-- [AI integration](docs/ai-integration.md)
-- [MCP server offline](docs/mcp.md)
-- [Compatibility và deprecation policy](docs/compatibility-policy.md)
-- [Đóng góp](CONTRIBUTING.md)
-- [Lịch sử thay đổi](CHANGELOG.md)
+- [Hướng dẫn bắt đầu](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/getting-started.md)
+- [API TypeScript](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/api-reference.md)
+- [CLI](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/cli.md)
+- [Python và WASM](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/bindings.md)
+- [Phương pháp tính và độ chính xác](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/methodology.md)
+- [JSON Schema và conformance fixtures](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/schemas-and-conformance.md)
+- [Kiến trúc](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/architecture.md)
+- [Lộ trình phát triển](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/roadmap.md)
+- [Demo web offline](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/demo.md)
+- [Quy trình phát hành](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/releasing.md)
+- [Benchmark batch](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/benchmarks.md)
+- [AI integration](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/ai-integration.md)
+- [MCP server offline](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/mcp.md)
+- [Compatibility và deprecation policy](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/compatibility-policy.md)
+- [Đóng góp](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/CONTRIBUTING.md)
+- [Lịch sử thay đổi](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/CHANGELOG.md)
 
 ## Kiểm thử và giới hạn đã công bố
 
 Suite bao phủ TypeScript, Python wheel cô lập, CLI end-to-end, demo/PWA, parity WASM full-output, JSON Schema và conformance runner. README không ghi tổng test thủ công; CI là nguồn trạng thái chính xác. Bộ fixtures gồm 36 ranh Tiết chính thức NAOJ trong các năm 2013/2020/2026, 9 checkpoint Lập Xuân NASA/JPL từ 1600–2400, 6 ngày Can–Chi và 10 ca chéo múi giờ/ranh đổi ngày. Sai số NAOJ lớn nhất quan sát là 11 phút với ngưỡng 15 phút; đối chiếu JPL nhiều thế kỷ lớn nhất là 36,84 phút với ngưỡng 40 phút.
 
-Demo có Browser E2E trên Chromium, Firefox và WebKit; xem [tài liệu demo](docs/demo.md).
+Demo có Browser E2E trên Chromium, Firefox và WebKit; xem [tài liệu demo](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/demo.md).
 
 Đo batch calculation bằng workload deterministic:
 
@@ -166,4 +185,4 @@ Các trường phái Bát Tự có thể khác nhau về đổi ngày, khởi v�
 
 ## Giấy phép
 
-[MIT](LICENSE) © iZenDeveloper.
+[MIT](https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/LICENSE) © iZenDeveloper.

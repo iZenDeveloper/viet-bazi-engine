@@ -1,5 +1,14 @@
 # Hướng dẫn bắt đầu
 
+Nếu bạn muốn dùng package đã publish, chọn quick-start gần nhất với use case:
+
+- [AI/MCP agent](quick-start-ai-mcp-agent.md)
+- [CRM cho chuyên gia](quick-start-practitioner-crm.md)
+- [Web app privacy-first](quick-start-privacy-web-app.md)
+
+Phần còn lại của tài liệu này dành cho contributor hoặc người cần build engine từ
+source.
+
 ## Yêu cầu
 
 - Node.js 20+

@@ -5,9 +5,32 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "viet-bazi-engine"
 version = "1.0.0-rc.2"
-description = "Self-contained typed Python bridge for viet-bazi-engine"
+description = "Offline, deterministic Bazi/Four Pillars calculations for Python"
+readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
 dependencies = []
+authors = [
+  { name = "iZenDeveloper" }
+]
+keywords = ["bazi", "four-pillars", "vietnamese-astrology", "automation", "offline"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering"
+]
+
+[project.urls]
+Homepage = "https://izendeveloper.github.io/viet-bazi-engine/"
+Documentation = "https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/docs/bindings.md"
+Source = "https://github.com/iZenDeveloper/viet-bazi-engine"
+Issues = "https://github.com/iZenDeveloper/viet-bazi-engine/issues"
+Changelog = "https://github.com/iZenDeveloper/viet-bazi-engine/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["."]
