@@ -20,6 +20,11 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 - Thay đổi có thể làm trụ Năm/Tháng khác RC.2 khi giờ sinh nằm sát ranh Tiết khí.
 - Cho phép cấu hình port Playwright E2E để tránh xung đột với server local khác.
 
+## 1.0.0-rc.4
+
+- Đặt npm dist-tag `latest` cho release candidate để trang package mặc định luôn hiển thị README mới nhất.
+- Đồng bộ lệnh cài npm/PyPI trong README với artifact `rc.4`.
+
 ## 1.0.0-rc.3
 
 - Đồng bộ README npm/GitHub với trạng thái registry hiện tại, CTA live demo và lệnh cài đặt.

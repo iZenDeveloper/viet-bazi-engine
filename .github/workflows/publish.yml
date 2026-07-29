@@ -42,9 +42,7 @@ jobs:
             echo "$name@$version is already published; skipping npm publish."
             exit 0
           fi
-          dist_tag=latest
-          if [[ "$version" == *-* ]]; then dist_tag=next; fi
-          npm publish --access public --tag "$dist_tag"
+          npm publish --access public --tag latest
 
   pypi:
     runs-on: ubuntu-latest
