@@ -14,8 +14,8 @@ npm test
 npm run test:python-wheel
 npm run release:check
 git status --short
-git tag -a v1.0.0-rc.2 -m "Viet Bazi Engine v1.0.0-rc.2"
-git push origin v1.0.0-rc.2
+git tag -a v1.0.0-rc.3 -m "Viet Bazi Engine v1.0.0-rc.3"
+git push origin v1.0.0-rc.3
 ```
 
 Nếu tag không khớp version package, workflow dừng trước khi tạo release. Workflow không tự publish lên npm/PyPI; hai registry đó cần token và phê duyệt riêng.
@@ -45,7 +45,7 @@ Owner cần cấu hình trước:
   `viet-bazi-engine`, workflow `publish.yml`, environment `registry-publish`;
 - GitHub Environment `registry-publish` với required reviewer.
 
-Sau khi ba liên kết trên tồn tại, chạy workflow thủ công với tag `v1.0.0-rc.2`. Workflow
+Sau khi ba liên kết trên tồn tại, chạy workflow thủ công với tag `v1.0.0-rc.3`. Workflow
 kiểm tra tag khớp package version và chạy lại release gates trước mỗi publish.
 
 ## Release candidate
@@ -53,7 +53,7 @@ kiểm tra tag khớp package version và chạy lại release gates trước m�
 Kiểm tra các gate mà không sửa version, tạo tag hoặc publish:
 
 ```bash
-npm run release:readiness -- --candidate 1.0.0-rc.2
+npm run release:readiness -- --candidate 1.0.0-rc.3
 ```
 
 Output JSON phân biệt release preflight, public API snapshot, worktree, hosted browser CI
@@ -64,15 +64,15 @@ duyệt riêng việc tạo tag và publish.
 Xem trước 10 file và 19 vị trí version cần đổi mà không sửa workspace:
 
 ```bash
-npm run release:prepare -- --to 1.0.0-rc.2
+npm run release:prepare -- --to 1.0.0-rc.3
 ```
 
-Sau khi thêm mục `## 1.0.0-rc.2` vào changelog và owner phê duyệt, chạy lại với `--write`.
+Sau khi thêm mục `## 1.0.0-rc.3` vào changelog và owner phê duyệt, chạy lại với `--write`.
 Công cụ từ chối ghi nếu worktree bẩn, changelog chưa có candidate hoặc số vị trí version
 khác baseline. Sau đó bắt buộc chạy `npm run sync:python`, `npm run release:check` và
 `npm run test:e2e` trước khi commit/tag.
 
-Release tooling chấp nhận SemVer prerelease như `1.0.0-rc.2`. Python packaging chuẩn hóa
+Release tooling chấp nhận SemVer prerelease như `1.0.0-rc.3`. Python packaging chuẩn hóa
 giá trị đó thành PEP 440 `1.0.0rc2`; source version trong npm, Python binding và engine
 vẫn phải giống nhau trước khi build.
 

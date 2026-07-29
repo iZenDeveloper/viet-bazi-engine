@@ -14,7 +14,7 @@ network. Node.js 20 or newer is required at runtime.
 ## Install
 
 ```bash
-python -m pip install viet-bazi-engine==1.0.0rc2
+python -m pip install viet-bazi-engine==1.0.0rc3
 node --version
 ```
 
