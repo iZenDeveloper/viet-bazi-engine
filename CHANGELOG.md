@@ -20,6 +20,12 @@ Project dùng Semantic Versioning trong giai đoạn pre-1.0.
 - Thay đổi có thể làm trụ Năm/Tháng khác RC.2 khi giờ sinh nằm sát ranh Tiết khí.
 - Cho phép cấu hình port Playwright E2E để tránh xung đột với server local khác.
 
+## 1.0.0-rc.3
+
+- Đồng bộ README npm/GitHub với trạng thái registry hiện tại, CTA live demo và lệnh cài đặt.
+- Thêm quick-start cho AI/MCP agent, CRM chuyên gia và web app privacy-first.
+- Bổ sung PyPI long description, metadata dự án và social preview 1280×640.
+
 ## 1.0.0-rc.2
 
 - Chuẩn hóa npm `bin` paths bằng `npm pkg fix` để first publish không cần auto-correction.
